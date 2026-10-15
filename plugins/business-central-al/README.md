@@ -6,10 +6,12 @@ Business Central AL development for Claude Code. It started as a port of the Cur
 
 ```sh
 claude plugin marketplace add Verosoft-Design/claude-plugins
-claude plugin install business-central-al@verosoft-design
-# process skills this plugin is designed to work with (installed from upstream, community-maintained)
-claude plugin install superpowers@verosoft-design
-claude plugin install mattpocock-skills@verosoft-design
+# run inside each AL repo, so the plugin only loads there
+claude plugin install business-central-al@verosoft-design --scope local
+
+# recommended: the process skills this plugin is designed to work with, from Anthropic's official marketplace
+claude plugin install superpowers@claude-plugins-official
+claude plugin install mattpocock-skills@claude-plugins-official
 ```
 
 Optional: Microsoft's own AL review plugin, the engine behind BCApps PR reviews (needs pwsh and a signed-in GitHub Copilot CLI): `claude plugin marketplace add microsoft/BC-ALAgents && claude plugin install al-review@bc-alagents`.
@@ -30,7 +32,7 @@ First time in a repo: run `/al-init` to write its `CLAUDE.md`, then `/bc-server-
 | Weak tests | `/al-write-test` uses BC-Bench's ALTest prompt (+10.7 pt on Opus 4.6, Apr 2026; not re-measured since); BCApps test conventions |
 | Review misses BC-specific issues | `/bcq-review`: BCQuality super-skill composing 19 domain reviews (388 Microsoft knowledge articles), strict JSON findings; the BCApps review instructions it pulls in measured ~+20 F1 in BC-Bench's code-review benchmark |
 
-Process discipline (brainstorming, plans, TDD, systematic debugging, verification before completion, grilling a spec) comes from **superpowers** and **mattpocock-skills**, installed from their upstream repos so the community keeps them current. This plugin doesn't copy them. It supplies the BC-specific steps they call for: `al-feedback-loops` maps "run the tests" / "build a repro" / "verify" to real BC commands.
+Process discipline (brainstorming, plans, TDD, systematic debugging, verification before completion, grilling a spec) comes from **superpowers** and **mattpocock-skills**, installed separately from Anthropic's official marketplace so the community keeps them current. This plugin doesn't copy them. It supplies the BC-specific steps they call for: `al-feedback-loops` maps "run the tests" / "build a repro" / "verify" to real BC commands.
 
 ## Components
 

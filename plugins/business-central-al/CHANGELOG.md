@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1 — 2026-10-15
+
+- Author name corrected to Alexis Turgeon (`plugin.json`, `LICENSE`).
+- The `verosoft-design` marketplace no longer re-lists `superpowers` and `mattpocock-skills`. The README recommends installing them from `claude-plugins-official`, and installing this plugin per AL repo with `--scope local`.
+
 ## 1.1.0 — 2026-10-15
 
 Refreshed every upstream source to its current state.

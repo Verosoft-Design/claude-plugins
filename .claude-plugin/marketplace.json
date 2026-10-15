@@ -4,25 +4,13 @@
     "name": "Verosoft Design"
   },
   "metadata": {
-    "description": "Verosoft Design's Claude Code plugins for Business Central AL, plus the community process skills they are designed to work with."
+    "description": "Verosoft Design's Claude Code plugins for Business Central AL."
   },
   "plugins": [
     {
       "name": "business-central-al",
       "source": "./plugins/business-central-al",
       "description": "Business Central AL development: AL MCP, AL-Go lifecycle, BCQuality review, ALTest test generation, BC server test runs and web-client UI checks.",
-      "category": "development"
-    },
-    {
-      "name": "superpowers",
-      "source": { "source": "github", "repo": "obra/superpowers" },
-      "description": "Community process skills (obra/superpowers): brainstorming, plans, TDD, systematic debugging, verification before completion. Installed from upstream, so it stays current.",
-      "category": "development"
-    },
-    {
-      "name": "mattpocock-skills",
-      "source": { "source": "github", "repo": "mattpocock/skills" },
-      "description": "Community engineering skills (mattpocock/skills): grilling, spec and ticket flows, diagnosing bugs, TDD, code review. Installed from upstream, so it stays current.",
       "category": "development"
     }
   ]
