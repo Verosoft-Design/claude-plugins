@@ -1,0 +1,74 @@
+# BCQuality WRITE contract
+
+The authoritative WRITE meta-skill is vendored at `${CLAUDE_PLUGIN_ROOT}/content/bcquality/skills/write.md`, sourced from `microsoft/BCQuality/skills/write.md` at the SHA pinned in `content/PINNED.json`. The contribution guide it links to is vendored at `${CLAUDE_PLUGIN_ROOT}/content/bcquality/docs/contributing.md`. **Read write.md in full when you author a knowledge file.** This file is a pointer plus plugin-specific guidance for the `/custom/` layer.
+
+## What WRITE defines
+
+- **Is this a knowledge file?** Skills hold only mechanics; every BC fact is a knowledge file. Negative knowledge is first-class: a false-positive guard ("pattern X is not a defect, because BC does Y") is authored like any other rule. Its Best Practice says what not to flag, and its Anti Pattern describes the mistaken finding.
+- **Admission test**: would a capable LLM get this wrong without the file? Generic software-engineering advice is off-topic. BCQuality is *remedial* knowledge.
+- **Atomicity**: one concern per file. Two Best Practice sections, a Description joined by "and", or keywords spanning two vocabularies are signs that the file should be split.
+- **Length**: at most 100 lines, ideally under 50.
+- **Sources**: link authoritative public sources for platform claims (for example in a `## References` section). Identify policy or empirical guidance as such.
+- **Choosing `bc-version`**: default to `[all]`. Use a closed list or range only for genuinely version-gated guidance. For a feature introduced in version N and not expected to be removed, use the open-ended `[N..]`.
+- **Choosing a layer**: in the shared layers, knowledge lives in the same layer as the action skill that acts on it. `/custom/` is for organization-specific rules in a fork or consumer copy, never upstream; a PR adding `/custom/` content to microsoft/BCQuality is auto-closed.
+- **Pre-PR checklist**:
+  - The frontmatter is complete, and `domain` equals the folder.
+  - `## Description` is present, there is no fenced code, and the file is at most 100 lines.
+  - The file covers one concern, sits in the correct layer and domain folder, and has a kebab-case name.
+  - Every sample is linked with a clickable relative link that keeps its backticked filename, and every linked sample exists.
+  - Sources are cited for platform claims.
+
+## Authoring into the plugin's custom layer
+
+For Verosoft, TAG, or other partner-specific guidance, the destination is:
+
+```
+${CLAUDE_PLUGIN_ROOT}/content/bcquality/custom/knowledge/<domain>/<slug>.md
+```
+
+Optional sibling samples go next to it: `<slug>.good.al` and/or `<slug>.bad.al` (or `.js`). Samples may contain code; the no-fenced-code rule applies only to the article. The plugin's custom layer is the "consumer copy" WRITE requires, and `scripts/vendor-bcquality.sh` never touches it.
+
+Pick a `domain` that a review leaf sources, or no review will ever load the article: `performance`, `security`, `privacy`, `upgrade`, `style`, `ui`, `error-handling`, `events`, `interfaces`, `breaking-changes`, `web-services`, `testing`, `data-modeling`, `query`, `reporting`, `appsource`, `telemetry`, `scm`, `finance`, or `agents`.
+
+Per READ, `/custom/` is the highest-precedence layer. A custom article that contradicts a microsoft or community article wins, and the loser appears in the leaf's `suppressed[]` with `reason: "layer-precedence"`.
+
+## After authoring: run the validator
+
+The vendored upstream validator checks the entire tree, including the custom layer. Run it before committing:
+
+```bash
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/validate-bcquality-frontmatter.py --root ${CLAUDE_PLUGIN_ROOT}/content/bcquality
+```
+
+It requires PyYAML (`pip install pyyaml`). It exits 0 when there are no errors; warnings do not fail. The summary line reads `Validator: N error(s), M warning(s)`.
+
+| Rule     | Applies to               | Checks                                                                                                      |
+| -------- | ------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| R01      | all                      | Frontmatter parses: opening and closing `---`, a valid YAML mapping, UTF-8                                  |
+| R02      | knowledge                | Exactly the 6 required keys, no extras, no empty values                                                     |
+| R03      | knowledge                | `bc-version` is `[all]`, a list of positive ints, `[N..M]`, or `[N..]`                                      |
+| R04      | knowledge                | `domain` is a non-empty string                                                                              |
+| R05      | knowledge                | `keywords` is a non-empty list of lowercase kebab-case strings; warns above 10                              |
+| R06      | knowledge                | `technologies` is a non-empty list; `all` is forbidden                                                      |
+| R07      | knowledge                | `countries` is `[w1]` or a list of lowercase ISO codes                                                      |
+| R08      | knowledge                | `application-area` is `[all]` or a list (mutually exclusive)                                                |
+| R09      | knowledge                | Contains `## Description`                                                                                   |
+| R10      | knowledge                | No fenced code blocks in the body                                                                           |
+| R11      | knowledge                | At most 100 lines                                                                                           |
+| R12      | knowledge                | Filename is kebab-case                                                                                      |
+| R13      | knowledge                | Path shape is `<layer>/knowledge/<domain>/<slug>.md`                                                        |
+| R14      | samples                  | Named `<slug>.<kind>.<ext>`, with `good` and `bad` as the standard kinds                                    |
+| R15–R21  | action-skill             | Required keys, kebab-case id, positive int version, valid `inputs`/`outputs`/filters/`sub-skills`, and the 5 sections in order |
+| R22–R23  | meta-skill / entry-point | Required keys; the `entry` id is locked                                                                     |
+| R24      | global                   | Skill `id` is unique within its kind (the same `id` in different layers is a valid override)                                                              |
+| R25      | path/kind                | The frontmatter `kind` matches the file's path role                                                         |
+| R26      | super-skill              | `sub-skills` exactly matches the sibling `al-*-review.md` leaves in the super-skill's folder (none missing or stale); entries are non-nested action skills that output findings-report |
+| R27      | knowledge                | Frontmatter `domain` matches the containing folder                                                          |
+| R28      | samples                  | Every sample is referenced by its article, and every sample the article links exists                                            |
+| R29      | host skill               | `skills/<name>/SKILL.md` has `name` (matching its folder, at most 64 characters) and a `description` of at most 1024 characters |
+
+## When to load this file
+
+- Before invoking `/bcq-write-knowledge` to author an article.
+- Before suggesting that the user codify a repo-specific convention or a false-positive guard as a custom-layer article.
+- Before editing an existing knowledge file. The same rules apply, so re-run the validator afterwards.

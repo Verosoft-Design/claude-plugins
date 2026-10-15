@@ -1,0 +1,11 @@
+{
+  "al": {
+    "command": "altool",
+    "args": ["launchlspserver", "--packagecachepath", "${CLAUDE_PROJECT_DIR}/.alpackages", "--nolog"],
+    "extensionToLanguage": { ".al": "al" },
+    "transport": "stdio",
+    "startupTimeout": 120000,
+    "restartOnCrash": true,
+    "maxRestarts": 3
+  }
+}

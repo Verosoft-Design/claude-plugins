@@ -1,0 +1,37 @@
+
+# Business Central AL — Plugin Capabilities at a Glance
+
+This workspace looks like a Business Central AL project (matched on `app.json`, `*.al`, or AL-Go settings). The `business-central-al` plugin gives the agent these capabilities:
+
+## Inner dev loop (via the `al` MCP server)
+
+Build / compile / publish / search symbols / read diagnostics on AL projects natively. Tools: `al_build`, `al_compile`, `al_publish`, `al_downloadsymbols`, `al_symbolsearch`, `al_getdiagnostics`, `al_getpackagedependencies`, `al_auth_login`, `al_auth_logout`. **Critical quirk:** `al_symbolsearch` requires a `parameters: {...}` wrapper — see the `${CLAUDE_PLUGIN_ROOT}/reference/al-mcp-usage.md`.
+
+Inner-loop commands: `/al-symbols`, `/al-symbol-search`, `/al-compile`, `/al-build`, `/al-publish-sandbox`.
+Orchestration skill: `al-build-and-publish`.
+
+## Full AL-Go lifecycle (via `gh workflow run`)
+
+Scaffold new repos, add test/BCPT apps, deploy to environments, manage releases, ship to AppSource. Commands: `/al-new-pte`, `/al-new-appsource`, `/al-add-test-app`, `/al-add-bcpt-app`, `/al-import-existing-app`, `/al-create-online-dev-env`, `/al-publish-to-environment`, `/al-current`, `/al-next-minor`, `/al-next-major`, `/al-troubleshoot`, `/al-update-system-files`, `/al-increment-version`, `/al-release`, `/al-publish-appsource`, `/al-deploy-docs`, `/al-secrets-setup`, `/al-init-keyvault`, `/al-go-live`.
+Orchestration skill: `al-go-lifecycle` (with full workflow inventory in `workflows.md`).
+
+## Quality baseline (Phase 3)
+
+- Microsoft's canonical analyzer rulesets are vendored in `${CLAUDE_PLUGIN_ROOT}/content/bcapps-rulesets/` (pinned via `content/PINNED.json`). Apply them with `/al-apply-rulesets`.
+- Microsoft's BCApps VS Code defaults are at `${CLAUDE_PLUGIN_ROOT}/content/bcapps-defaults/DefaultSettings.json`. Apply them with `/al-apply-vscode-defaults`.
+- Six MIT-licensed AI review prompts (security, performance, style, accessibility, upgrade, privacy) are vendored in `${CLAUDE_PLUGIN_ROOT}/content/bcapps-review-prompts/`, frozen at BCApps `7040033d` (Microsoft retired them upstream in favour of BCQuality; BC-Bench still measures them at ~+20 F1 for code review). The BCQuality review skills read them alongside the BCQuality knowledge.
+- Module scaffolder: `/al-scaffold-module` (skill `al-scaffold-module`), aware of both BCApps `src/<Module>/src/` and TAG-style `BC/{API,CodeUnit,Enums,…}` project layouts.
+
+## Testing baseline
+
+- Skill: `business-central-al-tdd` — TDD-first workflow.
+- Rule: `al-testing` — patterns for `Library Assert` (codeunit 130002), `EventSubscriberInstance = Manual`, `[TransactionModel(...)]` matching `Commit`, Given/When/Then comments.
+
+## Coding-style rules (auto-applied to `*.al`)
+
+- `al-naming-and-files` — BCApps file naming, PascalCase, ≤30 char object names, `namespace`/`using` order.
+- `al-labels-and-locked` — `Err`/`Msg`/`Qst`/`Lbl`/`Tok`/`Txt` suffixes, `Comment = '%1 = ...'` for placeholders, `Locked = true` for URLs/tokens/telemetry.
+- `al-license-header` — standard 4-line MIT header (configurable publisher line).
+- `al-xmldoc-public-procedures` — XML doc on every `Access = Public` codeunit procedure.
+
+Repo-specific overrides (TAG prefixes, custom ID ranges, alternative file-naming) belong in `CLAUDE.md / .claude/rules/` inside the consuming project. Structured, citable house rules go in the BCQuality custom layer (`content/bcquality/custom/knowledge/`, see `/bcq-write-knowledge`).

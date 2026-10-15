@@ -1,0 +1,99 @@
+
+# AL Naming and File Conventions
+
+These are the conventions Microsoft uses for the System Application and Business Foundation modules in `microsoft/BCApps`. Apply them by default. Repo-specific deviations (e.g. TAG's `[ObjectType] [ObjectID] - TAG [Name].al` filename pattern) live in the consuming repo's own `CLAUDE.md` (or `.claude/rules/`) and override these.
+
+## Identifiers
+
+- **PascalCase** for every identifier: variables, parameters, procedures, types, fields, actions.
+- Boolean variables read as a question: `IsValid`, `HasPermission`, `CanProcess`.
+- Object names are **≤ 30 characters** (AppSourceCop `AS0006` will fail otherwise). Choose the shortest descriptive name.
+- Reserved keywords are **lowercase**: `procedure`, `var`, `begin`, `end`, `if`, `then`, `else`, `repeat`, `until`, `case`, `of`, `record`, `codeunit`, `page`, `table`. (CodeCop `AA0241`.)
+
+## File naming (BCApps convention)
+
+The canonical pattern is `<ObjectName>.<ObjectType>.al`:
+
+- `EmailImpl.Codeunit.al`
+- `EmailAccount.Table.al`
+- `EmailAccounts.Page.al`
+- `EmailConnector.Enum.al`
+- `SymmetricAlgorithm.Interface.al`
+- `EmailAdmin.PermissionSet.al`
+
+One object per file. The object name in the file ends with the object type (in PascalCase, no abbreviation). Files live in a folder structure that groups feature areas — e.g. `Account/`, `Connector/`, `Email/`, `RateLimit/`.
+
+**When the consuming repo uses a different filename convention** (e.g. TAG's `[ObjectType] [ObjectID] - TAG [ObjectName].al` numeric-ID-first format), the agent must honor whatever pattern already exists in the repo. Detect by sampling 2–3 existing `.al` files; do not introduce a new naming pattern in a project that already has one.
+
+## Namespace and `using`
+
+Every `.al` file declares a `namespace` at the top, before any other statement. `using` imports come next.
+
+```al
+namespace MyPublisher.Sales.Posting;
+
+using Microsoft.Foundation.NoSeries;
+using System.Email;
+
+codeunit 50100 "Sales Posting Helper"
+{
+    // ...
+}
+```
+
+The namespace tree groups related modules. Use a stable root (e.g. `<Publisher>.<Domain>.<SubDomain>`) consistent across the repo. Microsoft's reserved roots — `Microsoft.*` and `System.*` — are off-limits for non-Microsoft apps (`AS0008`, `PTE0021`).
+
+## Record variable naming
+
+Name record variables and parameters after the table, PascalCase with spaces and punctuation removed, no abbreviation (BCApps `.github/skills/bc-extrequest-implement/guidelines.md`):
+
+- `Customer` for `Record Customer`, `SalesHeader` for `Record "Sales Header"`, `ItemLedgerEntry` for `Record "Item Ledger Entry"`, `GLEntry` for `Record "G/L Entry"` — not `CustRec`, `SalesHdr`, `ILE`.
+- **Temporary records take the `Temp` prefix**: `TempSalesLine: Record "Sales Line" temporary`, `TempItem: Record Item temporary`.
+- Simple-type variables and parameters are descriptive too: `DocumentNo`, `Quantity`, `TotalAmount`, `PostingDate` — not `DocNo`, `Qty`, `Amt`, `Date`.
+
+When the repo already uses a different convention (e.g. TAG uses `EquipmentRec`, `WOHeader`, `WOLine`, `TechRec`, `TAGSetup`), follow the established vocabulary rather than mixing styles in one object.
+
+## Procedure parameter naming
+
+BCApps does not prefix procedure parameters. The disambiguation between parameter and local variable comes from the type-suffix convention on locals (e.g. parameter `CustomerNo: Code[20]` vs local `Customer: Record Customer`).
+
+**When the consuming repo uses a different convention** (e.g. TAG prefixes every parameter with lowercase `p`: `procedure ProcessEquipment(pEquipmentID: Code[20])`), follow the repo's existing pattern. Detect by reading the most-recently-edited codeunit in the project.
+
+## Variable declaration order
+
+Inside `var` blocks (local and global), BCApps orders declarations by type group:
+
+1. `Record`
+2. `RecordRef` and `FieldRef`
+3. `Codeunit`
+4. `Enum`
+5. Other complex types (`Page`, `Report`, `Query`, `XmlPort`, `JsonObject`, `HttpClient`, `Notification`, …)
+6. `Code`
+7. `Text` (and `SecretText`)
+8. Numeric types (`Integer`, `Decimal`, `BigInteger`, …)
+9. `Boolean`
+
+CodeCop `AA0021` (an `Error` in the BCApps ruleset) also checks the order of object-type variables; if it flags a declaration, follow the analyzer. When adding a variable, insert it in its type group; **do not reorder existing declarations** just to make an untouched section comply, and if the section is not ordered, place the new variable next to the nearest matching group.
+
+## Integration event naming
+
+From BCApps' extensibility guidelines (`.github/skills/bc-extrequest-implement/guidelines.md`):
+
+- At the start or end of a procedure / trigger: `OnBefore<Name>` / `OnAfter<Name>` — `OnBeforePostSalesLine`, `OnAfterOnModify`, `OnBeforeValidateSellToCustomerNo`.
+- Mid-flow: `On<Name>OnBefore<Action>` / `On<Name>OnAfter<Action>` — `OnPostSalesLineOnAfterCalculateAmounts`, `OnCodeOnBeforeCheck`.
+- One conceptual hook at several action points (e.g. after `Modify` and after `Insert`) → one event per point, named for that point.
+- Publishers are `local` with `[IntegrationEvent(false, false)]`; set `IncludeSender` / `GlobalVarAccess` to `true` only on concrete need.
+- Parameters follow the record / simple-type / `Temp` rules above.
+- `var IsHandled: Boolean` goes last on a new event; on an existing event, append new parameters at the end and never move existing ones (including an existing `IsHandled`). Initialize `IsHandled := false;` before raising the event, then `if IsHandled then exit;`.
+
+## What this rule does NOT cover
+
+- Label suffixes and `Locked = true` — see `al-labels-and-locked`.
+- File-level license header — see `al-license-header`.
+- XML doc comments — see `al-xmldoc-public-procedures`.
+- ID ranges (publisher-specific) — repo-level concern; codify in the consuming repo's `CLAUDE.md / .claude/rules/`.
+
+## References
+
+- BCApps source: `microsoft/BCApps` at the pinned SHA in `content/PINNED.json`.
+- AppSourceCop and CodeCop rule numbers come from the rulesets in `content/bcapps-rulesets/`.

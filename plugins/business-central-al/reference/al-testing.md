@@ -1,0 +1,183 @@
+
+# Business Central AL Testing
+
+When adding or changing Business Central behavior:
+
+## Core discipline
+
+1. **Test-first** when the work introduces or changes behavior. Write the failing test, then the production code.
+2. **Test code separate from production.** Tests live in a test app (`Subtype = Test` codeunits in a dependent test extension), never inline with production logic.
+3. **Be explicit when tests cannot be executed in the current session.** Do not pretend verification happened. State that execution was not verified and describe what still needs to be run.
+
+## Test codeunit shape (BCApps convention)
+
+```al
+codeunit 134685 "Email Test"
+{
+    Subtype = Test;
+    Permissions = tabledata "Email Message" = rd,
+                  tabledata "Email Outbox" = rimd;
+    EventSubscriberInstance = Manual;
+
+    var
+        Assert: Codeunit "Library Assert";
+        PermissionsMock: Codeunit "Permissions Mock";
+        // ... feature-specific library codeunits ...
+}
+```
+
+Required properties on every test codeunit:
+
+- `Subtype = Test`
+- `EventSubscriberInstance = Manual` — prevents subscribers from firing unless the test explicitly binds them. Without this, tests interfere with each other.
+- `Permissions = tabledata ... = rd|rimd` — declare narrowly. Avoid wildcard grants.
+
+## Use Library Assert, NOT plain `Error` / `TestField`
+
+Inject `Assert: Codeunit "Library Assert"` (BCApps codeunit **130002**, NOT the legacy NAV Assert codeunit 9). Library Assert is shipped in BCApps under `src/Tools/Test Framework/Test Libraries/Assert/` and its own `app.json` says:
+
+> In test code Library Assert should be used to compare the values and throw errors. TESTFIELD and ERROR must not be used in test code.
+
+Library Assert exposes the assertion methods you want — `Assert.AreEqual`, `Assert.AreNotEqual`, `Assert.IsTrue`, `Assert.IsFalse`, `Assert.IsEmpty`, `Assert.RecordCount`, `Assert.ExpectedError`, `Assert.ExpectedErrorCode`, etc. Use these for every assertion.
+
+## Test procedure attribute pattern
+
+```al
+[Test]
+[Scope('OnPrem')]
+[TransactionModel(TransactionModel::AutoRollback)]
+[HandlerFunctions('CloseEmailEditorHandler')]
+procedure OpenMessageInEditorTest()
+```
+
+Required attributes:
+
+- `[Test]` — marks the procedure as a test method.
+- `[Scope('OnPrem')]` — explicit scope declaration. Required when the codeunit is `Access = Public` and consumed by other apps.
+
+Required when relevant:
+
+- `[TransactionModel(TransactionModel::AutoRollback)]` — DEFAULT. Opens a write transaction, runs the test, rolls back. Use unless the code under test calls `Commit()`.
+- `[TransactionModel(TransactionModel::AutoCommit)]` — when the code under test genuinely calls `Commit()` (posting routines, job-queue handlers, integration flows). Pair with a `TestIsolation`-enabled test runner so committed changes are reverted at a higher scope.
+- `[TransactionModel(TransactionModel::None)]` — read-only tests or tests that drive UI code without writing.
+- `[HandlerFunctions('<handler1>,<handler2>')]` — list every handler the test invokes. Every handler named here MUST be invoked during the test.
+
+`AutoRollback` on a test that triggers `Commit` produces a runtime error on first Commit, not an assertion failure — the test does not complete. Match the model to the code under test.
+
+## Given / When / Then narrative
+
+Use inline `//` comments to make tests self-document. The shape:
+
+```al
+procedure NonExistingEmailMessageFailsTest()
+begin
+    // [Scenario] User cannot save as draft, enqueue, send or open a non-existing email message
+    PermissionsMock.Set('Email Edit');
+
+    // [Given] Create an Email Message and delete the underlying record
+    CreateEmail(EmailMessage);
+    Assert.IsTrue(Message.Get(EmailMessage.GetId()), 'Record should exist after creation');
+    Message.Delete();
+    Assert.IsFalse(EmailMessage.Get(EmailMessage.GetId()), 'Email should not exist after delete');
+
+    // [When] Saving a non-existing email message as draft
+    ClearLastError();
+    asserterror Email.SaveAsDraft(EmailMessage);
+
+    // [Then] An error occurs
+    Assert.ExpectedError(EmailMessageDoesNotExistMsg);
+end;
+```
+
+Tags: `[Scenario]` (one per test), then `[Given]` / `[When]` / `[Then]` sections in order. Each section can have multiple lines of code; the comment just marks the boundary.
+
+## Handler functions
+
+When the tested code raises UI (Message, Confirm, ModalPage, Page, StrMenu, Notification), declare handler procedures and list them in `[HandlerFunctions(...)]`.
+
+Handlers only pass values in and out; the test body does the asserting. This is the pattern in BC-Bench's ALTest prompt, the only test-generation prompt with measured gains (see `/al-write-test`). Older BCApps tests often assert inside handlers; don't copy that into new tests. A failed assertion inside a handler is reported far from the test's intent, and handlers that silently accept anything hide missing UI.
+
+```al
+[Test]
+[HandlerFunctions('MessageHandler,ConfirmHandler')]
+procedure ShouldHandleUiInteraction()
+begin
+    // [GIVEN] the reply the confirm dialog should get
+    LibraryVariableStorage.Enqueue(true);
+
+    // [WHEN] ...
+
+    // [THEN] the expected question and message were shown
+    Assert.AreEqual(ExpectedQuestionLbl, LibraryVariableStorage.DequeueText(), 'Wrong question shown');
+    Assert.AreEqual(ExpectedMessageLbl, LibraryVariableStorage.DequeueText(), 'Wrong message shown');
+    LibraryVariableStorage.AssertEmpty();
+end;
+
+[ConfirmHandler]
+procedure ConfirmHandler(Question: Text[1024]; var Reply: Boolean)
+begin
+    Reply := LibraryVariableStorage.DequeueBoolean();
+    LibraryVariableStorage.Enqueue(Question);
+end;
+
+[MessageHandler]
+procedure MessageHandler(Message: Text[1024])
+begin
+    LibraryVariableStorage.Enqueue(Message);
+end;
+```
+
+(`LibraryVariableStorage: Codeunit "Library - Variable Storage"` as a global; call `LibraryVariableStorage.Clear()` in `Initialize()`. Queue order is FIFO, so dequeue in the order the UI fired.)
+
+Available handler attributes: `[MessageHandler]`, `[ConfirmHandler]`, `[ModalPageHandler]`, `[PageHandler]`, `[StrMenuHandler]`, `[SendNotificationHandler]`, `[ReportHandler]`, `[RequestPageHandler]`, `[RecallNotificationHandler]`, `[HyperlinkHandler]`, `[FilterPageHandler]`, `[SessionSettingsHandler]`.
+
+Every handler listed in `[HandlerFunctions]` must fire during the test, and every value it captures should be checked in the test body; `LibraryVariableStorage.AssertEmpty()` at the end catches UI that fired more or less often than expected.
+
+## Negative tests with `asserterror`
+
+For expected failures:
+
+```al
+// [When] Posting an invalid sales order
+asserterror SalesPost.Run(SalesHeader);
+
+// [Then] An error is raised with the expected text
+Assert.ExpectedError(InvalidQuantityErr);
+// or, for code-based assertion:
+Assert.ExpectedErrorCode('Dialog');
+```
+
+`asserterror` catches the next error and lets `Assert.ExpectedError(text)` / `Assert.ExpectedErrorCode(code)` verify it. Never use `asserterror` outside test code.
+
+## Standard test dependencies
+
+Test apps depend on these BCApps libraries (declare in `app.json` → `dependencies`):
+
+- `Library Assert` (id `dd0be2ea-f733-4d65-bb34-a28f4624fb14`, codeunit 130002) — the assertion library.
+- `Any` (id `e7320ebb-...`) — random value generator. `Any.AlphabeticText(10)`, `Any.IntegerInRange(1, 100)`, etc.
+- `Library Variable Storage` (id `5095f467-...`) — `LibraryVariableStorage.Enqueue(...)` / `.Dequeue()` pattern for getting data into handler procedures.
+- `Permissions Mock` (id `40860557-...`) — `PermissionsMock.Set('<role>')` to test permission-restricted code without changing the actual session permissions.
+- Domain libraries like `Library Sales`, `Library Inventory`, `Library Job` — domain-specific test data builders.
+
+## Test ID ranges
+
+Microsoft uses `130000..139999` for test framework codeunits — those are reserved. Choose a test ID range that fits the consuming repo's allocation (e.g. TAG uses its own allocated band, NOT `134000..139999` which belongs to BCApps tests).
+
+## When the repo has NO test scaffold
+
+Do not skip tests silently. Instead:
+
+1. Check whether the repo already has a test app folder.
+2. If not, create the smallest sensible starting point:
+   - One test app folder with its own `app.json` declaring dependencies on `Test Framework` + `Library Assert` + `Any` (+ `Library Variable Storage` and `Permissions Mock` if needed).
+   - One test codeunit with `Subtype = Test`, `EventSubscriberInstance = Manual`, `Assert: Codeunit "Library Assert"`.
+   - One `[Test]` procedure for the requested behavior, with `[TransactionModel(TransactionModel::AutoRollback)]` and Given/When/Then.
+3. Document any missing environment or dependency that blocks execution.
+
+The `/al-add-test-app` command scaffolds the test app folder via the AL-Go workflow. The `/scaffold-test-codeunit` command produces a fresh test codeunit skeleton.
+
+## References
+
+- BCApps test conventions: every test under `microsoft/BCApps/src/System Application/Test/` follows this shape.
+- Library Assert: `microsoft/BCApps/src/Tools/Test Framework/Test Libraries/Assert/`.
+- Performance Toolkit (BCPT) tests: `microsoft/BCApps/src/Tools/Performance Toolkit/App/src/BCPTTestContext.Codeunit.al`.
