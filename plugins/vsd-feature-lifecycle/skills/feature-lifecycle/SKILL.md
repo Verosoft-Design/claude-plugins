@@ -53,6 +53,13 @@ Waiting on: <gate or hand-off, with who> | nothing
    - **Feature:** one file, `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`.
    - **Major:** a folder, `docs/superpowers/specs/YYYY-MM-DD-<topic>/`.
    - **Bug:** none. The Linear issue is the spec.
+
+   **When the work touches BC and Mobi,** the plan states from the start:
+   - the spec lives in mobi and goes into mobi `main` through its own small docs PR once G2 approves it, before any code;
+   - BC and its API are built first, then Mobi, which detects whether the new API exists;
+   - one Linear issue carries both, with two code PRs that each link the spec.
+
+   Details are in `steps/build.md`.
 5. **Read the repo's rules:** `AGENTS.md` and `docs/agents/*`. Repo rules (commits, PRs to `main`, worktrees) come from there.
 
 ## 4. Steps by size
@@ -67,6 +74,12 @@ Waiting on: <gate or hand-off, with who> | nothing
 | 7 Stakeholders | — | — | yes | `steps/stakeholders.md` |
 | 8 Docs and release notes | yes | yes | yes | `steps/docs.md` |
 | 9 Ship | yes | yes | yes | `steps/ship.md` |
+
+When you say what comes next (a plan, or after resuming), name what the rest of the path involves for the size:
+
+- **Bug:** a test that fails before the fix, the fix, one PR, and a release-notes entry at `docs/release-notes/unreleased/<ISSUE-ID>.md`.
+- **Feature:** one PR per repo, then tests plus a code review, then the release-notes entry, plus the manual page if users see the change.
+- **Major:** one integration branch and one large PR, test campaigns, UI walkthroughs, a real-data run and CI, then release notes and a guide section with screenshots.
 
 - **A bug goes straight from intake to step 5.**
 - **BC pages never get a design step,** because BC dictates its own UI.
