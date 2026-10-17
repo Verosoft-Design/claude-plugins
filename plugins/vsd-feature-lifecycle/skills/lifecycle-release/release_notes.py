@@ -126,16 +126,25 @@ def _cmd_validate(paths: list[str]) -> int:
 
 
 def _cmd_gather(directory: Path, product: str, version: str, apply: bool) -> int:
-    unreleased = sorted((directory / "unreleased").glob("*.md"))
+    unreleased = sorted(
+        p for p in (directory / "unreleased").glob("*.md") if p.name != "README.md"
+    )
+    # An entry with a missing or mistyped product belongs to no product, so it
+    # would never be released: it blocks every product until it's fixed.
+    problems = [
+        (p, problem)
+        for p in unreleased
+        if parse_entry(p).product in (product, "") or parse_entry(p).product not in PRODUCTS
+        for problem in validate_entry(p)
+    ]
+    if problems:
+        for path, problem in problems:
+            print(f"{path}: {problem}", file=sys.stderr)
+        return 1
     mine = [p for p in unreleased if parse_entry(p).product == product]
     if not mine:
         print(f"No unreleased entries for {product}.")
         return 0
-    problems = [(p, problem) for p in mine for problem in validate_entry(p)]
-    if problems:
-        for path, problem in problems:
-            print(f"{path}: {problem}")
-        return 1
     print(render([parse_entry(p) for p in mine], version), end="")
     if apply:
         target = directory / version

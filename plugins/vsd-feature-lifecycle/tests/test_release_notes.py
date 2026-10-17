@@ -139,6 +139,39 @@ class GatherTest(unittest.TestCase):
         self.assertTrue((self.unreleased / "TAG-2.md").exists())
         self.assertFalse((self.root / "13.6").exists())
 
+    def test_gather_blocks_on_an_entry_with_an_unknown_product(self):
+        write_entry(self.unreleased, "TAG-1", product="mobi")
+        write_entry(self.unreleased, "TAG-2", product="Mobi")
+        result = run_script("gather", "--dir", str(self.root), "--product", "mobi",
+                            "--version", "1.0", "--apply")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("TAG-2.md", result.stderr)
+        self.assertIn("product", result.stderr)
+        self.assertTrue((self.unreleased / "TAG-1.md").exists())
+
+    def test_gather_for_another_product_still_blocks_on_an_unknown_product(self):
+        write_entry(self.unreleased, "TAG-2", product="Mobi")
+        result = run_script("gather", "--dir", str(self.root), "--product", "tag", "--version", "1.0")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("TAG-2.md", result.stderr)
+
+    def test_gather_ignores_the_folder_readme(self):
+        self.unreleased.mkdir(parents=True)
+        (self.unreleased / "README.md").write_text("# How to write an entry\n")
+        write_entry(self.unreleased, "TAG-3", product="tag", body="Tag fix.")
+        result = run_script("gather", "--dir", str(self.root), "--product", "tag",
+                            "--version", "1.0", "--apply")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue((self.unreleased / "README.md").exists())
+        self.assertTrue((self.root / "1.0" / "TAG-3.md").exists())
+
+    def test_gather_problems_go_to_stderr(self):
+        write_entry(self.unreleased, "TAG-4", body="")
+        result = run_script("gather", "--dir", str(self.root), "--product", "tag", "--version", "1.0")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("TAG-4.md", result.stderr)
+        self.assertEqual(result.stdout, "")
+
     def test_gather_no_entries(self):
         result = run_script("gather", "--dir", str(self.root), "--product", "mobi", "--version", "1.0")
         self.assertEqual(result.returncode, 0)
