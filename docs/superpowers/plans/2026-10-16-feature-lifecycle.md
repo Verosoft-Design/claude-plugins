@@ -452,7 +452,7 @@ The PM design review site exists only in a temporary folder. Copy it to a durabl
   - This also pushes the approved spec and this plan.
 - [ ] **Step 5: Install it for Alexis.**
   - Run `claude plugin marketplace update verosoft-design`.
-  - In each of `~/Source/mobi`, `~/Source/tag-bc`, `ADNMCode`, `BC`, `wormhole`, `ADNMPurpleNOP` and `GovSmart`, run `claude plugin install vsd-feature-lifecycle@verosoft-design --scope local`.
+  - In `~/Source/mobi`, `~/Source/tag-bc` and each other AL repo under `~/Source` that has the BC plugin at local scope, run `claude plugin install vsd-feature-lifecycle@verosoft-design --scope local`.
   - Expected: `claude plugin list` in mobi shows it enabled at version 0.1.0.
 
 ### Task 11: The Cursor mirror

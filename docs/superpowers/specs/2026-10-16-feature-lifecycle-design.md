@@ -168,7 +168,7 @@ Each step lists what it does at each size and which existing skill it uses. "If 
      - If neither tool is reachable, use the "needs a mockup" hand-off: a person attaches the mockup to the issue and the run resumes at G3.
      - Never skip to screen code.
    - The spec records the design link and a numbered list of design decisions.
-   - **Major:** also publish a shareable review site in the `verosoft-design` Vercel team, with a Q&A bot that answers from the spec folder, the guide and `team-faq.md`. PM's site, `mobi-pm-design-review`, is the reference.
+   - **Major:** also publish a shareable review site in the `verosoft-design` Vercel team, with a Q&A bot that answers from the spec folder, the guide and `team-faq.md`. PM's design review site is the reference.
    - Then gate G3.
 5. **Build.**
    - **Bug and feature:** one branch and one PR per repo.
@@ -282,9 +282,9 @@ The labels and statuses for that waiting state are decided with the Linear setup
   - tag-bc #193, the integration-branch PR and its description;
   - mobi #1297, the Hub book;
   - mobi #1295 and #1296.
-- PM design review site: `https://mobi-pm-design-review.vercel.app`, with the bot at `/ask.html`.
-  - **Its source exists only in the PM session's scratchpad:** `/private/tmp/claude-501/-Users-alexisturgeon-Source-mobi/5a471876-344d-4999-8eb3-ed9335f216ed/scratchpad/pm-design-site/`.
-  - That folder is temporary. Before it's gone, the builder copies the generic parts (site shell, bot, the knowledge-build script) into the plugin as the review-site template.
+- PM design review site: a static site with an "Ask about this design" bot.
+  - **Its source existed only in the PM session's temporary scratchpad.** It has been copied to a local-only repo on Alexis's machine. That copy contains customer names, so it's never pushed.
+  - The builder copies its generic parts (site shell, bot, the knowledge-build script) into the plugin as the review-site template.
   - Its `scripts/build-knowledge.mjs` reads absolute local paths, including `tag-bc.worktrees/.tools/PR-NOTES.md`, so the template has to make those paths relative to the spec folder.
 - PM's `decisions.md`, `decision-log.md`, `team-faq.md` and `planning-concept.md` aren't committed in mobi yet. They're untracked files in the main checkout. tag-bc #193 has separate committed copies of the first two in `docs/pm-refactor/`. Build the templates from the mobi files.
 - mobi `docs/agents/issue-tracker.md` and `triage-labels.md`: Linear teams per app, and triage labels.
