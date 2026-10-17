@@ -300,10 +300,11 @@ The labels and statuses for that waiting state are decided with the Linear setup
 - The Cursor sync script.
 - How the customer-name check gets its list of names without committing that list to any repo (for example a local, untracked file or an environment variable), and what it does when the list is missing.
 
-## Open (waiting on Alexis)
+## Agent runner (Alexis: "claude code most probably")
 
-- **Which tool will the Linear-driven agents run on next week: Claude Code, Cursor Cloud agents, or Codex?**
-  - The committed `.claude/settings.json` install only reaches Claude Code.
-  - Both repos' `AGENTS.md` files are headed "Cursor Cloud specific instructions". Mobi's Linear `repo` label "tells Cursor which repo to run on".
-  - Codex did most of the PM work from `~/.codex/skills`, which neither plugin format installs.
-  - The answer decides which copy ships first, whether a Codex install script is needed, and which tools the skills may assume.
+The Linear-driven agents will most likely run on Claude Code. So:
+
+- **Ship order:** the Claude Code copy ships first, with the committed `.claude/settings.json` install in mobi and tag-bc. The Cursor mirror follows from the same skill files.
+- **Codex:** a small install script that copies the skills into `~/.codex/skills`, like the PM session's BC-skills script (my call). It's lower priority, because Codex was used to save Claude usage, not as the main tool.
+- **Tools:** the skills may rely on Claude Code tools, such as subagents, the Linear MCP server and `gh`. Each step also states its intent in plain words, so the Cursor and Codex copies still read correctly where a tool differs.
+- **`AGENTS.md`:** the "Cursor Cloud specific instructions" headings in mobi's and tag-bc's `AGENTS.md` get revisited with next week's Linear setup, not in this work.
