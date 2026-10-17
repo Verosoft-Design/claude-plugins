@@ -4,13 +4,19 @@
     "name": "Verosoft Design"
   },
   "metadata": {
-    "description": "Verosoft Design's Claude Code plugins for Business Central AL."
+    "description": "Verosoft Design's Claude Code plugins for Business Central AL and the Verosoft feature lifecycle."
   },
   "plugins": [
     {
       "name": "business-central-al",
       "source": "./plugins/business-central-al",
       "description": "Business Central AL development: AL MCP, AL-Go lifecycle, BCQuality review, ALTest test generation, BC server test runs and web-client UI checks.",
+      "category": "development"
+    },
+    {
+      "name": "vsd-feature-lifecycle",
+      "source": "./plugins/vsd-feature-lifecycle",
+      "description": "Verosoft feature lifecycle for BC and Mobi: sizes the work, runs its steps, keeps one home for specs and stops for approval at named gates.",
       "category": "development"
     }
   ]
