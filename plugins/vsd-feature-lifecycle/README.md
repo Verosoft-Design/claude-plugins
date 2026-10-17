@@ -77,7 +77,9 @@ Customer names never go into a repo, a PR or release notes. `skills/feature-life
 ```sh
 python3 -m unittest discover -s plugins/vsd-feature-lifecycle/tests
 node --test plugins/vsd-feature-lifecycle/tests/review-site/*.test.mjs
-claude plugin eval plugins/vsd-feature-lifecycle --trust-plugin --scaffold --no-publish   # --scaffold gives each case its person's git identity
+claude plugin eval plugins/vsd-feature-lifecycle --trust-plugin --scaffold --judge-model sonnet --no-publish
 ```
+
+`--scaffold` gives each case the git identity its person really has. `--judge-model sonnet` matters: the default small judge fails correct long answers about a third of the time.
 
 Bump `version` in `.claude-plugin/plugin.json` for every release, because installs are pinned to it.
