@@ -77,7 +77,7 @@ Customer names never go into a repo, a PR or release notes. `skills/feature-life
 ```sh
 python3 -m unittest discover -s plugins/vsd-feature-lifecycle/tests
 node --test plugins/vsd-feature-lifecycle/tests/review-site/*.test.mjs
-claude plugin eval plugins/vsd-feature-lifecycle --trust-plugin --no-publish
+claude plugin eval plugins/vsd-feature-lifecycle --trust-plugin --scaffold --no-publish   # --scaffold gives each case its person's git identity
 ```
 
 Bump `version` in `.claude-plugin/plugin.json` for every release, because installs are pinned to it.

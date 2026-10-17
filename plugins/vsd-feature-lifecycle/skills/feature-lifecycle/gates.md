@@ -13,7 +13,10 @@ A gate is a point where the work stops and waits for a named person. It works th
 
 ## Who can approve
 
-Only **Stéphane Levert** (Linear `@stephane.levert`), who is in charge of all dev work, or **Alexis Turgeon** (Linear `@alexisturgeon`). A teammate running the session can't approve a gate for their own work, however sure they are.
+Only **Stéphane Levert** (Linear `@stephane.levert`), who is in charge of all dev work, or **Alexis Turgeon** (Linear `@alexisturgeon`), and **G4 Customer data and G6 Release are Alexis's alone**. A teammate running the session can't approve a gate for their own work, however sure they are.
+
+- **In a session:** who is there comes from `git config user.name` or the `gh` login. A name typed in the chat only counts when it matches, or when there's no identity to check.
+- **On a Linear issue:** an approval counts only when the comment's author is the gate's approver. A comment written "on behalf of" an approver doesn't count.
 
 ## How a gate waits
 
@@ -23,7 +26,7 @@ Only **Stéphane Levert** (Linear `@stephane.levert`), who is in charge of all d
   2. Put the issue in the waiting state.
   3. End the run.
 
-  The next run resumes from the approval comment. Never start the gated work in the meantime.
+  Before posting, push the branch or open a draft PR, so the comment's links work for a person or a fresh run. The next run resumes from the approval comment. Never start the gated work in the meantime.
 - **No Linear tool in this session:** write the comment text in the chat for the person to post, then stop.
 
 The comment:
@@ -32,8 +35,15 @@ The comment:
 **Lifecycle: <G2 Spec approval | … | needs a mockup | needs a BC test run>** (<ISSUE-ID>)
 Ready: <what's ready, with links>
 Needed: <the one approval or item>
-@stephane.levert
+<@stephane.levert, or @alexisturgeon for G4 and G6>
+
+<!-- lifecycle-status -->
+Size: <Bug|Feature|Major>
+Step: <number> <name>
+Waiting on: <the gate or hand-off, with who>
 ```
+
+The status block in the comment is what a fresh run resumes from. It may not have the branch with the spec.
 
 Labels and statuses for the waiting state come with the Linear agent setup. Until then, use the triage labels in the repo's `docs/agents/triage-labels.md` if it exists (`needs-info`, `ready-for-human`), and otherwise just the comment.
 
@@ -49,5 +59,5 @@ The run resumes once the missing piece is on the issue.
 ## Never
 
 - Agents never merge a PR. G5 is always a person.
-- Never treat an approval from anyone other than Stéphane or Alexis as a gate passed.
+- Never treat an approval from anyone other than the gate's approver as a gate passed. That means Stéphane or Alexis, and only Alexis for G4 and G6.
 - Never skip a gate because the work looks small. Size it again instead.

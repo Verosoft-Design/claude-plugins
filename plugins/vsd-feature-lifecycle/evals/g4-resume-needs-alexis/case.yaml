@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: g4-resume-needs-alexis
+context:
+  scaffold_script: identity.sh

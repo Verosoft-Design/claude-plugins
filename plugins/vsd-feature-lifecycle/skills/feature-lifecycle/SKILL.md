@@ -11,7 +11,9 @@ Every piece of Verosoft dev work (Business Central/AL in tag-bc or other AL repo
 
 ## 1. Who's here and what's installed
 
-- **Is the person an approver?** Only Stéphane Levert and Alexis Turgeon approve gates. Check the chat first ("I'm …"), then `git config user.name` or the `gh` login. If it's unclear, ask.
+- **Is the person an approver?** Only Stéphane Levert and Alexis Turgeon approve gates, and G4 and G6 are Alexis's alone.
+  - **Who is in the session** comes from `git config user.name` or the `gh` login. A name stated in the chat ("I'm …") counts only when it matches that identity, or when there's no identity to check. If they don't match, don't treat the person as an approver: say so and ask them to confirm, or use the Linear path in `gates.md`.
+  - **On a Linear issue,** an approval counts only when the comment's author is `@stephane.levert` or `@alexisturgeon` (only `@alexisturgeon` for G4 and G6). A comment "on behalf of" an approver doesn't count.
 - **Companion plugins.** Steps call these skills when they're installed:
   - superpowers (brainstorming, writing-plans, test-driven-development, systematic-debugging, verification-before-completion);
   - mattpocock-skills (grilling);
@@ -33,7 +35,8 @@ Step: <number> <name>
 Waiting on: <gate or hand-off, with who> | nothing
 ```
 
-- **If a status block exists, continue from it.** If its "Waiting on" gate now has an approval from Stéphane or Alexis (in the chat or on the issue), mark it passed and go to the next step. Don't restart intake, and don't ask again.
+- **If a status block exists, continue from it.** If its "Waiting on" gate now has an approval from that gate's approver (see section 1), mark it passed and go to the next step. Don't restart intake, and don't ask again.
+- **When the issue's latest lifecycle comment and the spec disagree,** the latest comment wins. It's what a fresh run, which may not have the branch, can see.
 - **Keep the block current** at every step change. A bug keeps it in a Linear comment.
 
 ## 3. Intake and size
@@ -91,6 +94,6 @@ When you say what comes next (a plan, or after resuming), name what the rest of 
 
 Gates G1 to G6 and the two hand-offs ("needs a mockup", "needs a BC test run") are in `gates.md`. Read it the first time you reach a gate. In short:
 
-- Only Stéphane or Alexis can pass a gate.
-- Anyone else, or an agent, posts the lifecycle comment on the issue mentioning `@stephane.levert` and stops.
+- Only Stéphane or Alexis can pass a gate. G4 and G6 are Alexis's alone (`@alexisturgeon`).
+- Anyone else, or an agent, posts the lifecycle comment on the issue, mentioning the gate's approver, and stops.
 - Agents never merge.
