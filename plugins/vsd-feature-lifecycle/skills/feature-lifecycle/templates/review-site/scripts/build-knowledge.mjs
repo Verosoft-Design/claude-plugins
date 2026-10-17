@@ -36,7 +36,7 @@ for (const dir of [specDir, ...guideDirs]) {
 }
 
 // Never leave an older build behind if this one stops.
-for (const path of [outputs.knowledge, outputs.site]) rmSync(path, { force: true });
+for (const path of Object.values(outputs)) rmSync(path, { force: true });
 
 function loadNames() {
   const raw = process.env.VSD_CUSTOMER_NAMES
@@ -145,9 +145,31 @@ for (const file of readdirSync(site).filter((f) => f.endsWith('.html') && !siteP
   });
 }
 
-// Check everything before writing anything.
+// Check everything before writing anything: the bot's documents, every file the
+// site deploys (screen pages, styles, scripts), and the config values that end up
+// in the pages and the bot's prompt.
+const generated = new Set(Object.values(outputs));
+function deployedFiles(dir) {
+  const files = [];
+  for (const entry of readdirSync(dir)) {
+    if (entry === 'node_modules' || entry === 'scripts' || entry.startsWith('.')) continue;
+    const full = join(dir, entry);
+    if (statSync(full).isDirectory()) files.push(...deployedFiles(full));
+    else if (/\.(html|css|js|mjs|ts|json|md|svg|txt)$/.test(entry) && !generated.has(full)) files.push(full);
+  }
+  return files;
+}
+const checks = docs.map((d) => ({ path: d.path, content: d.content }));
+for (const file of deployedFiles(site)) {
+  checks.push({ path: toPosix(relative(site, file)), content: readFileSync(file, 'utf8') });
+}
+const configText = [config.feature, config.issue, config.approver, ...(config.examples ?? []).map((e) => e.text)]
+  .filter(Boolean)
+  .join('\n');
+checks.push({ path: 'site.config.json (values)', content: configText });
+
 let hits = 0;
-for (const doc of docs) {
+for (const doc of checks) {
   doc.content.split('\n').forEach((line, i) => {
     if (nameRes.some((re) => re.test(line))) {
       hits++;

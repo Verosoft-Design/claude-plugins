@@ -17,7 +17,8 @@ A static site for a **major** change's Mobi screens, with an "Ask about this des
    Use `mobi-proto.css` for Mobi's tokens.
 4. Build: `node scripts/build-knowledge.mjs`.
    - It writes `index.html` (from `index.template.html`, listing every screen), `ask.html`, and the bot's knowledge in `api/`.
-   - It refuses to write anything if a customer name or a secret is found, or if there's no names list on this machine (`VSD_CUSTOMER_NAMES` or `~/.config/verosoft/customer-names.txt`).
+   - It refuses to write anything if a customer name or a secret is found anywhere it would publish (the documents, every page, style and script, and the config values), or if there's no names list on this machine (`VSD_CUSTOMER_NAMES` or `~/.config/verosoft/customer-names.txt`).
+   - The generated files are gitignored, so the spec has no second copy. Deploys still upload them, because Vercel follows `.vercelignore`.
 5. Deploy: `npm install`, then `vercel deploy --prod --scope verosoft-design`. The bot uses the AI Gateway model `anthropic/claude-sonnet-5.5`.
 
 ## What the bot never sees

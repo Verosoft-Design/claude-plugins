@@ -151,3 +151,47 @@ test('checks_screen_notes_for_security_ids', () => {
   assert.equal(result.status, 1);
   assert.match(result.stderr, /REDACT\? screens\/meters\.md/);
 });
+
+test('fails_on_a_customer_name_in_a_screen_page_body', () => {
+  const ctx = setup({ 'README.md': '# Readme' });
+  writeFileSync(
+    join(ctx.site, 'assets.html'),
+    '<html><head><title>Assets</title></head><body><table><tr><td>Zeta Industries</td></tr></table>' +
+      '<details class="review"><summary>Review</summary><ul><li>Check the table.</li></ul></details></body></html>',
+  );
+  const result = build(ctx, 'Zeta Industries');
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /REDACT\? assets\.html:1/);
+  assert.equal(existsSync(generatedPath(ctx.site)), false);
+});
+
+test('fails_on_a_secret_in_a_deployed_css_file', () => {
+  const ctx = setup({ 'README.md': '# Readme' });
+  writeFileSync(join(ctx.site, 'extra.css'), '/* token = abc123 */\n');
+  const result = build(ctx, 'Zeta Industries');
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /REDACT\? extra\.css:1/);
+});
+
+test('fails_on_a_customer_name_in_the_config', () => {
+  const ctx = setup({ 'README.md': '# Readme' });
+  const configPath = join(ctx.site, 'site.config.json');
+  const config = JSON.parse(readFileSync(configPath, 'utf8'));
+  config.examples = [{ lang: 'en', text: 'What does Zeta Industries get?' }];
+  writeFileSync(configPath, JSON.stringify(config));
+  const result = build(ctx, 'Zeta Industries');
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /REDACT\? site\.config\.json/);
+  assert.equal(existsSync(join(ctx.site, 'ask.html')), false);
+});
+
+test('generated_files_are_gitignored', () => {
+  const ctx = setup({ 'README.md': '# Readme' });
+  spawnSync('git', ['init', '-q'], { cwd: ctx.site });
+  for (const path of ['api/_knowledge.generated.ts', 'api/_site.generated.ts', 'ask.html', 'index.html']) {
+    const r = spawnSync('git', ['check-ignore', '-q', path], { cwd: ctx.site });
+    assert.equal(r.status, 0, `${path} is not ignored`);
+  }
+  const kept = spawnSync('git', ['check-ignore', '-q', 'ask.template.html'], { cwd: ctx.site });
+  assert.equal(kept.status, 1, 'ask.template.html must stay tracked');
+});
