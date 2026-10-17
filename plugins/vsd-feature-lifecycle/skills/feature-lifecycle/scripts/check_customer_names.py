@@ -65,7 +65,7 @@ def find_hits(text: str, names: list[str]) -> list[tuple[int, str]]:
 def _diff_added_lines(base: str) -> list[tuple[str, int, str]]:
     """Return (file, new line number, text) for each line added since base."""
     out = subprocess.run(
-        ["git", "diff", "--unified=0", "--no-color", f"{base}...HEAD"],
+        ["git", "-c", "core.quotePath=false", "diff", "--unified=0", "--no-color", f"{base}...HEAD"],
         capture_output=True,
         text=True,
         check=True,
@@ -73,15 +73,30 @@ def _diff_added_lines(base: str) -> list[tuple[str, int, str]]:
     added = []
     current_file = None
     line_no = 0
+    old_left = new_left = 0  # lines still owed by the current hunk
     for line in out.splitlines():
+        if old_left or new_left:
+            # Inside a hunk every line is content, even one that looks like a header.
+            if line.startswith("+"):
+                if current_file:
+                    added.append((current_file, line_no, line[1:]))
+                line_no += 1
+                new_left -= 1
+            elif line.startswith("-"):
+                old_left -= 1
+            elif line.startswith(" "):
+                line_no += 1
+                old_left -= 1
+                new_left -= 1
+            continue
         if line.startswith("+++ "):
             current_file = line[6:] if line.startswith("+++ b/") else None
         elif line.startswith("@@"):
-            match = re.search(r"\+(\d+)", line)
-            line_no = int(match.group(1)) if match else 0
-        elif line.startswith("+") and current_file:
-            added.append((current_file, line_no, line[1:]))
-            line_no += 1
+            match = re.match(r"@@ -\d+(?:,(\d+))? \+(\d+)(?:,(\d+))? @@", line)
+            if match:
+                old_left = int(match.group(1)) if match.group(1) is not None else 1
+                line_no = int(match.group(2))
+                new_left = int(match.group(3)) if match.group(3) is not None else 1
     return added
 
 

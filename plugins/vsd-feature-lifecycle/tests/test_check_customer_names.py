@@ -114,6 +114,19 @@ class CliTest(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertEqual(result.stdout.strip().splitlines(), ["diff:a.txt:1: Zeta"])
 
+    def test_added_line_that_looks_like_a_header_does_not_hide_later_lines(self):
+        repo = self.tmp / "repo2"
+        repo.mkdir()
+        git(repo, "init", "-q")
+        (repo / "a.txt").write_text("start\n")
+        git(repo, "add", "a.txt")
+        git(repo, "commit", "-qm", "A")
+        (repo / "a.txt").write_text("start\n++ not a header\nZeta\n")
+        git(repo, "commit", "-qam", "B")
+        result = run_script(["--base", "HEAD~1"], home=self.tmp, env_names="Zeta", cwd=repo)
+        self.assertEqual(result.returncode, 1)
+        self.assertEqual(result.stdout.strip().splitlines(), ["diff:a.txt:3: Zeta"])
+
 
 if __name__ == "__main__":
     unittest.main()
