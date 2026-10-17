@@ -9,7 +9,7 @@
 2. Check it:
 
    ```bash
-   python3 ../lifecycle-release/release_notes.py validate docs/release-notes/unreleased/<ISSUE-ID>.md
+   python3 "<skill folder>/../lifecycle-release/release_notes.py" validate docs/release-notes/unreleased/<ISSUE-ID>.md
    ```
 
    Fix every problem it lists.

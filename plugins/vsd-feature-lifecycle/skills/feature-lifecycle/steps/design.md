@@ -4,7 +4,7 @@ BC pages never get a design step, because BC dictates its own UI.
 
 1. **Make the mockup** in Open Design (the `open-design` MCP server) or Claude Design, whichever is reachable.
    - Open Design is a desktop app and only connects while it runs, so a headless agent usually can't reach it.
-   - **If neither tool is reachable:** use the **"needs a mockup" hand-off** (see `../gates.md`). Ask for a person to attach the mockup to the issue, set `Waiting on: needs a mockup`, and stop. The work resumes at G3 once the mockup is on the issue.
+   - **If neither tool is reachable:** use the **"needs a mockup" hand-off** (see `gates.md`). Ask for a person to attach the mockup to the issue, set `Waiting on: needs a mockup`, and stop. The work resumes at G3 once the mockup is on the issue.
    - **Never skip to screen code** without an approved mockup.
 2. **Record the design in the spec:** the design link, and a numbered list of design decisions (DD1, DD2…) for the reviewer to accept or change.
 3. **Major only: publish a review site** so the team can weigh in.

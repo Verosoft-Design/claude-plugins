@@ -21,7 +21,7 @@
 
 1. **CI:** push the failing test, show the red run, then push the fix.
 2. **Otherwise, a reachable BC server,** with `al-run-tests`.
-3. **Otherwise, the "needs a BC test run" hand-off** (see `../gates.md`). Never skip the failing test.
+3. **Otherwise, the "needs a BC test run" hand-off** (see `gates.md`). Never skip the failing test.
 
 As of 2026-10, tag-bc `main` has no AL test workflow. Its tests sit behind `#if TESTS`, which a normal build doesn't define. The `PM tests` workflow and the test-build setup arrive with tag-bc #193, and until that merges, BC agent runs mostly end at the hand-off.
 
@@ -30,11 +30,11 @@ As of 2026-10, tag-bc `main` has no AL test workflow. Its tests sit behind `#if 
 Run the customer-name check on the branch, the PR description and the release-notes entry:
 
 ```bash
-python3 scripts/check_customer_names.py --base origin/main <PR description file> docs/release-notes/unreleased/<ISSUE-ID>.md
+python3 "<skill folder>/scripts/check_customer_names.py" --base origin/main <PR description file> docs/release-notes/unreleased/<ISSUE-ID>.md
 ```
 
 - **Exit 1:** remove every name it lists (use "Customer A", "Customer B") and run it again.
-- **Exit 2:** there's no names list on this machine. Write "Customer-name check not run: no names list on this machine." in the PR description and carry on.
+- **Exit 2 with `no customer-name list` on stderr:** there's no names list on this machine. Write "Customer-name check not run: no names list on this machine." in the PR description and carry on. Any other error (a missing file, a missing `origin/main`) isn't this case: fix the command and run it again.
 
 Finish with superpowers `verification-before-completion` if it's installed. Set the status block to `Step: 6 Prove`.
 

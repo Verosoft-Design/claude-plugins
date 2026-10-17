@@ -14,14 +14,14 @@ Run this in the product's repo: tag-bc for `tag`, mobi for `mobi`. The entries l
 1. **Draft the notes,** without moving anything:
 
    ```bash
-   python3 release_notes.py gather --dir docs/release-notes --product <product> --version <version> > /tmp/release-notes-<product>-<version>.md
+   python3 "<skill folder>/release_notes.py" gather --dir docs/release-notes --product <product> --version <version> > /tmp/release-notes-<product>-<version>.md
    ```
 
-   `release_notes.py` is next to this file. If it reports invalid entries, list them, fix them (or ask the PR author), and run it again. Show the drafted notes.
+   `<skill folder>` is this skill's folder, the base directory shown when it loads. Run the commands from the repo root. If it reports invalid entries, list them, fix them (or ask the PR author), and run it again. Show the drafted notes.
 2. **Check them for customer names:**
 
    ```bash
-   python3 ../feature-lifecycle/scripts/check_customer_names.py /tmp/release-notes-<product>-<version>.md
+   python3 "<skill folder>/../feature-lifecycle/scripts/check_customer_names.py" /tmp/release-notes-<product>-<version>.md
    ```
 
    - **Exit 1:** reword every line it lists, then check again.
@@ -30,7 +30,7 @@ Run this in the product's repo: tag-bc for `tag`, mobi for `mobi`. The entries l
 4. **After approval,** move the entries and commit them in a PR (repo rules from `AGENTS.md`):
 
    ```bash
-   python3 release_notes.py gather --dir docs/release-notes --product <product> --version <version> --apply
+   python3 "<skill folder>/release_notes.py" gather --dir docs/release-notes --product <product> --version <version> --apply
    ```
 
    The files move to `docs/release-notes/<version>/`.

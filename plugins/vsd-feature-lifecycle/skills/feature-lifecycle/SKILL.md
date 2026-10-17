@@ -7,6 +7,8 @@ description: "Start, size and run Verosoft dev work in Business Central (AL) and
 
 Every piece of Verosoft dev work (Business Central/AL in tag-bc or other AL repos, and the mobi monorepo) goes through the same lifecycle, scaled to its size. This skill sizes the work, runs the steps that size needs, and stops at the gates. The files next to this one hold the detail. Read each one only when you reach it.
 
+**Paths:** every path in this skill's files (`steps/…`, `templates/…`, `scripts/…`, `gates.md`, `../lifecycle-release/…`) is relative to this skill's folder, the base directory shown when the skill loads. Commands written with `<skill folder>` run from the repo root, with that folder's full path filled in.
+
 ## 1. Who's here and what's installed
 
 - **Is the person an approver?** Only Stéphane Levert and Alexis Turgeon approve gates. Check the chat first ("I'm …"), then `git config user.name` or the `gh` login. If it's unclear, ask.

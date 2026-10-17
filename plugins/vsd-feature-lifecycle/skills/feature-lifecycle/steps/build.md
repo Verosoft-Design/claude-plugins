@@ -29,6 +29,6 @@ Use the business-central-al skills if they're installed:
 
 ## Status
 
-Set the status block to `Step: 5 Build` and `Waiting on: nothing`. The size can still go up here (check `../sizes.md`). If it does, stop at G1.
+Set the status block to `Step: 5 Build` and `Waiting on: nothing`. The size can still go up here (check `sizes.md`). If it does, stop at G1.
 
 Next: step 6.
