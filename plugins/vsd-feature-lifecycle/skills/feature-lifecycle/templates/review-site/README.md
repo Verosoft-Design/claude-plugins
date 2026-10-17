@@ -25,4 +25,6 @@ A static site for a **major** change's Mobi screens, with an "Ask about this des
 - Decision-log rows whose ID starts with `SEC`.
 - Anything between `<!-- internal -->` and `<!-- /internal -->`.
 
+Any other mention of a security ID (`SEC…` followed by a number) stops the build, so mark it internal before deploying.
+
 The site is public to anyone with the link. If the spec holds security findings or anything internal, mark them that way, or turn on Vercel deployment protection.

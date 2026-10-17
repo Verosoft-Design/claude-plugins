@@ -4,7 +4,8 @@
 // Reads site.config.json, collects every .md under specDir (except this site's
 // own folder) and under each guideDirs entry, and turns each screen page's
 // "What to review" note into screens/<slug>.md. Security rows (IDs starting with
-// SEC) and <!-- internal --> … <!-- /internal --> blocks never reach the bot.
+// SEC) and <!-- internal --> … <!-- /internal --> blocks never reach the bot, and any
+// security ID left anywhere else stops the build.
 // Everything is checked for customer names and secrets first.
 //
 // Exit 0: written. Exit 1: a name or secret was found, nothing written.
@@ -62,6 +63,8 @@ const secretRes = [
   [/\b(sk-ant-|sk_live_|ghp_|gho_|xox[bp]-|AKIA[0-9A-Z]{12}|vcp_|AIza)[A-Za-z0-9]/, 'token'],
   [/^[A-Z][A-Z0-9_]{2,}=\S+/, '.env line'],
 ];
+// Any security ID still in the text after stripping stops the build: mark it internal instead.
+const securityIdRe = /(?<![A-Za-z0-9])SEC[\w-]*\d+(?![A-Za-z0-9])/;
 
 // Drop security rows and internal blocks: they must never be answerable publicly.
 function strip(text) {
@@ -71,7 +74,7 @@ function strip(text) {
     if (/<!--\s*internal\s*-->/i.test(line)) { internal = true; continue; }
     if (/<!--\s*\/internal\s*-->/i.test(line)) { internal = false; continue; }
     if (internal) continue;
-    if (/^\|\s*SEC[\w-]*\s*\|/i.test(line)) continue;
+    if (/^\s*\|?\s*SEC[\w-]*\d+\s*\|/i.test(line)) continue;
     out.push(line);
   }
   return out.join('\n');
@@ -149,6 +152,10 @@ for (const doc of docs) {
     if (nameRes.some((re) => re.test(line))) {
       hits++;
       console.error(`REDACT? ${doc.path}:${i + 1} contains a customer name`);
+    }
+    if (securityIdRe.test(line)) {
+      hits++;
+      console.error(`REDACT? ${doc.path}:${i + 1} mentions a security finding; wrap it in <!-- internal --> … <!-- /internal -->`);
     }
     for (const [re, what] of secretRes) {
       if (re.test(line)) {

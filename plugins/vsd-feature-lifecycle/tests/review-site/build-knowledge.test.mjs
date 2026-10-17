@@ -124,3 +124,30 @@ test('fails_clearly_on_a_missing_folder', () => {
   assert.match(result.stderr, /folder not found: .*no-such-guide/);
   assert.doesNotMatch(result.stderr, /at .*build-knowledge\.mjs:\d+/);
 });
+
+test('strips_security_rows_without_a_leading_pipe', () => {
+  const ctx = setup({ 'decision-log.md': 'Q1 | Captions only? | Yes |\nSEC3 | Route gap? | Open |\n' });
+  const result = build(ctx, 'Zeta Industries');
+  assert.equal(result.status, 0, result.stderr);
+  const log = generatedDocs(ctx.site).find((d) => d.path === 'decision-log.md').content;
+  assert.doesNotMatch(log, /SEC3/);
+});
+
+test('fails_closed_on_a_security_id_left_in_the_text', () => {
+  const ctx = setup({ 'decisions.md': '# Decisions\nAs SEC2 notes, the route stays open.' });
+  const result = build(ctx, 'Zeta Industries');
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /REDACT\? decisions\.md:2 .*security/);
+  assert.equal(existsSync(generatedPath(ctx.site)), false);
+});
+
+test('checks_screen_notes_for_security_ids', () => {
+  const ctx = setup({ 'README.md': '# Readme' });
+  writeFileSync(
+    join(ctx.site, 'meters.html'),
+    '<html><head><title>Meters</title></head><body><details class="review"><summary>Review</summary><ul><li>See SEC4 first.</li></ul></details></body></html>',
+  );
+  const result = build(ctx, 'Zeta Industries');
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /REDACT\? screens\/meters\.md/);
+});
