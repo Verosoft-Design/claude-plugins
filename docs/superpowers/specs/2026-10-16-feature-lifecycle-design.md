@@ -132,8 +132,12 @@ So a BC feature with user documentation has a second, docs-only PR in mobi.
 
 ## Release notes (Alexis: start now for BC, same process as Mobi)
 
+- **Which products (my call):** TAG and Mobi only, because those are the two Alexis named.
+  - Trax, Verovia and `packages/ai` already build `CHANGELOG.md` from commit messages with release-please, and Trax shows it in the app. They keep that, and their PRs don't add an entry.
+  - Hub and IoT have no release notes today and stay that way.
+  - The sizes, gates and spec rules still apply to all work in the mobi monorepo, whichever app it touches.
 - **During the work:** each PR adds one small file, `docs/release-notes/unreleased/<ISSUE-ID>.md`, in its repo (my call: one file per PR, so parallel agents never conflict on a shared file). It has this frontmatter:
-  - `product`: `tag` | `mobi` | `trax` | `verovia` | `hub` | `iot`
+  - `product`: `tag` | `mobi`
   - `type`: `fix` | `feature` | `change`
   - `issue`: Linear ID
   - `audience`: `users` | `admins` | `consultants`
@@ -159,7 +163,10 @@ Each step lists what it does at each size and which existing skill it uses. "If 
    - Then a plan (superpowers `writing-plans` if present).
 3. **Environment** (major, BC). Set up BC test servers before any code (business-central-al `bc-server-setup`). Anything that touches a customer environment is gate G4.
 4. **Design** (feature or major, only when a Mobi screen is added or changed; never for BC pages, since BC dictates its own UI).
-   - Make the mockup in Open Design (the `open-design` MCP server) or Claude Design, whichever is available. If neither is reachable, ask the person to make it or to unblock the tool. Never skip to screen code.
+   - Make the mockup in Open Design (the `open-design` MCP server) or Claude Design, whichever is available.
+     - Open Design is a desktop app and only connects while it runs, so a headless agent usually can't reach it.
+     - If neither tool is reachable, use the "needs a mockup" hand-off: a person attaches the mockup to the issue and the run resumes at G3.
+     - Never skip to screen code.
    - The spec records the design link and a numbered list of design decisions.
    - **Major:** also publish a shareable review site in the `verosoft-design` Vercel team, with a Q&A bot that answers from the spec folder, the guide and `team-faq.md`. PM's site, `mobi-pm-design-review`, is the reference.
    - Then gate G3.
@@ -170,6 +177,11 @@ Each step lists what it does at each size and which existing skill it uses. "If 
    - In AL repos, the business-central-al skills apply (`al-conventions`, `business-central-al-tdd`, `al-build-and-publish`, `al-upgrade-review` for upgrade code).
 6. **Prove.**
    - **Bug:** a test that fails before the fix and passes after (superpowers `test-driven-development` or business-central-al `business-central-al-tdd`). Systematic debugging for anything non-obvious.
+     - **How AL tests run** (my call):
+       1. CI first: push the failing test, show the red run, then the fix.
+       2. Otherwise, a reachable BC server via `al-run-tests`.
+       3. Otherwise, the "needs a BC test run" hand-off. Never skip the failing test.
+     - Today tag-bc `main` has no AL test workflow, and its tests sit behind `#if TESTS`, which a normal build doesn't define. The `PM tests` workflow and the test-build setup arrive with tag-bc #193. Until #193 merges, BC agent runs will mostly end at that hand-off.
    - **Feature:** tests for the new behavior, plus a code review: `bcq-review` in AL repos, `vsd-code-review` in Cursor, `/code-review` in Claude Code.
    - **Major:** the above, plus:
      - test campaigns per area;
@@ -202,10 +214,19 @@ A gate is a point where the skill stops and waits for a named person. It works t
 | G5 Merge | The PR is ready | Stéphane or Alexis | yes | yes | yes |
 | G6 Release | Shipping to customers | Alexis | yes | yes | yes |
 
+**Who can approve:** only Stéphane or Alexis (Alexis: "Stéphane Levert is always in charge of all dev work… I'm his boss so I can also review"). A teammate running the session can't approve a gate for their own work.
+
 **How a gate waits:**
 
-- **This week, a person is in the session.** The skill asks in the chat and waits.
-- **From next week, an agent from Linear.** The skill writes one comment on the issue: the gate, what's ready, links, and the question. It mentions `@stephane.levert`, puts the issue in the waiting state, and ends the run. The next run resumes from the issue comments.
+- **Stéphane or Alexis is in the session.** The skill asks in the chat and waits. The skill tells who is in the session from the git or GitHub identity. If it can't tell, it asks.
+- **Anyone else is in the session, or an agent is running from Linear.** The skill writes one comment on the issue: the gate, what's ready, links, and the question. It mentions `@stephane.levert`, puts the issue in the waiting state, and ends the run. The next run resumes from the approval comment. This is the same path for a teammate and for an agent (my call, following from the approver rule).
+
+**Hand-offs** use the same waiting mechanism but aren't approvals: the work needs something only a person can supply. Two exist:
+
+- **Needs a mockup:** the design tool isn't reachable.
+- **Needs a BC test run:** no CI and no reachable BC server.
+
+The run resumes once the missing piece is on the issue.
 
 The labels and statuses for that waiting state are decided with the Linear setup next week. Mobi's `docs/agents/triage-labels.md` already defines `needs-info`, `ready-for-agent` and `ready-for-human`.
 
@@ -214,7 +235,9 @@ The labels and statuses for that waiting state are decided with the Linear setup
 - The spec lives in mobi.
 - The work is two sessions in two repos, because the business-central-al skills only load in AL repos.
 - Order (my call, from PM): BC and its API first, then Mobi. Mobi detects whether the new API exists, so it works against older BC versions.
-- There are two PRs, and each links the spec and the other PR.
+- **The spec reaches mobi `main` before any code** (my call). Once G2 approves it, the spec goes in through its own small docs PR. The tag-bc session, or an agent that only has tag-bc checked out, can then read it from `main`, and every link to it stays valid.
+- There are two code PRs, and each links the spec and the other PR.
+- The second repo's work, and the docs-only mobi PR for a BC feature, continue the **same Linear issue** (my call). The PR links say which repo each part is in, and the resume state lives on that one issue.
 
 ## Packaging
 
@@ -262,6 +285,8 @@ The labels and statuses for that waiting state are decided with the Linear setup
 - PM design review site: `https://mobi-pm-design-review.vercel.app`, with the bot at `/ask.html`.
   - **Its source exists only in the PM session's scratchpad:** `/private/tmp/claude-501/-Users-alexisturgeon-Source-mobi/5a471876-344d-4999-8eb3-ed9335f216ed/scratchpad/pm-design-site/`.
   - That folder is temporary. Before it's gone, the builder copies the generic parts (site shell, bot, the knowledge-build script) into the plugin as the review-site template.
+  - Its `scripts/build-knowledge.mjs` reads absolute local paths, including `tag-bc.worktrees/.tools/PR-NOTES.md`, so the template has to make those paths relative to the spec folder.
+- PM's `decisions.md`, `decision-log.md`, `team-faq.md` and `planning-concept.md` aren't committed in mobi yet. They're untracked files in the main checkout. tag-bc #193 has separate committed copies of the first two in `docs/pm-refactor/`. Build the templates from the mobi files.
 - mobi `docs/agents/issue-tracker.md` and `triage-labels.md`: Linear teams per app, and triage labels.
 - mobi `wiki/README.md`: the three books and how they're served.
 - `apps/hub/src/lib/mobi-release-notes.ts`: how Mobi's version pop-up reads Hub's release-notes document.
@@ -275,6 +300,10 @@ The labels and statuses for that waiting state are decided with the Linear setup
 - The Cursor sync script.
 - How the customer-name check gets its list of names without committing that list to any repo (for example a local, untracked file or an environment variable), and what it does when the list is missing.
 
-## Open for the builder (to settle with Alexis if unclear)
+## Open (waiting on Alexis)
 
-- None yet. This section is filled in after the builder check.
+- **Which tool will the Linear-driven agents run on next week: Claude Code, Cursor Cloud agents, or Codex?**
+  - The committed `.claude/settings.json` install only reaches Claude Code.
+  - Both repos' `AGENTS.md` files are headed "Cursor Cloud specific instructions". Mobi's Linear `repo` label "tells Cursor which repo to run on".
+  - Codex did most of the PM work from `~/.codex/skills`, which neither plugin format installs.
+  - The answer decides which copy ships first, whether a Codex install script is needed, and which tools the skills may assume.
