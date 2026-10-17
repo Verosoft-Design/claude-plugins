@@ -1,6 +1,6 @@
 # Verosoft Design — Claude Code plugins
 
-Claude Code plugin marketplace for Microsoft Dynamics 365 Business Central AL development. (Cursor plugins live in [cursor-plugin-marketplace](https://github.com/Verosoft-Design/cursor-plugin-marketplace).)
+Claude Code plugin marketplace for Verosoft Design: Business Central AL development and the Verosoft feature lifecycle. (Cursor plugins live in [cursor-plugin-marketplace](https://github.com/Verosoft-Design/cursor-plugin-marketplace).)
 
 ## Install
 
@@ -9,6 +9,9 @@ claude plugin marketplace add Verosoft-Design/claude-plugins
 
 # run inside each AL repo, so the plugin only loads there
 claude plugin install business-central-al@verosoft-design --scope local
+
+# the feature lifecycle (bug / feature / major, gates, spec homes): in mobi and AL repos
+claude plugin install vsd-feature-lifecycle@verosoft-design --scope local
 ```
 
 Installing at user scope (the default) loads the plugin's skills, MCP server and hooks in every repo, AL or not. `--scope local` records it in the repo's gitignored `.claude/settings.local.json`.
@@ -29,6 +32,7 @@ claude plugin install mattpocock-skills@claude-plugins-official  # mattpocock/sk
 | Plugin | Source | What it is |
 | --- | --- | --- |
 | [`business-central-al`](plugins/business-central-al) | this repo | AL MCP + AL language server, AL-Go lifecycle, BCQuality review (19 domains), BC-Bench ALTest test generation, tests on a real BC (`al runtests`), web-client UI checks, snapshot debugging, profiling, call graph |
+| [`vsd-feature-lifecycle`](plugins/vsd-feature-lifecycle) | this repo | Sizes dev work (bug, feature, major), runs its steps, keeps one home for specs and decisions, release-notes entries, and gates for Stéphane's or Alexis's approval |
 
 Optional, from Microsoft: `claude plugin marketplace add microsoft/BC-ALAgents && claude plugin install al-review@bc-alagents` (Microsoft's BCApps PR reviewer; needs pwsh and a signed-in GitHub Copilot CLI).
 
