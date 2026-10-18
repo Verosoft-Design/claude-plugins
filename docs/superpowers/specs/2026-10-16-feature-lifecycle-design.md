@@ -190,6 +190,13 @@ Each step lists what it does at each size and which existing skill it uses. "If 
      - a read-only real-data run where an agreement exists (gate G4);
      - an upgrade test for BC;
      - CI on the PR.
+   - **UI testing (added in 0.2.0, Alexis 2026-10-18):** in the mobi monorepo apps, the agent proves UI work in the running app:
+     - It signs in with the development login from mobi #1312, as a test member on the Dev environment and the TA - TS company. It never uses customer data.
+     - A bug with UI steps is reproduced before the fix and after it.
+     - A feature's UX flow is walked end to end.
+     - Screenshots go to `docs/pr-assets/<PR number>/` and the PR description, for Stéphane.
+     - Committed Playwright tests are added only for flows already in the e2e suite, or for major work.
+     - The hand-off "needs UI test access" applies when the login isn't configured.
    - **Every size:** before a PR is marked ready, check the diff, the PR description and the release-notes entry for customer names (see "Open for the builder").
    - Finish with superpowers `verification-before-completion` if present.
 7. **Stakeholder loop** (major). The team reviews the design site and the decision log.
