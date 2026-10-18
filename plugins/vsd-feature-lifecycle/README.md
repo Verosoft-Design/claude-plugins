@@ -39,7 +39,7 @@ Only Stéphane (`@stephane.levert`) or Alexis (`@alexisturgeon`) can approve. An
 
 ## Install
 
-mobi and tag-bc declare the marketplace and the plugin in their committed `.claude/settings.json`, so Claude Code offers both when you open those repos. For another repo, run this inside it:
+mobi and tag-bc declare the marketplace and the plugin in their committed `.claude/settings.json`. Claude Code offers both once you open and trust one of those repos in an interactive session. For another repo, run this inside it:
 
 ```sh
 claude plugin marketplace add Verosoft-Design/claude-plugins
@@ -47,6 +47,24 @@ claude plugin install vsd-feature-lifecycle@verosoft-design --scope local
 ```
 
 It adds about 200 tokens to a session. The steps, templates and scripts load only when they're used.
+
+### Agents, CI and cloud sessions
+
+A repo's committed settings don't reach a fresh agent. Claude Code applies a repository's marketplace only after the folder is trusted interactively: a `-p` run applies it only in an already-trusted folder, and a cloud session never does. Install the plugin in the environment instead, with one of these:
+
+- **A bootstrap step** in the environment's setup, before the agent runs. It needs no login, because the marketplace is public:
+
+  ```sh
+  claude plugin marketplace add Verosoft-Design/claude-plugins
+  claude plugin install vsd-feature-lifecycle@verosoft-design --scope user
+  # in AL repos also: claude plugin install business-central-al@verosoft-design --scope user
+  ```
+
+  In a fresh config this installs and enables the plugin (`claude plugin list` shows `vsd-feature-lifecycle@verosoft-design 0.1.0 ✔ enabled`).
+- **A seed directory** baked into a container image: install with `CLAUDE_CODE_PLUGIN_CACHE_DIR=/opt/claude-seed`, then run with `CLAUDE_CODE_PLUGIN_SEED_DIR=/opt/claude-seed`.
+- **Server-managed settings** from the claude.ai admin console (Owner role): `extraKnownMarketplaces` plus `enabledPlugins` for the whole organization. This is the only route that reaches Anthropic-hosted cloud sessions.
+
+To check that a headless run loaded it, run `claude -p ... --output-format stream-json --verbose`: the `init` event lists the loaded plugins.
 
 ### Companions (recommended, not required)
 

@@ -271,7 +271,13 @@ The labels and statuses for that waiting state are decided with the Linear setup
   - The README recommends the official sources, as the BC plugin's README already does.
 - **Install (my call):**
   - mobi and tag-bc each declare the marketplace and the plugin in a committed `.claude/settings.json` (`extraKnownMarketplaces` plus `enabledPlugins`). The `vsd-feature-lifecycle` entry lives there.
-  - That way a Linear-driven agent in a fresh environment gets it with no machine setup, and teammates are offered it when they open the repo.
+  - Teammates are offered it when they open and trust the repo in an interactive session.
+  - **Correction (2026-10-18, from review of mobi #1307):** this alone does **not** reach a fresh agent. Claude Code applies a repository's `extraKnownMarketplaces` only after the folder is trusted interactively. A `-p` run applies it only in an already-trusted folder, and a cloud session never applies it. Agent, CI and cloud environments need one of these:
+    - a bootstrap step: `claude plugin marketplace add Verosoft-Design/claude-plugins`, then `claude plugin install vsd-feature-lifecycle@verosoft-design --scope user`. This was verified in a fresh config;
+    - a seed directory (`CLAUDE_CODE_PLUGIN_SEED_DIR`);
+    - server-managed settings from the claude.ai admin console, the only route that reaches Anthropic-hosted cloud sessions.
+
+    Picking one belongs to next week's Linear agent setup.
   - tag-bc also declares `business-central-al` there, for the same reason. Alexis currently has it installed locally in the AL repos; the committed setting adds to that.
   - Cursor installs come from the Cursor marketplace, as today.
 
