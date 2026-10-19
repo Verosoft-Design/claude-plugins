@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.10 — 2026-10-19
+
+- **A one-line status in Linear comments:** `**Status:** Feature · Step 9 Ship · Waiting on …`. Linear printed the `<!-- lifecycle-status -->` marker as text. Specs keep the block, and older comments' blocks are still read.
+- **Reply where you were called:** when the agent server says a comment called you, every comment goes in that comment's thread.
+
 ## 0.3.9 — 2026-10-19
 
 - **Screenshots on the Linear issue too:** upload them with the Linear MCP (`prepare_attachment_upload`, PUT, `create_attachment_from_upload`) and show them in the lifecycle comment, besides committing them for the PR. mobi is private, so GitHub's mobile app can't show images stored in the repo.

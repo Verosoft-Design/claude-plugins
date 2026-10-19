@@ -1,4 +1,4 @@
 ---
 type: regex
-pattern: '<!-- lifecycle-status -->[\s\S]*Waiting on: G2'
+pattern: '\*\*Status:\*\*[^\n]*Waiting on G2'
 ---
