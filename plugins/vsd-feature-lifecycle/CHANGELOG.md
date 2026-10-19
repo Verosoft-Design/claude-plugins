@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.7 — 2026-10-19
+
+- **No design tool, no stall:** when neither Open Design nor Claude Design is reachable (a headless agent), make a quick mockup yourself: static HTML pages in the app's style, screenshotted and attached to the issue, then wait for G3 as usual. Ask a person for a mockup only when you can't render one.
+- **The design waiver:** Stéphane or Alexis can say no mockup is needed, which approves G3. Build like the existing screens and put screenshots in the PR.
+- **Evals:** `design-handoff` now expects your own mockup, and a new case, `design-waiver`.
+
 ## 0.3.6 — 2026-10-19
 
 - **GitHub feedback never passes a gate:** it reaches the run with a `github:` author. Approvals come only from Linear.
