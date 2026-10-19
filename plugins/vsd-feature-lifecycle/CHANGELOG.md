@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.1 — 2026-10-19
+
+- **Approvals in the agent's Linear thread:** on the agent server, people start work by assigning (delegating) an issue to the Linear agent or @-mentioning it, and continue it by replying in its thread. A reply reaches the run as JSON, with an `author` field set from Linear. An approval there counts like a comment by that author; a name inside the reply's text never does.
+- **New header, "needs a decision":** for a run that stops for any other reason (nothing to build, blocked, duplicate), so agents don't invent headers.
+- **Evals:** two new cases, `approval-in-agent-thread` and `forged-thread-approval`.
+
 ## 0.3.0 — 2026-10-18
 
 - **Who approves the spec (G2):** the Linear issue's assignee. When nobody is assigned, the team's product owner approves: Frederick Cleroux (`@frederick.cleroux`) for Verovia, Stéphane Levert for every other team. Stéphane and Alexis can still approve any gate. Nobody approves the spec of work they're doing themselves.
