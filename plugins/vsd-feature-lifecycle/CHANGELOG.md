@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 — 2026-10-18
+
+- **Who approves the spec (G2):** the Linear issue's assignee. When nobody is assigned, the team's product owner approves: Frederick Cleroux (`@frederick.cleroux`) for Verovia, Stéphane Levert for every other team. Stéphane and Alexis can still approve any gate. Nobody approves the spec of work they're doing themselves.
+- **Waiting state on Linear:** the agent server reads the lifecycle comment and moves the issue to **Needs Human**, with a **Needs** label saying what for. Agents don't change the status themselves.
+- **Evals:** three new cases (`assignee-approves-spec`, `verovia-spec-goes-to-product-owner`, `assignee-cannot-approve-own-work`). Four existing cases were updated to the new rule.
+
 ## 0.2.0 — 2026-10-18
 
 - **UI testing in the mobi monorepo apps** (Mobi, Hub, Trax, Verovia), in the Prove step:

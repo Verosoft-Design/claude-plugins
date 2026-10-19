@@ -15,7 +15,7 @@ The Verosoft feature lifecycle for Business Central (AL) and Mobi work. Its one 
 3. **It keeps one home for every spec:**
    - BC-only work goes in the BC repo.
    - Mobi-only work, or work touching both, goes in mobi.
-4. **It stops at named gates** for Stéphane Levert's or Alexis Turgeon's approval.
+4. **It stops at named gates** for approval: Stéphane Levert or Alexis Turgeon, and for the spec also the issue's assignee or the team's product owner.
 
 It works the same way for a person in Claude Code or Cursor and for an agent driven from Linear.
 
@@ -33,7 +33,7 @@ It works the same way for a person in Claude Code or Cursor and for an agent dri
 - **G5 Merge:** a person, never an agent
 - **G6 Release:** Alexis
 
-Only Stéphane (`@stephane.levert`) or Alexis (`@alexisturgeon`) can approve. Anyone else's session posts a comment on the Linear issue and waits.
+Stéphane (`@stephane.levert`) or Alexis (`@alexisturgeon`) can approve any gate. **G2 Spec** is also approved by the issue's assignee, or, when nobody is assigned, by the team's product owner: Frederick Cleroux (`@frederick.cleroux`) for Verovia, Stéphane for every other team. Nobody approves the spec of their own work. Anyone else's session posts a comment on the Linear issue and waits.
 
 `lifecycle-release` (`/vsd-feature-lifecycle:lifecycle-release <tag|mobi> <version>`) gathers the unreleased release-notes entries into a version's notes for Hub.
 
