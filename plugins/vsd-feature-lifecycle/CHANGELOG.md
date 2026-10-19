@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.5 — 2026-10-19
+
+- **Feedback on your PR comes back to you on the agent server:** review comments from people and the review bots, and a failed CI run (one automatic fix). Address each point, push, reply on GitHub to each comment, and post the G5 Merge comment again.
+
 ## 0.3.4 — 2026-10-19
 
 - **No more agent labels:** on the agent server, work starts when someone assigns or @-mentions the agent, and continues with a reply in its thread. Between the two sessions of a BC + Mobi issue, `**Lifecycle: BC hand-off**` and `**Lifecycle: BC ready**` pass the work.
