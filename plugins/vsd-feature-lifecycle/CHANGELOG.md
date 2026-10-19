@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.8 — 2026-10-19
+
+- **The team lead approves:** Frederick Cleroux on Verovia (VERO), Stéphane Levert on every other team, with Alexis able to approve any gate (G4 and G6 stay his alone). Stéphane no longer approves Verovia work.
+- **Ask once:** the G2 comment asks for every later approval you can foresee (a migration on the shared AI database, customer data, no mockup needed), and an answer then covers the later step. With Alexis's yes, apply such a migration yourself, in one transaction.
+- **Short lifecycle comments:** one line each for Ready and Needed, links instead of explanations; don't quote the skill.
+- **Ship** names the Verovia Review code and security reviews instead of the retired review bots.
+- **Evals:** a new case, `verovia-merge-goes-to-frederick`.
+
 ## 0.3.7 — 2026-10-19
 
 - **No design tool, no stall:** when neither Open Design nor Claude Design is reachable (a headless agent), make a quick mockup yourself: static HTML pages in the app's style, screenshotted and attached to the issue, then wait for G3 as usual. Ask a person for a mockup only when you can't render one.
