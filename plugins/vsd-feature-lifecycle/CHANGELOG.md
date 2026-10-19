@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.4 — 2026-10-19
+
+- **No more agent labels:** on the agent server, work starts when someone assigns or @-mentions the agent, and continues with a reply in its thread. Between the two sessions of a BC + Mobi issue, `**Lifecycle: BC hand-off**` and `**Lifecycle: BC ready**` pass the work.
+
 ## 0.3.3 — 2026-10-19
 
 - **Questions get answers, not work:** when someone asks about the code base or the issue rather than for a change, the run answers in a comment that starts with `**Lifecycle: answered**` (or `needs info` when only the person can tell it more). No sizing, branch, code change or PR. On the agent server, that comment puts the issue back to its earlier status.
