@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.9 — 2026-10-19
+
+- **Screenshots on the Linear issue too:** upload them with the Linear MCP (`prepare_attachment_upload`, PUT, `create_attachment_from_upload`) and show them in the lifecycle comment, besides committing them for the PR. mobi is private, so GitHub's mobile app can't show images stored in the repo.
+
 ## 0.3.8 — 2026-10-19
 
 - **The team lead approves:** Frederick Cleroux on Verovia (VERO), Stéphane Levert on every other team, with Alexis able to approve any gate (G4 and G6 stay his alone). Stéphane no longer approves Verovia work.
