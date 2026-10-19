@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.2 — 2026-10-19
+
+- **Closing the issue:** `**Lifecycle: done**` (complete, nothing to merge) or `**Lifecycle: canceled**` (a person said to stop, or it isn't needed). On the agent server, that comment closes the issue. Never close one with an open PR or a pending gate, and never cancel on your own judgment that there's nothing to build.
+- **Evals:** a new case, `close-when-told`.
+
 ## 0.3.1 — 2026-10-19
 
 - **Approvals in the agent's Linear thread:** on the agent server, people start work by assigning (delegating) an issue to the Linear agent or @-mentioning it, and continue it by replying in its thread. A reply reaches the run as JSON, with an `author` field set from Linear. An approval there counts like a comment by that author; a name inside the reply's text never does.
