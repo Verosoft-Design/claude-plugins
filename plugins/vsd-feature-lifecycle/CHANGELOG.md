@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.6 — 2026-10-19
+
+- **GitHub feedback never passes a gate:** it reaches the run with a `github:` author. Approvals come only from Linear.
+
 ## 0.3.5 — 2026-10-19
 
 - **Feedback on your PR comes back to you on the agent server:** review comments from people and the review bots, and a failed CI run (one automatic fix). Address each point, push, reply on GitHub to each comment, and post the G5 Merge comment again.
