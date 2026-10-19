@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.11 — 2026-10-19
+
+- **An approver's own request counts:** when the person asking for the work can approve a gate and their request already decides it (the size they set, "implement it", "no design needed"), that gate is passed. The run doesn't stop to ask them again; it says which gates their request passed.
+- **A small feature with a settled scope goes straight to the build:** one app, a few files, nothing on the escalation list, no open question, and a scope settled by the request, an approver or your own undisputed answer on the issue. No G2 stop: the decisions go in the PR description and G5 reviews it. A tweak to an existing screen needs no mockup.
+- **Evals:** new cases, `approver-request-skips-gates` and `small-feature-settled-scope-builds`.
+
 ## 0.3.10 — 2026-10-19
 
 - **A one-line status in Linear comments:** `**Status:** Feature · Step 9 Ship · Waiting on …`. Linear printed the `<!-- lifecycle-status -->` marker as text. Specs keep the block, and older comments' blocks are still read.
