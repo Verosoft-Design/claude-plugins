@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.3 — 2026-10-19
+
+- **Questions get answers, not work:** when someone asks about the code base or the issue rather than for a change, the run answers in a comment that starts with `**Lifecycle: answered**` (or `needs info` when only the person can tell it more). No sizing, branch, code change or PR. On the agent server, that comment puts the issue back to its earlier status.
+- **Evals:** a new case, `question-not-work`.
+
 ## 0.3.2 — 2026-10-19
 
 - **Closing the issue:** `**Lifecycle: done**` (complete, nothing to merge) or `**Lifecycle: canceled**` (a person said to stop, or it isn't needed). On the agent server, that comment closes the issue. Never close one with an open PR or a pending gate, and never cancel on your own judgment that there's nothing to build.
