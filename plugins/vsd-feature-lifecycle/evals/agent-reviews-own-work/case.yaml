@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: agent-reviews-own-work
+context:
+  scaffold_script: identity.sh

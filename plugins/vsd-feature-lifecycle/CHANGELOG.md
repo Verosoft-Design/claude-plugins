@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.1 — 2026-10-20
+
+- **You review your own work:** the session that did the work reviews the branch's full diff itself, subagents' work included, against the spec and the repo's rules. No `/code-review`, no reviewer subagents, no agent reviewing another agent's work and no review → fix → re-review rounds. In Cursor, the `vsd-code-review` rubric is applied in the session. One pass: fix what you find and move on. The independent reviews are the Verovia Review code and security reviews on the PR and the person who merges.
+- **AL repos run `bcq-review` once:** its checks may run as subagents, and the session judges each finding itself (fix it, or say in the PR why not). It doesn't run again after the fixes.
+- **Subagents** can search, or build a piece that doesn't depend on the others. A plan skill's per-task reviewers are skipped.
+- **Design:** when a mockup can't be rendered, the comment asks a person to attach one. It no longer offers to waive it.
+- **Evals:** new cases, `agent-reviews-own-work` and `bcq-review-once`.
+
 ## 0.4.0 — 2026-10-20
 
 - **The assignee owns the work's decisions:** the Linear issue's assignee approves the size (G1), the spec (G2) and the design (G3), and merges the PR (G5) once the reviews and CI are green. That includes their own work and their own session: "nobody approves the spec of their own work" is gone, and so is the product owner. When nobody is assigned, the team lead approves (Frederick Cleroux on Verovia, Stéphane Levert otherwise). The team lead and Alexis can still approve any gate. G4 Customer data, G6 Release and a migration on a shared database stay Alexis's alone.

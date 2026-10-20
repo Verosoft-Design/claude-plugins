@@ -22,7 +22,7 @@ It works the same way for a person in Claude Code or Cursor and for an agent dri
 | Size | Spec | Design | Build | Prove | Docs |
 | --- | --- | --- | --- | --- | --- |
 | Bug | The Linear issue | — | One PR | A test that fails before the fix | Release-notes entry |
-| Feature | One spec file with a decision list | Mockup if a Mobi screen changes | One PR per repo | Tests plus a code review | Entry, plus the manual page if users see it |
+| Feature | One spec file with a decision list | Mockup if a Mobi screen changes | One PR per repo | Tests plus the agent's own code review | Entry, plus the manual page if users see it |
 | Major | A spec folder with `decisions.md` and `decision-log.md` | Mockups on a review site with a Q&A bot | Integration branch, one large PR | Test campaigns, UI walkthroughs, real-data run, CI | Entry, plus a guide section with screenshots |
 
 **Gates:**
