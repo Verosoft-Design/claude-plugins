@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.2 — 2026-10-20
+
+- **A Vercel preview for the person who merges:** in mobi, a PR branch deploys a preview only when its PR gets the app's deploy label. When the PR changes Mobi, the ship step adds `deploy-mobi` once the PR is ready, puts the preview link from the workflow's comment in the G5 comment, and adds the label again after pushing fixes. Other apps get their own `deploy-<app>` label as they're set up.
+- **Evals:** a new case, `ship-adds-deploy-label`.
+
 ## 0.4.1 — 2026-10-20
 
 - **You review your own work:** the session that did the work reviews the branch's full diff itself, subagents' work included, against the spec and the repo's rules. No `/code-review`, no reviewer subagents, no agent reviewing another agent's work and no review → fix → re-review rounds. In Cursor, the `vsd-code-review` rubric is applied in the session. One pass: fix what you find and move on. The independent reviews are the Verovia Review code and security reviews on the PR and the person who merges.
