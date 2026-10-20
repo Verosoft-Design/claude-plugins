@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.3 — 2026-10-20
+
+- **impeccable for screens:** a companion skill for the mobi apps' UI. The design step uses it for the quick mockup when no design tool is reachable, and the build step builds new or changed screens with it, from the approved mockup and the app's `PRODUCT.md` and `DESIGN.md`. Install line: `npx impeccable install -y --providers=claude,codex --global --no-hooks`.
+- **Its finish review runs once,** like `bcq-review`: one `impeccable-finish-reviewer` pass, and the session applies or declines each fix itself.
+- **Evals:** a new case, `ui-screen-uses-impeccable`.
+
 ## 0.4.2 — 2026-10-20
 
 - **A Vercel preview for the person who merges:** in mobi, a PR branch deploys a preview only when its PR gets the app's deploy label. When the PR changes Mobi, the ship step adds `deploy-mobi` once the PR is ready, puts the preview link from the workflow's comment in the G5 comment, and adds the label again after pushing fixes. Other apps get their own `deploy-<app>` label as they're set up.

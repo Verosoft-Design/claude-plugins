@@ -1,6 +1,6 @@
 {
   "name": "vsd-feature-lifecycle",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Verosoft feature lifecycle for Business Central (AL) and Mobi work: sizes a bug, feature or major change, runs the steps that size needs, keeps specs and decisions in one home, and stops at named gates for the assignee's approval.",
   "author": {
     "name": "Alexis Turgeon"
