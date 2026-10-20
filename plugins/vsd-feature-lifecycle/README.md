@@ -15,7 +15,7 @@ The Verosoft feature lifecycle for Business Central (AL) and Mobi work. Its one 
 3. **It keeps one home for every spec:**
    - BC-only work goes in the BC repo.
    - Mobi-only work, or work touching both, goes in mobi.
-4. **It stops at named gates** for approval: Stéphane Levert or Alexis Turgeon, and for the spec also the issue's assignee or the team's product owner.
+4. **It stops at named gates** for approval, mostly the issue's assignee, and as rarely as it can: it settles what the code answers itself, and asks the rest in one round.
 
 It works the same way for a person in Claude Code or Cursor and for an agent driven from Linear.
 
@@ -26,14 +26,14 @@ It works the same way for a person in Claude Code or Cursor and for an agent dri
 | Major | A spec folder with `decisions.md` and `decision-log.md` | Mockups on a review site with a Q&A bot | Integration branch, one large PR | Test campaigns, UI walkthroughs, real-data run, CI | Entry, plus a guide section with screenshots |
 
 **Gates:**
-- **G1 Size**
-- **G2 Spec**
-- **G3 Design**
+- **G1 Size:** the assignee, only when the work is or becomes major
+- **G2 Spec:** the assignee
+- **G3 Design:** the assignee, with the spec when the mockup is ready
 - **G4 Customer data:** Alexis
-- **G5 Merge:** a person, never an agent
+- **G5 Merge:** the assignee, never an agent
 - **G6 Release:** Alexis
 
-Stéphane (`@stephane.levert`) or Alexis (`@alexisturgeon`) can approve any gate. **G2 Spec** is also approved by the issue's assignee, or, when nobody is assigned, by the team's product owner: Frederick Cleroux (`@frederick.cleroux`) for Verovia, Stéphane for every other team. Nobody approves the spec of their own work. Anyone else's session posts a comment on the Linear issue and waits. On the agent server, people assign (delegate) an issue to the Linear agent or @-mention it to start work, and reply in its thread to continue; an approval there counts by the reply's author.
+The issue's assignee owns the work's decisions, also on their own work. When nobody is assigned, the team lead approves: Frederick Cleroux (`@frederick.cleroux`) for Verovia, Stéphane Levert (`@stephane.levert`) for every other team. The team lead or Alexis (`@alexisturgeon`) can approve any gate; G4 and G6 are Alexis's alone. Anyone else's session posts a comment on the Linear issue and waits. On the agent server, people assign (delegate) an issue to the Linear agent or @-mention it to start work, and reply in its thread to continue; an approval there counts by the reply's author.
 
 `lifecycle-release` (`/vsd-feature-lifecycle:lifecycle-release <tag|mobi> <version>`) gathers the unreleased release-notes entries into a version's notes for Hub.
 

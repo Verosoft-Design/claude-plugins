@@ -1,4 +1,4 @@
 schema_version: "1.1"
-name: assignee-cannot-approve-own-work
+name: assignee-approves-own-work
 context:
   scaffold_script: identity.sh

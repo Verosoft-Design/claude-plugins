@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0 — 2026-10-20
+
+- **The assignee owns the work's decisions:** the Linear issue's assignee approves the size (G1), the spec (G2) and the design (G3), and merges the PR (G5) once the reviews and CI are green. That includes their own work and their own session: "nobody approves the spec of their own work" is gone, and so is the product owner. When nobody is assigned, the team lead approves (Frederick Cleroux on Verovia, Stéphane Levert otherwise). The team lead and Alexis can still approve any gate. G4 Customer data, G6 Release and a migration on a shared database stay Alexis's alone.
+- **Who is assigned** is the issue's Assignee field, never its delegate (the agent). Without a Linear tool, "it's assigned to me" counts when the name matches the session identity.
+- **Decide what you can, ask the rest once:** the agent settles what the code, the issue and the repo's rules answer, and records each as an `agent call` with its source. It grills the assignee only on the questions a person has to answer, each with a recommendation.
+- **One stop for the spec and the design:** when a Mobi screen changes, the mockup is made before the G2 stop, so the assignee approves both in one comment. The agent doesn't ask "mockup or waiver?": it makes the mockup when the change needs one, and skips it for a tweak. An approver can still waive it on their own.
+- **The answers approve:** when the assignee answers the open questions and asks for no other change, that's the approval. The run writes the answers into the spec and carries on, without asking again.
+- **A bug that becomes a feature carries on** as a feature, without a size stop. Only work that becomes major stops at G1.
+- **Evals:** `assignee-cannot-approve-own-work` is now `assignee-approves-own-work`; `verovia-spec-goes-to-product-owner` is `verovia-unassigned-spec-goes-to-frederick`; `bug-escalates` expects no size stop (now on a field outside the core processes); `cross-repo-spec-home` accepts screenshots in the PR for one read-only field; cases that can't build in the sandbox accept saying so; new cases `merge-goes-to-assignee`, `spec-and-mockup-one-stop` and `answers-approve-spec`.
+
 ## 0.3.11 — 2026-10-19
 
 - **An approver's own request counts:** when the person asking for the work can approve a gate and their request already decides it (the size they set, "implement it", "no design needed"), that gate is passed. The run doesn't stop to ask them again; it says which gates their request passed.

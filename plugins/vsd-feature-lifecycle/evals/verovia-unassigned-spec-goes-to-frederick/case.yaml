@@ -1,4 +1,4 @@
 schema_version: "1.1"
-name: verovia-spec-goes-to-product-owner
+name: verovia-unassigned-spec-goes-to-frederick
 context:
   scaffold_script: identity.sh
