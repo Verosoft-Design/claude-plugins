@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2 — 2026-10-21
+
+- `bc-server-setup` checks the OS and Docker first. On Windows with Docker running Windows containers, it recommends the local container. On Windows without Docker, or with Docker in Linux-container mode, it says so and offers to switch or install Docker Desktop. On macOS and Linux, it recommends a sandbox, an existing server or a container from the team's BC Docker Manager in Azure, now named under **existing**. The person still picks, and nothing is installed or started without their yes.
+
 ## 1.1.1 — 2026-10-15
 
 - Author name corrected to Alexis Turgeon (`plugin.json`, `LICENSE`).

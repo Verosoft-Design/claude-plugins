@@ -18,7 +18,7 @@ Optional: Microsoft's own AL review plugin, the engine behind BCApps PR reviews 
 
 Prerequisites: `python3` (hooks), `altool` or `al` on PATH for the AL MCP (`/al-setup` walks through it), `gh` for AL-Go skills. For running tests: a BC server (`/bc-server-setup`). For UI replay: Node.js.
 
-First time in a repo: run `/al-init` to write its `CLAUDE.md`, then `/bc-server-setup`.
+First time in a repo: run `/al-init` to write its `CLAUDE.md`, then `/bc-server-setup`. It checks for Windows and Docker, and proposes a local container first when it can run one.
 
 ## How it makes Claude better at AL
 

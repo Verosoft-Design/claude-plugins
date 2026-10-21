@@ -1,6 +1,6 @@
 ---
 name: bc-server-setup
-description: Set up a Business Central server this project can publish to, run tests on and drive through the web client, and record it in .claude/bc-server.json. Choices are a local Docker container via BcContainerHelper (Windows), an online sandbox, or an existing on-prem/dev server.
+description: Set up a Business Central server this project can publish to, run tests on and drive through the web client, and record it in .claude/bc-server.json. Choices are a local Docker container via BcContainerHelper (Windows), an online sandbox, or an existing on-prem/dev server, including the team's BC Docker Manager in Azure. It checks for Windows and Docker first and proposes the local container when it can run one.
 disable-model-invocation: true
 argument-hint: "[container|sandbox|existing]"
 ---
@@ -13,11 +13,23 @@ Never write passwords, client secrets or tokens into any file. Record only the *
 
 ## 1. Pick the kind of server
 
-Ask which one fits, unless `$ARGUMENTS` already says:
+First check what this machine can run. These checks only read, so run them without asking:
+
+- **OS:** in PowerShell, `$env:OS` prints `Windows_NT` on Windows. In Git Bash or another POSIX shell, `uname -s` prints a name starting with `MINGW` or `MSYS` on Windows, `Darwin` on macOS and `Linux` on Linux.
+- **Docker:** `docker version --format '{{.Server.Os}}'` prints `windows` when Docker runs Windows containers and `linux` in Linux-container mode. An error means Docker isn't running; "not found" means it isn't installed.
+
+Then recommend from what you found:
+
+- **Windows, Docker on Windows containers:** recommend **container** first. It's the fastest publish and test loop, has the full test toolkit and can be reset. Still offer the others.
+- **Windows, no Docker or Linux-container mode:** say so plainly. Offer to switch Docker Desktop to Windows containers (tray menu, "Switch to Windows containers"), or to install Docker Desktop (Windows containers need Windows Pro or Enterprise). Then offer **sandbox** and **existing**.
+- **macOS or Linux:** Business Central can't run here, because it needs Windows containers. Recommend **sandbox**, **existing**, or a container from the team's **BC Docker Manager** in Azure (under **existing**).
+
+Ask which one fits, unless `$ARGUMENTS` already says. The checks only order the choices; the person picks. Don't install, switch or start anything without their explicit yes.
 
 - **container**: local Docker container built with BcContainerHelper. Best loop (fast publish, full test toolkit, can reset). Needs Windows with Docker running Windows containers. Business Central does not run in Linux containers.
 - **sandbox**: a Business Central online sandbox in your tenant (admin center, or `/al-create-online-dev-env` for AL-Go repos). Works from any OS for publishing (AL MCP `al_publish`) and UI testing. `al runtests` runs test codeunits against it from any OS on BC 2026 release wave 2 and later; older versions need BcContainerHelper on Windows.
 - **existing**: a server the team already has (on-prem, a shared dev VM, a remote container). Ask for its web client URL and auth type.
+  - **BC Docker Manager (Azure):** the team's web app that creates BC containers on Azure Container Instances. Sign in with a Microsoft account; no Azure CLI needed. Reach a container it created like any remote container: its web client URL and auth type.
 
 If Claude Code runs on Linux/macOS and the user wants the container route, the usual setup is a Windows dev box running the container, with Claude reaching it over SSH (`ssh <host> pwsh -Command ...`) for BcContainerHelper and over HTTP for the web client and APIs.
 

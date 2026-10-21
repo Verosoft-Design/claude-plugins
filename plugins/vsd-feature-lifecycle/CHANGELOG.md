@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.4 — 2026-10-21
+
+- **A local BC container on Windows:** when there's no BC server yet and the session is on Windows with Docker, the prove step proposes a local container (business-central-al `/bc-server-setup container`) before the "needs a BC test run" hand-off. It's set up only with the person's yes. The environment step says the same.
+
 ## 0.4.3 — 2026-10-20
 
 - **impeccable for screens:** a companion skill for the mobi apps' UI. The design step uses it for the quick mockup when no design tool is reachable, and the build step builds new or changed screens with it, from the approved mockup and the app's `PRODUCT.md` and `DESIGN.md`. Install line: `npx impeccable install -y --providers=claude,codex --global --no-hooks`.
