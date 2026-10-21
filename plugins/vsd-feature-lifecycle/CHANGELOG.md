@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.5 — 2026-10-21
+
+- **G4 and G6 go to Stéphane outside Verovia:** Stéphane Levert is the named approver for G4 Customer data and G6 Release on every team but Verovia, and Alexis on Verovia. Alexis can approve them on any team. Frederick and the assignee don't approve G4 or G6. A migration on the shared AI database still needs Alexis. `lifecycle-release` asks Stéphane for G6 (Alexis on Verovia).
+- **Evals:** `g4-stephane-approves-tag` and `g4-resume-stephane-approved` (formerly `g4-needs-alexis` and `g4-resume-needs-alexis`) now expect Stéphane's approval to pass G4 on TAG work. New: `g4-verovia-needs-alexis` and `g4-assignee-cannot-approve`.
+
 ## 0.4.4 — 2026-10-21
 
 - **A local BC container on Windows:** when there's no BC server yet and the session is on Windows with Docker, the prove step proposes a local container (business-central-al `/bc-server-setup container`) before the "needs a BC test run" hand-off. It's set up only with the person's yes. The environment step says the same.

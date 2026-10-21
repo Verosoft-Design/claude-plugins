@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: g4-stephane-approves-tag
+context:
+  scaffold_script: identity.sh

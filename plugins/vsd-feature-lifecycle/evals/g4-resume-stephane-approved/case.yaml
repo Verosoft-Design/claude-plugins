@@ -1,4 +1,4 @@
 schema_version: "1.1"
-name: g4-resume-needs-alexis
+name: g4-resume-stephane-approved
 context:
   scaffold_script: identity.sh

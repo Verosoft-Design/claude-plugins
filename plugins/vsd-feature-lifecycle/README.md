@@ -29,11 +29,11 @@ It works the same way for a person in Claude Code or Cursor and for an agent dri
 - **G1 Size:** the assignee, only when the work is or becomes major
 - **G2 Spec:** the assignee
 - **G3 Design:** the assignee, with the spec when the mockup is ready
-- **G4 Customer data:** Alexis
+- **G4 Customer data:** Stéphane (Alexis on Verovia)
 - **G5 Merge:** the assignee, never an agent
-- **G6 Release:** Alexis
+- **G6 Release:** Stéphane (Alexis on Verovia)
 
-The issue's assignee owns the work's decisions, also on their own work. When nobody is assigned, the team lead approves: Frederick Cleroux (`@frederick.cleroux`) for Verovia, Stéphane Levert (`@stephane.levert`) for every other team. The team lead or Alexis (`@alexisturgeon`) can approve any gate; G4 and G6 are Alexis's alone. Anyone else's session posts a comment on the Linear issue and waits. On the agent server, people assign (delegate) an issue to the Linear agent or @-mention it to start work, and reply in its thread to continue; an approval there counts by the reply's author.
+The issue's assignee owns the work's decisions, also on their own work. When nobody is assigned, the team lead approves: Frederick Cleroux (`@frederick.cleroux`) for Verovia, Stéphane Levert (`@stephane.levert`) for every other team. The team lead or Alexis (`@alexisturgeon`) can approve any gate, but G4 and G6 go to Stéphane on every team but Verovia, and to Alexis on Verovia; Alexis can approve them anywhere. Anyone else's session posts a comment on the Linear issue and waits. On the agent server, people assign (delegate) an issue to the Linear agent or @-mention it to start work, and reply in its thread to continue; an approval there counts by the reply's author.
 
 `lifecycle-release` (`/vsd-feature-lifecycle:lifecycle-release <tag|mobi> <version>`) gathers the unreleased release-notes entries into a version's notes for Hub.
 
