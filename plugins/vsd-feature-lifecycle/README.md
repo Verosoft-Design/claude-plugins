@@ -74,7 +74,10 @@ Each step calls these skills when they're installed, and carries on with plain i
 claude plugin install superpowers@claude-plugins-official        # brainstorming, writing-plans, TDD, debugging, verification
 claude plugin install mattpocock-skills@claude-plugins-official  # grilling, for major changes
 claude plugin install business-central-al@verosoft-design --scope local   # in AL repos
+claude plugin marketplace add pbakaus/impeccable && claude plugin install impeccable@impeccable   # screens in the mobi apps: mockups, UI, finish review
 ```
+
+For Codex, install impeccable with `npx impeccable install -y --providers=codex` instead.
 
 ### Codex
 

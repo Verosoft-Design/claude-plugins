@@ -20,19 +20,25 @@ Inside a session the same works as `/plugin marketplace add Verosoft-Design/clau
 
 ### Recommended companions
 
-The BC plugin is designed to work with two community process-skill plugins. Install them from Anthropic's official marketplace, as their authors recommend:
+The plugins are designed to work with these community skills. Install them the way their authors recommend:
 
 ```sh
 claude plugin install superpowers@claude-plugins-official        # obra/superpowers: brainstorming, plans, TDD, systematic debugging, verification
 claude plugin install mattpocock-skills@claude-plugins-official  # mattpocock/skills: grilling, spec and ticket flows, diagnosing bugs, TDD, code review
+
+# pbakaus/impeccable: UI design for the mobi apps' screens (mockups, building, the finish review)
+claude plugin marketplace add pbakaus/impeccable
+claude plugin install impeccable@impeccable
 ```
+
+For Codex, install impeccable with its own installer instead: `npx impeccable install -y --providers=codex`. Use one route per tool, so the skill isn't loaded twice.
 
 ## Plugins
 
 | Plugin | Source | What it is |
 | --- | --- | --- |
 | [`business-central-al`](plugins/business-central-al) | this repo | AL MCP + AL language server, AL-Go lifecycle, BCQuality review (19 domains), BC-Bench ALTest test generation, tests on a real BC (`al runtests`), web-client UI checks, snapshot debugging, profiling, call graph |
-| [`vsd-feature-lifecycle`](plugins/vsd-feature-lifecycle) | this repo | Sizes dev work (bug, feature, major), runs its steps, keeps one home for specs and decisions, release-notes entries, and gates for Stéphane's or Alexis's approval |
+| [`vsd-feature-lifecycle`](plugins/vsd-feature-lifecycle) | this repo | Sizes dev work (bug, feature, major), runs its steps, keeps one home for specs and decisions, release-notes entries, and gates for the issue assignee's approval |
 
 Optional, from Microsoft: `claude plugin marketplace add microsoft/BC-ALAgents && claude plugin install al-review@bc-alagents` (Microsoft's BCApps PR reviewer; needs pwsh and a signed-in GitHub Copilot CLI).
 
