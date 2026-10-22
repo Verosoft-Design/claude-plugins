@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.6 — 2026-10-21
+
+- **UI test rounds with tester subagents:** when a feature adds or changes several screens or flows (mobi apps or BC pages), and for major work, the prove step runs UI test rounds instead of a lone walkthrough. The flows are split into lanes by area, role or scenario, each with its own test data. In a mobi app the testers share one dev server. Testers only use the running app (agent-browser or Playwright, `al-ui-test` on BC) and report numbered findings with screenshots; they never read or review the code. The session triages each finding (fix, defer in the PR, or reject) and fixes it. There are at most two rounds: the same lanes re-test only what was fixed. Bugs and one-screen changes are still walked by the session itself. This is how the PM refactor's BC work found most of its problems.
+- **Evals:** new `ui-test-rounds-multi-screen`; `ui-feature-walkthrough` now fails a plan that starts tester lanes for a one-screen change.
+
 ## 0.4.5 — 2026-10-21
 
 - **G4 and G6 go to Stéphane outside Verovia:** Stéphane Levert is the named approver for G4 Customer data and G6 Release on every team but Verovia, and Alexis on Verovia. Alexis can approve them on any team. Frederick and the assignee don't approve G4 or G6. A migration on the shared AI database still needs Alexis. `lifecycle-release` asks Stéphane for G6 (Alexis on Verovia).
