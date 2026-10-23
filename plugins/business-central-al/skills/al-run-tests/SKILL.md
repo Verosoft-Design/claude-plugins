@@ -6,7 +6,20 @@ argument-hint: "[test codeunit id] [test method,...]"
 
 # Run AL tests on a Business Central server
 
-Read `.claude/bc-server.json`. If it does not exist, say tests cannot be run from this session yet, offer `/bc-server-setup`, and (for AL-Go repos) offer the CI fallback below. Never report tests as passing without a run.
+**On the Verosoft agent server (orca-agents-1), use `al-test` instead of the steps below.** From the repo root (the folder with `app.json`):
+
+```sh
+al-test --range 73332625              # your codeunit: red before the fix, green after
+al-test --range '73332620..73332629'  # a range, or 73332625|73332630
+al-test                               # every test codeunit of the app
+```
+
+- It builds the branch with the `TESTS` symbol and the Library Assert dependency added to a temporary copy, publishes it to a free tenant (a1..a3) of the agents' BC server, `bc-agents-0` on AKS, and runs the codeunits there.
+- It prints PASS/FAIL per method with each failure's error and AL call stack, then totals. JSON and JUnit results go to `~/.cache/al-test/results/`.
+- Exit codes: 0 all passed, 1 a test failed, 2 no tests matched, 3 runner or server error, 4 build or publish failed, 5 no tenant came free.
+- `main` has failing tests of its own: compare a full run with its baseline in the server's shared memory before calling a failure yours.
+
+Elsewhere, read `.claude/bc-server.json`. If it does not exist, say tests cannot be run from this session yet, offer `/bc-server-setup`, and (for AL-Go repos) offer the CI fallback below. Never report tests as passing without a run.
 
 ## 1. Build and publish both apps
 

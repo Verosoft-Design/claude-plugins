@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.7 — 2026-10-23
+
+- **The proof is on the Linear issue, not only in the PR:** the G5 comment (and any hand-off) shows the test result and, when the run has screenshots, the before/after images uploaded to Linear, top-level on the issue. Issue attachments and the PR description alone don't count. Asked for by Stéphane after TAG-2276.
+- **Never in Linear's agent-session thread:** a delegation opens a thread ("This thread is for an agent session with …") that Linear keeps out of the issue's comments. TAG-2276's G5 comment and its screenshots were posted there and nobody saw them. Lifecycle comments go top-level, or in the thread of the comment that called the agent; the agent server shows them in the session too.
+- **AL tests on the agent server:** `al-test --range <codeunits>` builds the branch with `TESTS`, publishes it to a free tenant of the agents' BC server (`bc-agents-0` on AKS) and runs the codeunits; `al-compile [--tests]` only builds. The prove step uses it after CI and before any other BC server, and the "needs a BC test run" hand-off is only for when neither works. The environment step has nothing to set up there.
+- **Evals:** new `g5-proof-top-level`; `ui-bug-repro` now fails a plan that keeps the screenshots only in the PR.
+
 ## 0.4.6 — 2026-10-21
 
 - **UI test rounds with tester subagents:** when a feature adds or changes several screens or flows (mobi apps or BC pages), and for major work, the prove step runs UI test rounds instead of a lone walkthrough. The flows are split into lanes by area, role or scenario, each with its own test data. In a mobi app the testers share one dev server. Testers only use the running app (agent-browser or Playwright, `al-ui-test` on BC) and report numbered findings with screenshots; they never read or review the code. The session triages each finding (fix, defer in the PR, or reject) and fixes it. There are at most two rounds: the same lanes re-test only what was fixed. Bugs and one-screen changes are still walked by the session itself. This is how the PM refactor's BC work found most of its problems.
