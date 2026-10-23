@@ -11,6 +11,8 @@ Without a running Business Central, Claude can compile AL but cannot see what it
 
 Never write passwords, client secrets or tokens into any file. Record only the **names of environment variables** that hold them.
 
+**On the Verosoft agent server (orca-agents-1), set nothing up.** Its agents already have a BC server: `al-test` publishes to a free tenant of `bc-agents-0` on AKS and runs the tests there, and `al-compile` builds (see `/al-run-tests`). Don't write `.claude/bc-server.json` there, and don't touch the other BC pods on AKS: they hold people's work and review sites.
+
 ## 1. Pick the kind of server
 
 First check what this machine can run. These checks only read, so run them without asking:

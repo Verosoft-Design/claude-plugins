@@ -8,6 +8,8 @@ disable-model-invocation: true
 
 Call the AL MCP tool `al_compile`. Unlike `al_build`, this does NOT produce a `.app` file — it is purely a validation pass and runs faster.
 
+**On the Verosoft agent server (orca-agents-1)** there's no AL MCP. Run `al-compile` from the repo root instead: Microsoft's Linux AL compiler with the symbols of the BC version `app.json` targets. It prints each error as `file(line,col)`, then a summary, and exits 1 on errors. `al-compile --tests` also builds everything under `#if TESTS`, from a temporary copy with the `TESTS` symbol and the Library Assert dependency, so `app.json` never changes.
+
 ## Decide whether to enable analyzers
 
 - **Errors only, no analyzers** (fastest, default): omit `enableCodeAnalysis`.

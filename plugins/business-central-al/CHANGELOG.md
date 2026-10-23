@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.3 — 2026-10-23
+
+- **The Verosoft agent server builds and tests AL:** on orca-agents-1, `al-run-tests` uses `al-test` (build with `TESTS`, publish to a free tenant of the agents' BC server on AKS, run the codeunits) and `al-compile` uses the server's `al-compile` command, since there's no AL MCP there. `bc-server-setup` sets nothing up on that server and leaves the other BC pods alone.
+
 ## 1.1.2 — 2026-10-21
 
 - `bc-server-setup` checks the OS and Docker first. On Windows with Docker running Windows containers, it recommends the local container. On Windows without Docker, or with Docker in Linux-container mode, it says so and offers to switch or install Docker Desktop. On macOS and Linux, it recommends a sandbox, an existing server or a container from the team's BC Docker Manager in Azure, now named under **existing**. The person still picks, and nothing is installed or started without their yes.

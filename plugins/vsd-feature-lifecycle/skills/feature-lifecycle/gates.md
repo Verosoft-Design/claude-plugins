@@ -63,6 +63,10 @@ The status line is what a fresh run resumes from: it may not have the branch wit
 
 **Reply where you were called.** When the agent server says a comment called you, post every comment, lifecycle comments included, as a reply in that comment's thread (save_comment with its `parentId`), not as a new top-level comment.
 
+**Never in the agent-session thread.** A delegation opens a thread on the issue whose first comment reads "This thread is for an agent session with …". Linear keeps that thread out of the issue's comments, so a lifecycle comment posted there, screenshots included, is invisible on the issue (TAG-2276's G5 comment and its before/after screenshots went unseen this way). Post lifecycle comments top-level, or in the thread of the comment that called you as above, even when people answered you in the session thread. The agent server shows your lifecycle comment in the session as well.
+
+**Show the proof.** The lifecycle comment that hands the work over (G5, or a hand-off) carries the evidence next to its links: the test result in the Ready line and, when the run has screenshots, the images themselves (**Before** / **After** for a bug, one per key screen for a feature), uploaded to Linear as `steps/prove.md` says. Issue attachments and the PR description alone don't count: people read the issue's comments.
+
 **Keep it short.** One line each for Ready and Needed, with links instead of explanations, then the open questions if any (numbered, each with your recommendation), the mention and the status line. Don't quote the skill or explain the process: the approver needs the decision, not the rules.
 
 **Ask once.** The G2 comment carries everything the assignee has to decide, so the run stops as rarely as possible: the spec, its open questions, the mockup when a screen changes (step 4), and every later approval you can foresee:
@@ -81,7 +85,7 @@ On Linear, the agent server reads the lifecycle comment: it moves the issue to *
 Hand-offs wait the same way, but they aren't approvals. The work needs something only a person can supply:
 
 - **Needs a mockup:** no design tool is reachable (Open Design or Claude Design), and you can't render your own mockup either (see step 4).
-- **Needs a BC test run:** there's no CI that runs AL tests and no reachable BC server.
+- **Needs a BC test run:** no CI runs the AL tests, `al-test` isn't available (you're not on the agent server, or it exits 3), and no BC server is reachable. See "How AL tests run" in `steps/prove.md`.
 - **Needs UI test access:** the app's development login isn't configured on this machine. A person runs `bun run dev:auth:setup` once, as `docs/agents/development-access.md` in mobi describes.
 - **Needs a decision:** the run stops for any other reason (there's nothing to build, it's blocked, it's a duplicate…), and a person decides what happens next. Use this header rather than a new one.
 
