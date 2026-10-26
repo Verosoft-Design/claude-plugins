@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0 — 2026-10-26
+
+- **AL Builder Studio mode:** explicitly selected with `VSD_LIFECYCLE_MODE=studio` or the prompt line `Lifecycle mode: studio`. The requester approves spec and scope together through `bc_request_spec_approval`; the agent decides the size. Bugs and Features build from the accepted base after `bc_claim_build`. Major work stops with the choice to split into Features or hand off as a services job.
+- **Build and delivery:** online-sandbox TDD through the `bc_*` broker, one BCQuality review, ID/TAG checks, a passing full suite for the candidate tree, and compilation against every production target's Microsoft symbols. Release notes include a sandbox click-through list. `bc_record_build` hands delivery to the platform, without Linear, named approvers or PRs. Queued builds and expired sign-ins stop cleanly.
+- **Evals:** `studio-one-gate`, `studio-major-stops` and `studio-no-linear` rehearse approval, Major refusal and test-first version delivery without live BC calls. The standard lifecycle remains the default.
+
 ## 0.4.7 — 2026-10-23
 
 - **The proof is on the Linear issue, not only in the PR:** the G5 comment (and any hand-off) shows the test result and, when the run has screenshots, the before/after images uploaded to Linear, top-level on the issue. Issue attachments and the PR description alone don't count. Asked for by Stéphane after TAG-2276.

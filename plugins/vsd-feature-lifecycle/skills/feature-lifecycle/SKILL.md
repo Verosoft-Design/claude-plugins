@@ -9,6 +9,12 @@ Every piece of Verosoft dev work (Business Central/AL in tag-bc or other AL repo
 
 **Paths:** every path in this skill's files (`steps/…`, `templates/…`, `scripts/…`, `gates.md`, `../lifecycle-release/…`) is relative to this skill's folder, the base directory shown when the skill loads. Commands written with `<skill folder>` run from the repo root, with that folder's full path filled in.
 
+## 0. Studio mode
+
+Studio mode is on only when the environment has `VSD_LIFECYCLE_MODE=studio`, or the prompt contains the line `Lifecycle mode: studio`. Never infer it from a project name, a sandbox or the kind of request.
+
+**If Studio mode is on, read [studio-mode.md](studio-mode.md) now; it overrides sections 1–5.** Follow that file for the whole dispatch, including a resumed run, and skip the standard workflow below. Otherwise continue with section 1.
+
 ## 1. Who's here and what's installed
 
 - **Is the person an approver?** The Linear issue's assignee owns the work's decisions: they approve the size, the spec and the design and merge the PR (G1, G2, G3, G5), also on their own work and in their own session. When nobody is assigned, the team lead does. The team lead (Frederick Cleroux on Verovia, Stéphane Levert on every other team) and Alexis Turgeon can also approve any gate, but G4 and G6 go to Stéphane Levert on every team but Verovia, and to Alexis on Verovia; Alexis can approve them on any team (`gates.md`).
