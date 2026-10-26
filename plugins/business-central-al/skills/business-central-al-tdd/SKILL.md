@@ -5,6 +5,26 @@ description: Guides Microsoft Dynamics 365 Business Central AL development with 
 
 # Business Central AL TDD
 
+## Online sandbox (AL Builder)
+
+When `AL_BUILDER=1`, these rules override the general test guidance and the
+vendored ALTest prompt wherever they conflict:
+
+- Only **Test Runner**, **Library Assert**, **Any** and **Library Variable Storage**
+  are available. There is no Library - Sales, Library Sales, Library Inventory,
+  Permissions Mock or other domain library. Build fixtures in the project's
+  existing test app, using its reserved IDs in `al-builder.json`.
+- Keep business logic in codeunits and tables so it can run headlessly. Do not
+  write `TestPage`, `TestRequestPage`, `ModalPageHandler`, `PageHandler` or
+  `RequestPageHandler` tests: they fail with `NavSession.CreateNavTestService`.
+- `ConfirmHandler`, `MessageHandler`, `StrMenuHandler`, `asserterror` and
+  `Assert.ExpectedError` work. Handlers capture values; test bodies assert them.
+- List page wiring (placement, visibility and actions) as a sandbox click-through
+  for the requester in the release notes.
+- The platform provides the test app and generated runner. Keep the runner
+  unchanged; use `/al-run-tests`' AL Builder branch for red and green in the
+  dedicated **AL Builder Tests** company.
+
 ## Official References
 
 For official Microsoft Learn references and deeper Business Central AL guidance, read [reference.md](reference.md). For the full BCApps-aligned testing rules (Library Assert, EventSubscriberInstance, TransactionModel, Given/When/Then), see the `${CLAUDE_PLUGIN_ROOT}/reference/al-testing.md`.
@@ -28,7 +48,7 @@ For official Microsoft Learn references and deeper Business Central AL guidance,
    - `HandlerFunctions('Name1,Name2')` and matching handler procedures for UI interaction
    - `asserterror` + `Assert.ExpectedError(text)` / `Assert.ExpectedErrorCode(code)` for negative tests
    - Given / When / Then narrative comments inside each test
-5. Run tests with `/al-run-tests` when a BC server is configured (`.claude/bc-server.json`); see the `al-feedback-loops` skill for what counts as red and green in BC. Be explicit when tests cannot be executed in the current session.
+5. Run tests with `/al-run-tests` through the broker when `AL_BUILDER=1`, or when a BC server is configured (`.claude/bc-server.json`) elsewhere; see the `al-feedback-loops` skill for what counts as red and green in BC. Be explicit when tests cannot be executed in the current session.
 
 ## Workflow
 

@@ -1,10 +1,37 @@
 ---
 name: al-run-tests
-description: Publish the app and its test app to the configured Business Central server and run AL test codeunits with `al runtests`, returning pass/fail per test method as structured JSON. Use for the red and green steps of TDD, to reproduce a bug with a failing test, and as verification evidence before claiming AL work is done. Falls back to BcContainerHelper for older servers and to AL-Go CI when no server is reachable.
+description: In AL Builder, compile locally and publish/run tests through the bc_* broker tools. Otherwise publish to the configured Business Central server and run AL test codeunits with `al runtests`, returning pass/fail per test method as structured JSON. Use for the red and green steps of TDD, to reproduce a bug with a failing test, and as verification evidence before claiming AL work is done. Falls back to BcContainerHelper for older servers and to AL-Go CI when no server is reachable.
 argument-hint: "[test codeunit id] [test method,...]"
 ---
 
 # Run AL tests on a Business Central server
+
+## When `AL_BUILDER=1`
+
+Use this branch and stop here; the local-server instructions below apply only
+outside AL Builder.
+
+1. Build both apps with the local AL MCP `al_compile` (or `alc`) to exactly
+   `.output/app.app` and `.output/test.app`. Fix compiler and analyzer findings.
+2. Publish through `bc_publish({ which: 'both' })`. The broker checks the bound
+   sandbox and uses `SchemaUpdateMode=synchronize`.
+3. Start the red or green run with `bc_run_tests_start({ codeunitFilter: '<id>' })`.
+   For the full suite, omit `codeunitFilter`. Keep the returned `testRunId`.
+4. Poll `bc_run_tests_status({ testRunId })` every **15 s** until `status` is `done`
+   or `error`. When start returns `{ busy: true, retryAfterSeconds }`, wait that
+   long before starting again. Tests run only in **AL Builder Tests**.
+5. Report `passed`, `failed` and each failure's `codeunit`, `method`, `error` and
+   `callStack`. A completed failing assertion proves red; a compile error or an
+   unhandled UI failure does not. A running or errored run does not prove green.
+
+On `{ needsSignIn: true }` from any broker tool, tell the requester to sign in
+again and stop; do not retry. Report other broker errors without bypassing them.
+The VM holds no BC token: never sign in through the AL MCP, call `al runtests`,
+`al-test`, BcContainerHelper or AL-Go, or publish directly. Never target production
+or use `forcesync`. See the Online sandbox rules in `al-write-test` for fixtures
+and supported handlers.
+
+## Outside AL Builder
 
 **On the Verosoft agent server (orca-agents-1), use `al-test` instead of the steps below.** From the repo root (the folder with `app.json`):
 

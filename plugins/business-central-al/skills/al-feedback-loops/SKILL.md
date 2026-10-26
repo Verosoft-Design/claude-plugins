@@ -5,6 +5,36 @@ description: How to build, test, reproduce, inspect data and check the UI in Bus
 
 # AL feedback loops
 
+## When `AL_BUILDER=1`
+
+Use this branch instead of the server loops below:
+
+- **Symbols:** use `al_downloadsymbols` with `globalSourcesOnly: true` for
+  Microsoft and AppSource, then `bc_download_symbols({})` for the customer's other
+  apps. Use local `al_symbolsearch` against the downloaded packages.
+- **Compile:** use the local AL MCP `al_compile` (or `alc`) for the app and test
+  app, writing `.output/app.app` and `.output/test.app`. Run CodeCop, PTECop and
+  UICop and resolve new warnings. Use `al_getdiagnostics` for the findings.
+- **Publish:** call `bc_publish({ which: 'both' })`; the broker checks the sandbox
+  and publishes with `SchemaUpdateMode=synchronize`.
+- **TDD red/green:** call `bc_run_tests_start({ codeunitFilter: '<id>' })`, then
+  poll `bc_run_tests_status({ testRunId })` every **15 s**. Omit the filter for the
+  full suite before delivery. For busy, terminal error and sign-in handling,
+  follow `/al-run-tests`' AL Builder branch.
+- **Build checks:** run
+  `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/al-builder-check.py --project <dir> --json`
+  for reserved object/field/enum IDs and TAG's partner procedure allowlist.
+- **Evidence:** quote completed test totals and failures with their call stacks.
+  Use self-contained fixtures in **AL Builder Tests**. Keep logic in codeunits;
+  list page wiring as a sandbox click-through for the requester.
+
+Never use `al runtests`, `al-test`, BcContainerHelper or AL-Go in this branch.
+The AL MCP stays local: do not use cloud sign-in, environment queries or publish
+there, and do not call BC directly. On `{ needsSignIn: true }`, tell the requester
+to sign in again and stop. Never publish to production or use `forcesync`.
+
+## Outside AL Builder
+
 Generic process skills (superpowers, mattpocock-skills) tell you *when* to run a build, a failing test or a repro. This skill tells you *how* in Business Central. Pick the fastest loop that can actually go red on the thing you care about.
 
 ## The loops, fastest first

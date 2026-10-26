@@ -1,0 +1,11 @@
+{
+  "App": {"Name": "The Asset Guardian (TAG)", "Publisher": "Verosoft Design"},
+  "Codeunits": [
+    {"Id": 70015000, "Name": "TAG Work Order Mgt.", "Methods": [
+      {"Name": "Release", "Properties": [{"Name": "Access", "Value": "Public"}]}
+    ]},
+    {"Id": 70015001, "Name": "TAG Other Mgt.", "Methods": [{"Name": "Release"}]}
+  ],
+  "Tables": [{"Id": 70015002, "Name": "TAG Work Order"}],
+  "Pages": [{"Id": 23085634, "Name": "TAG API Work Orders"}]
+}

@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.2.0 — 2026-10-26
+
+- AL Builder check CLI (`scripts/al-builder-check.py --project <dir> [--json]`):
+  checks app/test object IDs, table fields and enum values against the reserved
+  blocks in `al-builder.json`. Resolves TAG codeunit calls against downloaded
+  symbols and the package's `Resources/partner-allowlist.json`; absent allowlists
+  grant no procedure calls. Emits the C7 JSON report and exits 1 on violations.
+- Online-sandbox rules for test writing and TDD: bring fixtures in the test app,
+  use the four available Microsoft test apps, and keep page wiring in a requester
+  click-through because client-service page tests cannot run headlessly.
+- With `AL_BUILDER=1`, test and feedback skills compile locally and use the BC
+  broker for publish and start/poll test runs. The SessionStart hook shows Studio
+  project identity and reserved test IDs instead of local-server setup advice.
+
 ## 1.1.3 — 2026-10-23
 
 - **The Verosoft agent server builds and tests AL:** on orca-agents-1, `al-run-tests` uses `al-test` (build with `TESTS`, publish to a free tenant of the agents' BC server on AKS, run the codeunits) and `al-compile` uses the server's `al-compile` command, since there's no AL MCP there. `bc-server-setup` sets nothing up on that server and leaves the other BC pods alone.

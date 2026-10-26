@@ -90,6 +90,21 @@ def main() -> None:
     except Exception:
         pass
     root = Path(os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()).resolve()
+    if os.environ.get("AL_BUILDER") == "1":
+        project = read_json(root / "al-builder.json")
+        blocks = project.get("idBlocks", {})
+        print("\n".join([
+            "AL Builder Studio project (business-central-al plugin).",
+            f"Plugin root: {PLUGIN_ROOT}",
+            f"Project: {project.get('name', '(not configured)')}; affix: {project.get('affix', '?')}",
+            f"Reserved app block: {blocks.get('app', '?')}; test block: {blocks.get('test', '?')}",
+            "BC online sandbox only; tests run through bc_run_tests_start and bc_run_tests_status, in AL Builder Tests.",
+            "Compile locally to .output/app.app and .output/test.app; publish through bc_publish (synchronize).",
+            "Use al-write-test and business-central-al-tdd's Online sandbox rules; page wiring needs a requester click-through.",
+            "Use al-feedback-loops for symbols and broker tests. On needsSignIn, ask the requester to sign in again and stop.",
+            "Keep IDs in al-builder.json's blocks; check TAG procedure calls with scripts/al-builder-check.py.",
+        ]))
+        return
     apps = find_apps(root)
     algo_path = next((p for p in (root / ".AL-Go" / "settings.json", root / ".github" / "AL-Go-Settings.json") if p.is_file()), None)
     if not apps and not algo_path:
