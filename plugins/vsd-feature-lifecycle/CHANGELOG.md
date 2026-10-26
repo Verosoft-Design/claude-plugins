@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1
+
+- Studio mode passes the red test run to `bc_record_build` as `redTestRunId` (VERO-525).
+
 ## 0.5.0 — 2026-10-26
 
 - **AL Builder Studio mode:** explicitly selected with `VSD_LIFECYCLE_MODE=studio` or the prompt line `Lifecycle mode: studio`. The requester approves spec and scope together through `bc_request_spec_approval`; the agent decides the size. Bugs and Features build from the accepted base after `bc_claim_build`. Major work stops with the choice to split into Features or hand off as a services job.

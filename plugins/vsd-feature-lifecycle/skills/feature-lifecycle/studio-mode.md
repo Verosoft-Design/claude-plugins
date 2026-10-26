@@ -45,7 +45,7 @@ An implementation request alone does not bypass this Studio gate. If work grows 
    bc_run_tests_status({ testRunId: '<returned ID>' })
    ```
 
-   On `{ busy: true, retryAfterSeconds }`, wait that interval before starting again. Poll status every 15 seconds until `done` or `error`. Record the expected failing assertion, codeunit, method, error and call stack. A compilation error, missing handler, running test or infrastructure error is not red evidence.
+   On `{ busy: true, retryAfterSeconds }`, wait that interval before starting again. Poll status every 15 seconds until `done` or `error`. Record the expected failing assertion, codeunit, method, error and call stack, and keep this red run's `testRunId`: the requester sees it as the "Before the change" report. A compilation error, missing handler, running test or infrastructure error is not red evidence.
 6. Make the smallest fix, compile clean, publish both apps again, and repeat start/status until the regression passes. Retain actual red-then-green results; never claim execution from a prediction.
 
 ## 3. Prove the candidate
@@ -75,10 +75,10 @@ Write `docs/release-notes/<version>.md` with the behavior change, completed test
 Call:
 
 ```text
-bc_record_build({ dispatchId, version, testRunId, reviewReportPath, releaseNotesPath })
+bc_record_build({ dispatchId, version, testRunId, redTestRunId, reviewReportPath, releaseNotesPath })
 ```
 
-Use the completed full run's ID and the saved paths. `{ rejected: reason }` blocks delivery: address the reason and repeat the affected checks; do not claim a version was recorded. On `{ recorded: true, versionId }`, report the recorded version and evidence, then let the platform's submission flow merge and deliver it. Do not open a PR, merge it yourself, or accept the version for the requester. The requester tries it in the sandbox, then accepts it or asks for changes through the platform.
+Use the completed full run's ID, the red run's ID as `redTestRunId` (a finished run of this dispatch with at least one failure; `{ rejected: 'invalid_red_run' }` means pick the right one), and the saved paths. `{ rejected: reason }` blocks delivery: address the reason and repeat the affected checks; do not claim a version was recorded. On `{ recorded: true, versionId }`, report the recorded version and evidence, then let the platform's submission flow merge and deliver it. Do not open a PR, merge it yourself, or accept the version for the requester. The requester tries it in the sandbox, then accepts it or asks for changes through the platform.
 
 ## TAG and stopping conditions
 
