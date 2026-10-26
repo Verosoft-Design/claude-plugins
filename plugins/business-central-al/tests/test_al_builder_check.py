@@ -39,16 +39,20 @@ class BuilderCheckTest(unittest.TestCase):
         shutil.copyfile(FIXTURES / 'cases' / fixture, target)
         return f'{app}/src/Case.al'
 
-    def package(self, allowlist=None, tag=True, header=False):
+    def package(self, allowlist=None, tag=True, header=False,
+                symbols_fixture='tag-symbols.json', manifest=None, bom=False):
         cache = self.project / '.alpackages'
         cache.mkdir(exist_ok=True)
         target = cache / ('Verosoft_TAG_29.0.0.0.app' if tag else 'Microsoft_Base.app')
-        symbols = json.loads((FIXTURES / 'tag-symbols.json').read_text())
+        symbols = json.loads((FIXTURES / symbols_fixture).read_text())
         if not tag:
+            symbols['App']['Id'] = '11111111-2222-4333-8444-555555555555'
             symbols['App']['Name'] = 'Base Application'
             symbols['Codeunits'][0]['Name'] = 'Sales-Post'
         with zipfile.ZipFile(target, 'w') as package:
-            package.writestr('SymbolReference.json', json.dumps(symbols))
+            package.writestr('SymbolReference.json', json.dumps(symbols).encode('utf-8-sig' if bom else 'utf-8'))
+            if manifest is not None:
+                package.writestr('NavxManifest.xml', (FIXTURES / manifest).read_bytes())
             if allowlist is not None:
                 package.writestr('Resources/partner-allowlist.json', json.dumps(allowlist))
         if header:
@@ -103,6 +107,33 @@ class BuilderCheckTest(unittest.TestCase):
         self.assertEqual(report['tagSurface']['violations'], [
             {'file': path, 'line': 9, 'call': 'WorkOrderMgt.Release'}])
         self.assertTrue(report['idRange']['ok'])
+
+    def test_manifest_tag_with_namespaced_codeunit_header_and_bom_is_restricted(self):
+        self.package(symbols_fixture='tag-namespaced-symbols.json',
+                     manifest='tag-manifest.xml', header=True, bom=True)
+        path = self.source('tag-call.al')
+        self.assertEqual(self.check(1)['tagSurface']['violations'], [
+            {'file': path, 'line': 9, 'call': 'WorkOrderMgt.Release'}])
+
+    def test_namespaced_tag_codeunit_can_be_allowlisted(self):
+        self.package({'procedures': [{'objectType': 'Codeunit',
+            'objectName': 'TAG Work Order Mgt.', 'procedure': 'Release'}]},
+            symbols_fixture='tag-namespaced-symbols.json',
+            manifest='tag-manifest.xml', header=True, bom=True)
+        self.source('tag-call.al')
+        self.check()
+
+    def test_namespaced_tag_codeunit_is_resolved_by_numeric_id(self):
+        self.package(symbols_fixture='tag-namespaced-symbols.json',
+                     manifest='tag-manifest.xml', header=True, bom=True)
+        path = self.source('tag-id-call.al')
+        self.assertEqual(self.check(1)['tagSurface']['violations'], [
+            {'file': path, 'line': 7, 'call': 'WorkOrderMgt.Release'}])
+
+    def test_non_tag_package_with_tag_in_name_is_ignored(self):
+        self.package(symbols_fixture='non-tag-symbols.json')
+        self.source('tag-call.al')
+        self.assertEqual(self.check()['tagSurface'], {'ok': True, 'violations': []})
 
     def test_allowlist_from_tag_package_allows_call(self):
         self.package({'procedures': [{'objectType': 'Codeunit',

@@ -1,0 +1,10 @@
+{
+  "App": {
+    "Id": "11111111-2222-4333-8444-555555555555",
+    "Name": "Northfield TAG Helpers",
+    "Publisher": "Northfield Water Authority"
+  },
+  "Codeunits": [
+    {"Id": 70015000, "Name": "TAG Work Order Mgt.", "Methods": [{"Name": "Release"}]}
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "Codeunits": [
+    {"Id": 70015001, "Name": "TAG Other Mgt.", "Methods": [{"Name": "Release"}]}
+  ],
+  "Namespaces": [
+    {
+      "Name": "Verosoft",
+      "Codeunits": [],
+      "Namespaces": [
+        {
+          "Name": "TAG.WorkOrders",
+          "Codeunits": [
+            {"Id": 70015000, "Name": "TAG Work Order Mgt.", "Methods": [{"Name": "Release"}]}
+          ],
+          "Namespaces": []
+        }
+      ]
+    }
+  ]
+}

@@ -9,6 +9,7 @@ import argparse
 import json
 import re
 import sys
+import xml.etree.ElementTree as ET
 import zipfile
 from pathlib import Path
 from typing import NamedTuple
@@ -33,6 +34,7 @@ OBJECT_TYPES = {
     'reportextension', 'query', 'xmlport', 'enum', 'enumextension',
     'permissionset', 'permissionsetextension',
 }
+TAG_APP_ID = '02761afe-4cd9-40ba-a632-fdf4d1991044'
 
 
 def tokenize(source):
@@ -95,20 +97,34 @@ def id_violations(tokens, block, file):
     return violations
 
 
+def package_app_id(package, symbols):
+    """Prefer the manifest's identity; symbols can also carry App metadata."""
+    if 'NavxManifest.xml' in package.namelist():
+        manifest = ET.fromstring(package.read('NavxManifest.xml'))
+        for element in manifest.iter():
+            if element.tag.rsplit('}', 1)[-1] == 'App' and element.get('Id'):
+                return element.get('Id').casefold()
+    app = symbols.get('App', symbols)
+    return (app.get('Id') or app.get('AppId') or '').casefold()
+
+
+def namespace_codeunits(symbols):
+    """Symbol namespaces contain objects and can themselves contain namespaces."""
+    yield from symbols.get('Codeunits', [])
+    for namespace in symbols.get('Namespaces', []):
+        yield from namespace_codeunits(namespace)
+
+
 def load_tag_surface(project):
     """Index TAG codeunits by name and ID; absent allowlists grant no calls."""
     codeunits = {}
     allowlist = set()
     for path in sorted((project / '.alpackages').glob('*.app')):
         with zipfile.ZipFile(path) as package:
-            symbols = json.loads(package.read('SymbolReference.json'))
-            app = symbols.get('App', symbols)
-            name = app.get('Name', '').casefold()
-            units = symbols.get('Codeunits', [])
-            if not (re.search(r'\btag\b', name) or 'the asset guardian' in name
-                    or (not name and any(unit.get('Name', '').casefold().startswith('tag ') for unit in units))):
+            symbols = json.loads(package.read('SymbolReference.json').decode('utf-8-sig'))
+            if package_app_id(package, symbols) != TAG_APP_ID:
                 continue
-            for unit in units:
+            for unit in namespace_codeunits(symbols):
                 canonical = unit['Name'].casefold()
                 codeunits[canonical] = canonical
                 codeunits[str(unit['Id'])] = canonical
@@ -236,7 +252,7 @@ def main():
     args = parser.parse_args()
     try:
         report = check_project(args.project)
-    except (OSError, ValueError, KeyError, TypeError, zipfile.BadZipFile):
+    except (OSError, ValueError, KeyError, TypeError, zipfile.BadZipFile, ET.ParseError):
         # Keep the C7 shape, fail closed, and never echo file contents or values.
         print('al_builder_check_input_error', file=sys.stderr)
         report = {'ok': False, 'idRange': {'ok': False, 'violations': []},
