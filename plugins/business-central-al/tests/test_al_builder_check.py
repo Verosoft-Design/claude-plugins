@@ -72,9 +72,18 @@ class BuilderCheckTest(unittest.TestCase):
         self.assertEqual(report['idRange']['violations'], [
             {'file': path, 'line': 5, 'kind': 'field', 'id': 49999}])
 
-    def test_new_table_field_outside_app_block(self):
-        self.source('new-table-field-outside.al')
-        self.assertEqual(self.check(1)['idRange']['violations'][0]['kind'], 'field')
+    def test_new_table_fields_use_local_ids(self):
+        self.source('new-table-local-fields.al')
+        self.assertEqual(self.check()['idRange'], {'ok': True, 'violations': []})
+
+    def test_new_enum_values_use_local_ids(self):
+        self.source('new-enum-local-values.al')
+        self.assertEqual(self.check()['idRange'], {'ok': True, 'violations': []})
+
+    def test_enumextension_value_below_app_block(self):
+        path = self.source('enumvalue-below-block.al')
+        self.assertEqual(self.check(1)['idRange']['violations'], [
+            {'file': path, 'line': 3, 'kind': 'enumvalue', 'id': 1}])
 
     def test_enumextension_value_outside_app_block(self):
         path = self.source('enumvalue-outside.al')

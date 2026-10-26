@@ -86,7 +86,7 @@ def id_violations(tokens, block, file):
 
     for obj, number, body in objects(tokens):
         check(number, 'object')
-        member = 'field' if obj.key in ('table', 'tableextension') else 'value' if obj.key in ('enum', 'enumextension') else None
+        member = {'tableextension': 'field', 'enumextension': 'value'}.get(obj.key)
         if member:
             for i in range(len(body) - 3):
                 if (body[i].kind == 'word' and body[i].key == member and body[i + 1].text == '('

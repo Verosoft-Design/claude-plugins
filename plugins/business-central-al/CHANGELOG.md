@@ -3,8 +3,9 @@
 ## 1.2.0 — 2026-10-26
 
 - AL Builder check CLI (`scripts/al-builder-check.py --project <dir> [--json]`):
-  checks app/test object IDs, table fields and enum values against the reserved
-  blocks in `al-builder.json`. Resolves TAG codeunit calls against downloaded
+  checks app/test object IDs, tableextension fields and enumextension values
+  against the reserved blocks in `al-builder.json`. New tables and enums use
+  local field/value IDs. Resolves TAG codeunit calls against downloaded
   symbols and the package's `Resources/partner-allowlist.json`; absent allowlists
   grant no procedure calls. Emits the C7 JSON report and exits 1 on violations.
 - Online-sandbox rules for test writing and TDD: bring fixtures in the test app,
