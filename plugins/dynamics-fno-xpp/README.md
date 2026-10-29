@@ -60,6 +60,8 @@ Process discipline (brainstorming, plans, TDD, debugging, verification) comes fr
 
 **Scripts:** `xpp-bp-check.ps1` runs Microsoft's xppbp directly, read-only. Use it instead of the MCP's `run_bp_check` when the model's name differs from its module.
 
+**Review content (draft):** `content/xppquality/` has the BCQuality-format structure for five review domains (extensibility, performance, security, data-modeling, ui) with 8 seed articles, and `SOURCES.md` lists the exact Microsoft files to vendor next, with licences. There is no review skill yet.
+
 **Reference:** `reference/*.md`:
 - the 8 TAG Cursor rules (January 2026) ported to plain docs, with corrections marked "Checked 2026-10-29";
 - `d365fo-mcp.md`: the MCP's tools and the quirks found on 10.0.46.
@@ -76,7 +78,7 @@ Process discipline (brainstorming, plans, TDD, debugging, verification) comes fr
 | `al-feedback-loops`, `al-run-tests`, `al-write-test`, `al-ui-test` | `xpp-feedback-loops`, `xpp-run-tests`, `xpp-write-test`, `xpp-ui-test` |
 | `al-compile`/`al-build`, publish + schema sync | `xpp-build`, `xpp-db-sync` |
 | `al-init`, `bc-server-setup` | `fno-init`, `fno-vm-setup` |
-| BCQuality review (`/bcq-review`) | planned: `xpp-review` with five domains (see `docs/superpowers/plans/2026-10-29-fno-xpp-plugin.md`) |
+| BCQuality review (`/bcq-review`) | planned: `xpp-review` with five domains. The draft content is in `content/xppquality/` |
 
 ## Safety rules
 

@@ -38,6 +38,12 @@ Build, database sync, SysTest and the Playwright UI loop. The commands come from
 - **Script:** `scripts/xpp-bp-check.ps1`, which runs xppbp with the module and model names from the Descriptor. A target xppbp didn't evaluate exits 2 ("NOT CHECKED"), never "clean".
 - **Reference:** the 8 TAG Cursor rules (January 2026) ported to `reference/`, plus `reference/d365fo-mcp.md`.
 - **Tests:** 85 stdlib `unittest` tests for the hooks and the launcher.
+- **Review content, draft** (`content/xppquality/`):
+  - BCQuality's layout and article format, with `fno-version` in place of `bc-version`;
+  - five domains (extensibility, performance, security, data-modeling, ui) with 8 seed articles that pass BCQuality's validator;
+  - `SOURCES.md` lists the exact files to vendor next, with pinned commits and licences: 153 Learn pages (CC BY 4.0 text, MIT code) and AppChecker's 21 X++ rules (MIT).
+
+  The security seed comes from a real finding: a model with 80 menu items and no privileges reports `BPErrorMenuItemNotCoveredByPrivilege`.
 
 ### Corrections to the January 2026 Cursor rules (checked 2026-10-29)
 
