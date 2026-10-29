@@ -789,5 +789,5 @@
   "where",
   "while"
  ],
- "_sourceReservedWords": "X++ parser reserved words (XppParser.Keywords.KeywordHashSet, xppc 7.0.7996.33), as captured in d365fo-mcp-server (MIT) src/knowledge/compilerFacts.generated.ts, minus the exempted 'in'."
+ "_sourceReservedWords": "X++ parser reserved words (XppParser.Keywords.KeywordHashSet, xppc 7.0.7996.33), as captured in d365fo-mcp-server src/knowledge/compilerFacts.generated.ts (MIT License, Copyright (c) 2026 dynamics365ninja), minus the exempted 'in'."
 }

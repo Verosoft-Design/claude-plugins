@@ -68,7 +68,7 @@ class ModelTests(TempTest):
     def test_locate_object(self):
         p = self.root / 'Contoso Assets' / 'AxTable' / 'X.xml'
         self.assertEqual(model.locate_object(p), (p.parent.parent, 'AxTable', 'X'))
-        for folder in ('AxLabelFile', 'Other'):
+        for folder in ('AxLabelFile', 'Other', 'Axios', 'Axes'):
             self.assertIsNone(model.locate_object(self.root / folder / 'X.xml'))
 
 

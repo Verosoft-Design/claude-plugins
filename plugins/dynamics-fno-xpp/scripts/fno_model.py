@@ -30,6 +30,14 @@ SKIP_DIRS = {
     "AdditionalFiles", "modeloutput", "Descriptor",
 }
 
+# An AOT object folder: Ax followed by a capital letter (AxTable, AxFormExtension, ...).
+AX_FOLDER_RE = re.compile(r"^Ax[A-Z]")
+
+
+def is_ax_folder(name: str) -> bool:
+    return bool(AX_FOLDER_RE.match(name))
+
+
 # Object folders whose names are "<Base>.<Suffix>" (extensions) rather than prefixed names.
 EXTENSION_FOLDERS_SUFFIX = "Extension"
 
@@ -126,7 +134,7 @@ def find_packages(root: Path, max_depth: int = 3, limit: int = 12) -> list[Packa
         except OSError:
             continue
         for e in entries:
-            if e.name not in SKIP_DIRS and is_dir(e) and not e.name.startswith(".") and not e.name.startswith("Ax"):
+            if e.name not in SKIP_DIRS and not e.name.startswith(".") and not is_ax_folder(e.name) and is_dir(e):
                 stack.append((e, depth + 1))
     return sorted(found, key=lambda p: str(p.path))
 
@@ -136,7 +144,7 @@ def object_names(model_folder: Path) -> Counter:
     counts: Counter = Counter()
     try:
         for d in model_folder.iterdir():
-            if d.is_dir() and d.name.startswith("Ax"):
+            if is_ax_folder(d.name) and is_dir(d):
                 counts[d.name] = sum(1 for f in d.glob("*.xml"))
     except OSError:
         pass
@@ -150,7 +158,7 @@ def infer_prefix(model_folder: Path, min_share: float = 0.6, per_folder: int = 3
     names: list[str] = []
     try:
         for d in model_folder.iterdir():
-            if d.name.startswith("Ax") and not d.name.endswith(EXTENSION_FOLDERS_SUFFIX) and d.name != "AxLabelFile" and is_dir(d):
+            if is_ax_folder(d.name) and not d.name.endswith(EXTENSION_FOLDERS_SUFFIX) and d.name != "AxLabelFile" and is_dir(d):
                 for i, f in enumerate(d.glob("*.xml")):
                     if i >= per_folder:
                         break
@@ -206,7 +214,7 @@ def locate_object(path: Path) -> tuple[Path, str, str] | None:
     if path.suffix.lower() != ".xml":
         return None
     ax_type = path.parent.name
-    if not ax_type.startswith("Ax") or ax_type == "AxLabelFile":
+    if not is_ax_folder(ax_type) or ax_type == "AxLabelFile":
         return None
     return path.parent.parent, ax_type, path.stem
 

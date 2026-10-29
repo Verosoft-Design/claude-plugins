@@ -149,7 +149,7 @@ class HookCliTests(TempTest):
         self.assertEqual((r.returncode, r.stdout), (0, ''))
 
     def test_hook_non_aot_silent(self):
-        for name in ('README.md', 'other.xml'):
+        for name in ('README.md', 'other.xml', 'Axios/config.xml'):
             with self.subTest(name=name):
                 r = self.hook(write(self.root / name, 'not XML'))
                 self.assertEqual((r.returncode, r.stdout), (0, ''))

@@ -385,7 +385,7 @@ def is_target(path: str) -> bool:
     p = Path(path)
     if p.suffix.lower() == ".rnrproj":
         return True
-    return p.suffix.lower() == ".xml" and (p.parent.name.startswith("Ax") or p.parent.name == "Descriptor")
+    return p.suffix.lower() == ".xml" and (fno_model.is_ax_folder(p.parent.name) or p.parent.name == "Descriptor")
 
 
 def hook() -> None:

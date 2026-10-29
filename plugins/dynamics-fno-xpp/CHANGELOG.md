@@ -27,7 +27,7 @@ Build, database sync, SysTest and the Playwright UI loop. The commands come from
   - both start through `scripts/mcp-launch.mjs`, because `npx` and npm `.cmd` shims can't be exec'd on Windows.
 - **Hooks:** `SessionStart` (model, module vs model name, layer, references, prefix, projects, live-PLD checkout, VM or not) and a `PostToolUse` XML lint with 18 checks (XPP001–XPP018).
   - Both run in exec form through `scripts/run-python.mjs`, which finds `py -3`, `python` or `python3`. F&O VMs have no `python3.exe`.
-- **Lint data:** `scripts/xpp_xml_facts.json`, from a survey of 143,603 standard XML files and the compiler's reserved words.
+- **Lint data:** `scripts/xpp_xml_facts.json`, from a survey of 143,603 standard XML files and the compiler's reserved words. The reserved-word list comes from d365fo-mcp-server (MIT License, Copyright (c) 2026 dynamics365ninja), which captured it from xppc 7.0.7996.33.
   - Which properties take `true`/`false` (30) and which take `Yes`/`No` (137).
   - The 37 form control types and 62 form patterns with their versions, and the root namespace per object type.
 - **Skills:**
