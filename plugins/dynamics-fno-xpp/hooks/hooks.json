@@ -1,0 +1,21 @@
+{
+  "description": "Dynamics 365 F&O X++: model context at session start, metadata XML check after editing AOT XML",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          { "type": "command", "command": "node", "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/run-python.mjs", "session-start.py"], "timeout": 20 }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "node", "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/run-python.mjs", "xpp-xml-lint.py"], "timeout": 15 }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "dynamics-fno-xpp",
+  "version": "0.1.0",
+  "description": "Dynamics 365 Finance and Operations (X++) development for Claude Code: the community d365fo-mcp-server (symbols, where-used, labels, BP check, build, sync, SysTest), X++ metadata conventions with a post-edit XML lint, feedback loops ranked by speed, SysTest test writing and UI checks with the Playwright MCP.",
+  "author": {
+    "name": "Alexis Turgeon"
+  },
+  "repository": "https://github.com/Verosoft-Design/claude-plugins",
+  "license": "MIT",
+  "keywords": [
+    "dynamics-365",
+    "finance-and-operations",
+    "x++",
+    "d365fo",
+    "mcp",
+    "systest",
+    "playwright"
+  ]
+}

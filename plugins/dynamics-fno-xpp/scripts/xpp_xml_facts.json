@@ -1,0 +1,793 @@
+{
+ "_source": "Survey of Microsoft AOT XML on Dynamics 365 Finance and Operations 10.0.46 (platform 7.0.7778): 143,603 files in ApplicationSuite, ApplicationPlatform, ApplicationFoundation, EnterpriseAssetManagementAppSuite, Directory and Ledger, 2026-10-29. Values seen in shipped metadata, not a schema: an unlisted value may still be valid.",
+ "lowercaseBooleanProperties": [
+  "AggregationFunctionOverridden",
+  "AllowBlank",
+  "AllowDuplicateNames",
+  "AttributeHierarchyVisible",
+  "AvoidIndentation",
+  "CaptionOverridden",
+  "DisableAutoCreateInDataRegion",
+  "DisableAutoDrillThrough",
+  "DisplaySubTotals",
+  "DisplayWidthOverridden",
+  "DynamicFilters",
+  "EnableAutoDrillThroughStyling",
+  "FormatStringOverridden",
+  "GrandTotalStyleOverridden",
+  "IsEncrypted",
+  "IsExtensible",
+  "IsHidden",
+  "IsPassword",
+  "IsSystem",
+  "MultiValue",
+  "NoOfDecimalsIsExtensible",
+  "Nullable",
+  "PageBreakAtEnd",
+  "RenderGrandTotal",
+  "RenderParameters",
+  "RepeatHeader",
+  "RepeatHeaderOnEachPage",
+  "StyleOverridden",
+  "TitleOverridden",
+  "UserDefined"
+ ],
+ "yesNoProperties": [
+  "Abstract",
+  "AcquireFocus",
+  "AlignChild",
+  "AlignChildren",
+  "AlignControl",
+  "AllowAdd",
+  "AllowArchival",
+  "AllowChangeTracking",
+  "AllowCheck",
+  "AllowCreate",
+  "AllowCrossCompany",
+  "AllowDelete",
+  "AllowDuplicates",
+  "AllowEdit",
+  "AllowEditOnCreate",
+  "AllowNegative",
+  "AllowPageLocks",
+  "AllowPreLoading",
+  "AllowRetention",
+  "AllowRootNavigation",
+  "AllowRowVersionChangeTracking",
+  "AllowUserSetup",
+  "AlternateKey",
+  "AlternateRowShading",
+  "AosAuthorization",
+  "ApplyDateFilter",
+  "AutoCreateDataverse",
+  "AutoDeclaration",
+  "AutoDeploy",
+  "AutoNotify",
+  "AutoPopulate",
+  "AutoQuery",
+  "AutoRefreshData",
+  "AutoSearch",
+  "Big",
+  "Breakable",
+  "CacheDataMethod",
+  "ColumnHeader",
+  "ColumnHeaderButton",
+  "ColumnImages",
+  "Constrained",
+  "ConstrainedTable",
+  "CopyCallerQuery",
+  "CreateNavigationPropertyMethods",
+  "CreatePermissions",
+  "CreateRecIdIndex",
+  "CreatedBy",
+  "CreatedDateTime",
+  "CreatedTransactionId",
+  "CrossCompanyAutoQuery",
+  "DataManagementEnabled",
+  "DefaultButton",
+  "DelayActive",
+  "DisableLockEscalation",
+  "DisplayInContentArea",
+  "DynamicFields",
+  "EDTRelation",
+  "EnableFormRef",
+  "EnableIdempotence",
+  "EnableSetBasedSqlOperations",
+  "Enabled",
+  "EnabledByDefault",
+  "FastTabExpanded",
+  "FastTabSummary",
+  "FirstFast",
+  "FirstOnly",
+  "GridLines",
+  "HideFirstEntry",
+  "HideIfEmpty",
+  "HighlightActive",
+  "IgnoreEDTRelation",
+  "IncludedColumn",
+  "InsertAtEnd",
+  "InsertIfEmpty",
+  "Interactive",
+  "IsComputedField",
+  "IsLinked",
+  "IsManuallyUpdated",
+  "IsObsolete",
+  "IsPublic",
+  "IsRagged",
+  "IsSystemGenerated",
+  "LookupOnly",
+  "Mandatory",
+  "ManualRetrieval",
+  "ModifiedBy",
+  "ModifiedDateTime",
+  "ModifiedTransactionId",
+  "MultiLine",
+  "MultiSelect",
+  "NeedsRecord",
+  "Null",
+  "OccEnabled",
+  "OnlyFetchActive",
+  "Optional",
+  "PasswordStyle",
+  "PresenceIndicatorAllowed",
+  "Primary",
+  "ReplaceOnLookup",
+  "RotateSign",
+  "RowSelect",
+  "SaveContents",
+  "SaveDataPerCompany",
+  "SaveDataPerPartition",
+  "SaveRecord",
+  "Scrollbars",
+  "SendExternalContext",
+  "ServiceReference",
+  "SetCompany",
+  "ShowAlert",
+  "ShowColLabels",
+  "ShowLabel",
+  "ShowParentModule",
+  "ShowRowLabels",
+  "ShowShortCut",
+  "ShowSum",
+  "ShowTabs",
+  "ShowZero",
+  "SingleSelection",
+  "Skip",
+  "StringSizeIsExtensible",
+  "SupportInheritance",
+  "SupportsSetBasedSqlOperations",
+  "SystemTable",
+  "TabAutoChange",
+  "TimeHours",
+  "TimeMinute",
+  "TimeSeconds",
+  "Update",
+  "UseDefaultRoleNames",
+  "UseEnumValue",
+  "UseRelations",
+  "UseTableRelations",
+  "UserUpdate",
+  "ValidTimeStateEnabled",
+  "ValidTimeStateKey",
+  "Validate"
+ ],
+ "formControlTypes": [
+  "AxFormActionPaneControl",
+  "AxFormActionPaneTabControl",
+  "AxFormActiveXControl",
+  "AxFormAnimateControl",
+  "AxFormButtonControl",
+  "AxFormButtonGroupControl",
+  "AxFormButtonSeparatorControl",
+  "AxFormCheckBoxControl",
+  "AxFormComboBoxControl",
+  "AxFormCommandButtonControl",
+  "AxFormContainerControl",
+  "AxFormDateControl",
+  "AxFormDateTimeControl",
+  "AxFormDropDialogButtonControl",
+  "AxFormGridControl",
+  "AxFormGroupControl",
+  "AxFormGuidControl",
+  "AxFormHTMLControl",
+  "AxFormImageControl",
+  "AxFormInt64Control",
+  "AxFormIntegerControl",
+  "AxFormListBoxControl",
+  "AxFormListViewControl",
+  "AxFormMenuButtonControl",
+  "AxFormMenuFunctionButtonControl",
+  "AxFormProgressControl",
+  "AxFormRadioButtonControl",
+  "AxFormRealControl",
+  "AxFormReferenceGroupControl",
+  "AxFormSegmentedEntryControl",
+  "AxFormStaticTextControl",
+  "AxFormStringControl",
+  "AxFormTabControl",
+  "AxFormTabPageControl",
+  "AxFormTableControl",
+  "AxFormTimeControl",
+  "AxFormTreeControl"
+ ],
+ "formPatterns": {
+  "AdvancedSelection": [
+   "1.1"
+  ],
+  "BusinessCardIndicator": [
+   "1.1"
+  ],
+  "BusinessCardStatus": [
+   "1.1"
+  ],
+  "BusinessCardThreeFields": [
+   "1.0"
+  ],
+  "Custom": [
+   "1.2"
+  ],
+  "CustomAndQuickFilters": [
+   "1.1",
+   "UX7 1.0"
+  ],
+  "CustomFilters": [
+   "1.1"
+  ],
+  "DetailsMaster": [
+   "1.3",
+   "1.4"
+  ],
+  "DetailsMasterTabs": [
+   "1.4"
+  ],
+  "DetailsTransaction": [
+   "1.4"
+  ],
+  "Dialog": [
+   "1.2"
+  ],
+  "DialogDoubleTabs": [
+   "1.3"
+  ],
+  "DialogFastTabs": [
+   "1.0"
+  ],
+  "DialogReadOnly": [
+   "1.2"
+  ],
+  "DialogTabs": [
+   "1.3"
+  ],
+  "DimensionEntryControl": [
+   "1.1"
+  ],
+  "DimensionExpressionBuilder": [
+   "1.0"
+  ],
+  "DropDialog": [
+   "1.2"
+  ],
+  "DropDialogReadOnly": [
+   "1.2"
+  ],
+  "FieldsFieldGroups": [
+   "1.1"
+  ],
+  "FillText": [
+   "UX7 1.0"
+  ],
+  "FiltersAndToolbarInline": [
+   "1.0"
+  ],
+  "FiltersAndToolbarStacked": [
+   "1.1"
+  ],
+  "FormPartFactboxCard": [
+   "UX7 1.0"
+  ],
+  "FormPartFactboxGrid": [
+   "1.1"
+  ],
+  "FormPartSectionList": [
+   "1.2"
+  ],
+  "FormPartSectionListDouble": [
+   "1.2"
+  ],
+  "HorizontalFieldsButtonsGroup": [
+   "UX7 1.2"
+  ],
+  "HubPartChart": [
+   "1.0"
+  ],
+  "HubPartGrid": [
+   "1.0"
+  ],
+  "ImagePreview": [
+   "1.1"
+  ],
+  "ListPage": [
+   "UX7 1.0"
+  ],
+  "ListPanel": [
+   "1.3"
+  ],
+  "LookupGridOnly": [
+   "1.1"
+  ],
+  "LookupPreview": [
+   "1.0"
+  ],
+  "LookupTab": [
+   "1.0"
+  ],
+  "NestedSimpleListDetails": [
+   "UX7 1.1"
+  ],
+  "SectionPowerBI": [
+   "1.0"
+  ],
+  "SectionRelatedLinks": [
+   "1.1"
+  ],
+  "SectionStackedChart": [
+   "1.1"
+  ],
+  "SectionTabbedList": [
+   "1.1"
+  ],
+  "SectionTiles": [
+   "1.1"
+  ],
+  "SimpleDetails-FastTabsContainer": [
+   "1.4"
+  ],
+  "SimpleDetails-Panorama": [
+   "1.1"
+  ],
+  "SimpleDetails-StandardTabsContainer": [
+   "1.5"
+  ],
+  "SimpleDetails-ToolbarFields": [
+   "1.3"
+  ],
+  "SimpleList": [
+   "1.1"
+  ],
+  "SimpleListDetails": [
+   "1.3"
+  ],
+  "SimpleListDetails-Grid": [
+   "1.4"
+  ],
+  "SimpleListDetails-Tree": [
+   "1.3"
+  ],
+  "TabPageTabularFields": [
+   "1.0"
+  ],
+  "TabbedWorkspace": [
+   "1.0"
+  ],
+  "TableOfContents": [
+   "1.1"
+  ],
+  "TabularFields": [
+   "1.1"
+  ],
+  "Task": [
+   "1.2"
+  ],
+  "TaskParentChild": [
+   "1.2"
+  ],
+  "ToolbarFields": [
+   "1.1"
+  ],
+  "ToolbarList": [
+   "1.2"
+  ],
+  "ToolbarListDouble": [
+   "1.2"
+  ],
+  "Wizard": [
+   "1.2"
+  ],
+  "WorkspaceOperational": [
+   "1.1"
+  ],
+  "WorkspacePageFilterGroup": [
+   "1.0"
+  ]
+ },
+ "rootNamespaces": {
+  "AxAggregateCalculatedMeasureTemplate": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxAggregateDataEntity": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxAggregateDimension": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxAggregateMeasurement": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxClass": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxCompositeDataEntityView": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxConfigurationKey": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxConfigurationKeyGroup": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxDataEntityView": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxDataEntityViewExtension": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxEdt": {
+   "xmlns": "",
+   "iType": true
+  },
+  "AxEdtExtension": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxEnum": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxEnumExtension": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxForm": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V6",
+   "iType": false
+  },
+  "AxFormExtension": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V6",
+   "iType": false
+  },
+  "AxFormPart": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxInfoPart": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxKPI": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxLabelFile": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxLicenseCode": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxMacroDictionary": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxMap": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxMenu": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V1",
+   "iType": false
+  },
+  "AxMenuExtension": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V1",
+   "iType": false
+  },
+  "AxMenuItemAction": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V1",
+   "iType": false
+  },
+  "AxMenuItemDisplay": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V1",
+   "iType": false
+  },
+  "AxMenuItemOutput": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V1",
+   "iType": false
+  },
+  "AxPartCue": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxPartCueGroup": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxQuery": {
+   "xmlns": "",
+   "iType": true
+  },
+  "AxQuerySimpleExtension": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxReference": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxReport": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxReportLayoutTemplate": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxReportListStyleTemplate": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxReportMatrixStyleTemplate": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxReportTableStyleTemplate": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxReportXYChartStyleTemplate": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxResource": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxSecurityDuty": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxSecurityDutyExtension": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxSecurityPolicy": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxSecurityPrivilege": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxSecurityRole": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxSecurityRoleExtension": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxService": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxServiceGroup": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxTable": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxTableCollection": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxTableExtension": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxTile": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V1",
+   "iType": false
+  },
+  "AxTypeForwarderList": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxView": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxViewExtension": {
+   "xmlns": "<none>",
+   "iType": false
+  },
+  "AxWorkflowApproval": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxWorkflowAutomatedTask": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxWorkflowCategory": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxWorkflowDueDateCalculationProvider": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxWorkflowHierarchyAssignmentProvider": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxWorkflowParticipantAssignmentProvider": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxWorkflowQueueAssignmentProvider": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxWorkflowTask": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  },
+  "AxWorkflowTemplate": {
+   "xmlns": "Microsoft.Dynamics.AX.Metadata.V2",
+   "iType": false
+  }
+ },
+ "knownInvalid": {
+  "formControlTypes": [
+   "AxFormIntControl"
+  ],
+  "commands": [
+   "SaveAndClose",
+   "SystemDefinedCloseButton"
+  ],
+  "formPatterns": [
+   "DetailsFormBasic",
+   "SimpleDetails",
+   "DetailsFormMaster",
+   "DetailsFormTransaction"
+  ]
+ },
+ "xppReservedWords": [
+  "abstract",
+  "anytype",
+  "as",
+  "asc",
+  "async",
+  "avg",
+  "await",
+  "break",
+  "breakpoint",
+  "by",
+  "byref",
+  "case",
+  "catch",
+  "changecompany",
+  "class",
+  "client",
+  "const",
+  "container",
+  "continue",
+  "count",
+  "crosscompany",
+  "date",
+  "default",
+  "delegate",
+  "delete_from",
+  "desc",
+  "display",
+  "div",
+  "do",
+  "edit",
+  "else",
+  "eventhandler",
+  "exists",
+  "extends",
+  "false",
+  "final",
+  "finally",
+  "firstfast",
+  "firstonly",
+  "firstonly1",
+  "firstonly10",
+  "firstonly100",
+  "firstonly1000",
+  "flush",
+  "for",
+  "forceliterals",
+  "forcenestedloop",
+  "forceplaceholders",
+  "forceselectorder",
+  "foreach",
+  "forupdate",
+  "from",
+  "generateonly",
+  "group",
+  "guid",
+  "having",
+  "hint",
+  "if",
+  "implements",
+  "index",
+  "insert_recordset",
+  "int",
+  "int64",
+  "interface",
+  "internal",
+  "is",
+  "join",
+  "like",
+  "maxof",
+  "minof",
+  "mod",
+  "namespace",
+  "new",
+  "next",
+  "nofetch",
+  "notexists",
+  "null",
+  "optimisticlock",
+  "order",
+  "outer",
+  "pessimisticlock",
+  "print",
+  "private",
+  "protected",
+  "public",
+  "readonly",
+  "real",
+  "repeatableread",
+  "retry",
+  "return",
+  "reverse",
+  "select",
+  "server",
+  "setting",
+  "static",
+  "str",
+  "sum",
+  "super",
+  "switch",
+  "throw",
+  "true",
+  "try",
+  "ttsabort",
+  "ttsbegin",
+  "ttscommit",
+  "unchecked",
+  "update_recordset",
+  "using",
+  "utcdatetime",
+  "validtimestate",
+  "var",
+  "void",
+  "where",
+  "while"
+ ],
+ "_sourceReservedWords": "X++ parser reserved words (XppParser.Keywords.KeywordHashSet, xppc 7.0.7996.33), as captured in d365fo-mcp-server (MIT) src/knowledge/compilerFacts.generated.ts, minus the exempted 'in'."
+}

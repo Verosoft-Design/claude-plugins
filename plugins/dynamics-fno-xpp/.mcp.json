@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "d365fo": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/mcp-launch.mjs", "d365fo"]
+    },
+    "playwright": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/mcp-launch.mjs", "playwright"]
+    }
+  }
+}
