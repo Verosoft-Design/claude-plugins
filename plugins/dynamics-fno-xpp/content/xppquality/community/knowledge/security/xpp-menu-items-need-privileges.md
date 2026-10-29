@@ -11,7 +11,7 @@ application-area: [all]
 
 ## Description
 
-In Finance and Operations, users reach forms, reports and actions through menu items, and access to a menu item is granted only through a security privilege that names it as an entry point. Privileges are grouped into duties and duties into roles. A menu item that no privilege covers can be used only by the System administrator role. xppbp reports it as `BPErrorMenuItemNotCoveredByPrivilege`, and a privilege no duty references as `BPErrorPrivilegeNotCoveredByDuty`. On 2026-10-29 a model with 80 menu items and no privileges reported the first on its menu items.
+In Finance and Operations, users reach forms, reports and actions through menu items, and access to a menu item is granted only through a security privilege that names it as an entry point. Privileges are grouped into duties and duties into roles. A menu item that no privilege covers can be used only by the System administrator role. xppbp reports it as `BPErrorMenuItemNotCoveredByPrivilege`, and a privilege no duty references as `BPErrorPrivilegeNotCoveredByDuty`. On 2026-10-29 xppbp reported the first on a menu item of a custom model that defines no privileges.
 
 ## Best Practice
 

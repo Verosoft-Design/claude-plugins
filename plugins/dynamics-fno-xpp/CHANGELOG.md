@@ -43,7 +43,7 @@ Build, database sync, SysTest and the Playwright UI loop. The commands come from
   - five domains (extensibility, performance, security, data-modeling, ui) with 8 seed articles that pass BCQuality's validator;
   - `SOURCES.md` lists the exact files to vendor next, with pinned commits and licences: 153 Learn pages (CC BY 4.0 text, MIT code) and AppChecker's 21 X++ rules (MIT).
 
-  The security seed comes from a real finding: a model with 80 menu items and no privileges reports `BPErrorMenuItemNotCoveredByPrivilege`.
+  The security seed comes from a real finding: xppbp reports `BPErrorMenuItemNotCoveredByPrivilege` on a menu item of a custom model that defines no privileges.
 
 ### Corrections to the January 2026 Cursor rules (checked 2026-10-29)
 
