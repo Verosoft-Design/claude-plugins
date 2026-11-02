@@ -1,5 +1,7 @@
 # F&O XML Templates
 
+> Labels in these templates are label IDs (decided 2026-11-02). Create each one with the MCP's `labels` tool (action `create`) in the model's label file (`TAGLabels` for TAG) before building.
+
 Ported from TAG's Cursor rule `fno-templates.mdc` (January 2026). Before hand-writing an object, prefer the MCP: `generate_object` (mode `scaffold`, `scaffold:table`, `scaffold:form`, `pattern`) and `d365fo_file` create, whose contract `get_knowledge` (kind `op-spec`) describes. Templates here are the fallback.
 
 Reference templates for creating new F&O artifacts. Copy and modify as needed.
@@ -15,8 +17,8 @@ Reference templates for creating new F&O artifacts. Copy and modify as needed.
 <AxEdt xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
     i:type="AxEdtString">
     <Name>TAGEdtMyString</Name>
-    <Label>My String Field</Label>
-    <HelpText>Description of the field</HelpText>
+    <Label>@TAGLabels:MyStringField</Label>
+    <HelpText>@TAGLabels:DescriptionOfTheFieldHelp</HelpText>
     <StringSize>30</StringSize>
 </AxEdt>
 ```
@@ -44,8 +46,8 @@ Reference templates for creating new F&O artifacts. Copy and modify as needed.
     <Name>TAGMyTableRecId</Name>
     <Extends>RefRecId</Extends>
     <FormHelp>TAGMyTables</FormHelp>
-    <HelpText>Reference to my table record</HelpText>
-    <Label>My Table</Label>
+    <HelpText>@TAGLabels:ReferenceToMyTableRecordHelp</HelpText>
+    <Label>@TAGLabels:MyTable</Label>
     <ReferenceTable>TAGMyTable</ReferenceTable>
     <ArrayElements />
     <Relations />
@@ -160,22 +162,22 @@ public class TAGMyService
 <?xml version="1.0" encoding="utf-8"?>
 <AxEnum xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
     <Name>TAGMyEnum</Name>
-    <Label>My Enum Label</Label>
+    <Label>@TAGLabels:MyEnumLabel</Label>
     <UseEnumValue>No</UseEnumValue>
     <EnumValues>
         <AxEnumValue>
             <Name>Value1</Name>
-            <Label>First Value</Label>
+            <Label>@TAGLabels:FirstValue</Label>
             <!-- First value: omit <Value> tag, defaults to 0 -->
         </AxEnumValue>
         <AxEnumValue>
             <Name>Value2</Name>
-            <Label>Second Value</Label>
+            <Label>@TAGLabels:SecondValue</Label>
             <Value>1</Value>
         </AxEnumValue>
         <AxEnumValue>
             <Name>Value3</Name>
-            <Label>Third Value</Label>
+            <Label>@TAGLabels:ThirdValue</Label>
             <Value>2</Value>
         </AxEnumValue>
     </EnumValues>

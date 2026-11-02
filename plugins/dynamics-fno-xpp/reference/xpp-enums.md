@@ -28,7 +28,7 @@ Ported from TAG's Cursor rule `fno-enums.mdc` (January 2026). Notes marked **Che
 <AxEnumValue>
     <Name>Open</Name>
     <Value>1</Value>  <!-- Correct tag -->
-    <Label>Open</Label>
+    <Label>@TAGLabels:Open</Label>
 </AxEnumValue>
 ```
 
@@ -39,30 +39,32 @@ Ported from TAG's Cursor rule `fno-enums.mdc` (January 2026). Notes marked **Che
 <!-- CORRECT - First value defaults to 0 -->
 <AxEnumValue>
     <Name>First</Name>
-    <Label>First Value</Label>
+    <Label>@TAGLabels:FirstValue</Label>
     <!-- No <Value> tag needed -->
 </AxEnumValue>
 <AxEnumValue>
     <Name>Second</Name>
-    <Label>Second Value</Label>
+    <Label>@TAGLabels:SecondValue</Label>
     <Value>1</Value>  <!-- Explicit value for non-zero -->
 </AxEnumValue>
 ```
 
-### Label References (disputed, decide per repo)
-**The TAG rule from January 2026 says to use hardcoded labels, not label file references:**
+### Label References (decided 2026-11-02: label IDs)
+Use label IDs for every enum and enum value label, like Microsoft's own enums:
 
 ```xml
-<!-- WRONG - Label references don't render in enum dropdowns -->
-<Label>@TAGLabels:MyEnumValue</Label>
-
-<!-- CORRECT - Hardcoded text works -->
+<!-- WRONG - xppbp: BPErrorLabelIsText -->
 <Label>My Enum Value</Label>
+
+<!-- CORRECT -->
+<Label>@TAGLabels:MyEnumValue</Label>
 ```
 
-**Note:** Microsoft's base enums use label references, but for custom enums created via XML editing, hardcoded labels were more reliable at the time.
+TAG's January 2026 rule said the opposite, because label IDs showed as raw text in dropdowns. Two causes produce that, and neither is the label ID itself:
+- **The label isn't compiled.** Hand-edited label files never run `labelc`. Create labels with the MCP's `labels` tool (action `create`), or build the model, which compiles labels.
+- **The file ID is wrong.** The part before the colon must be the `LabelFileId` of a label file in the model or a dependency. TAG's is `TAGLabels`; 41 references in the TAG model (checked 2026-11-02) use `@TAG:`, which resolves to nothing.
 
-**Checked 2026-10-29, conflicts with best practice:** xppbp reports every hardcoded label as `BPErrorLabelIsText`; the TAG table and class it was run on had 5 and 6 of them. A label ID shows as literal text when the label file hasn't been compiled (`labelc`). Hand-edited XML never triggered that compile, while the MCP's write tools and `build_d365fo_project` do. Hypothesis, not yet verified: label IDs work once labels are compiled. Until the repo owner decides, follow what the repo's existing enums do, and open the form after the build (`xpp-ui-test`) to check the dropdown.
+After the build, open the form and check the dropdown (`xpp-ui-test`).
 
 ### Build Order for New Enums
 1. Create enum XML files first
@@ -92,22 +94,22 @@ Ported from TAG's Cursor rule `fno-enums.mdc` (January 2026). Notes marked **Che
 <?xml version="1.0" encoding="utf-8"?>
 <AxEnum xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
     <Name>TAGMyEnum</Name>
-    <Label>My Enum Label</Label>
+    <Label>@TAGLabels:MyEnumLabel</Label>
     <UseEnumValue>No</UseEnumValue>
     <EnumValues>
         <AxEnumValue>
             <Name>Value1</Name>
-            <Label>First Value</Label>
+            <Label>@TAGLabels:FirstValue</Label>
             <!-- First value defaults to 0 -->
         </AxEnumValue>
         <AxEnumValue>
             <Name>Value2</Name>
-            <Label>Second Value</Label>
+            <Label>@TAGLabels:SecondValue</Label>
             <Value>1</Value>
         </AxEnumValue>
         <AxEnumValue>
             <Name>Value3</Name>
-            <Label>Third Value</Label>
+            <Label>@TAGLabels:ThirdValue</Label>
             <Value>2</Value>
         </AxEnumValue>
     </EnumValues>
@@ -122,7 +124,7 @@ Ported from TAG's Cursor rule `fno-enums.mdc` (January 2026). Notes marked **Che
 | Error/Symptom | Cause | Solution |
 |-------|-------|----------|
 | **Dropdown shows blank values** | Missing `UseEnumValue` or `IsExtensible` properties | Add `<UseEnumValue>No</UseEnumValue>` and `<IsExtensible>true</IsExtensible>` |
-| **Dropdown shows literal label references** | Using `@LabelFile:Label` format | Use hardcoded label text instead |
+| **Dropdown shows literal label references** | Label not compiled, or the file ID before the colon is wrong (TAG's is `TAGLabels`) | Create the label with the `labels` tool or build the model; fix the file ID. Keep the label ID |
 | **Compile error: tag `EnumValue`** | Using wrong XML tag | Change `<EnumValue>` to `<Value>` |
 | `Content cannot be converted to Boolean` | Using `Yes`/`No` | Use lowercase `true`/`false` |
 | `UseEnumValue must be 'No' when IsExtensible is 'True'` | Invalid property combination | Always use `UseEnumValue="No"` with `IsExtensible="true"` |

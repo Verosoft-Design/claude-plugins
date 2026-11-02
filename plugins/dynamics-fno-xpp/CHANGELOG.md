@@ -4,6 +4,11 @@
 
 First release: the `business-central-al` setup mapped to Dynamics 365 Finance and Operations (X++). Plan: `docs/superpowers/plans/2026-10-29-fno-xpp-plugin.md`.
 
+### Decisions (2026-11-02)
+
+- **Labels:** label IDs everywhere, enums included. TAG's January "literal text" rule is retired: raw label IDs in dropdowns come from uncompiled labels or a wrong file ID (TAG's is `TAGLabels`). The reference templates now use label IDs.
+- **Tests:** they live in the model under test (TAG), which references `TestEssentials`, plus the ATL packages when a test uses ATL.
+
 ### What was checked on a real 10.0.46 dev VM
 
 Platform 7.0.7778, d365fo-mcp-server 1.21.0.

@@ -104,7 +104,7 @@ Use table extension:
         <AxTableField xmlns="" i:type="AxTableFieldInt64">
             <Name>TAGHealthIndexProfileId</Name>
             <ExtendedDataType>RefRecId</ExtendedDataType>
-            <Label>Health Index Profile</Label>
+            <Label>@TAGLabels:HealthIndexProfile</Label>
         </AxTableField>
         <AxTableField xmlns="" i:type="AxTableFieldReal">
             <Name>TAGCurrentHealthScore</Name>
@@ -120,7 +120,7 @@ Use `RefRecId` with relation to `EntAssetObjectTable`:
 <AxTableField xmlns="" i:type="AxTableFieldInt64">
     <Name>AssetId</Name>
     <ExtendedDataType>RefRecId</ExtendedDataType>
-    <Label>Asset</Label>
+    <Label>@TAGLabels:Asset</Label>
     <Mandatory>Yes</Mandatory>
 </AxTableField>
 

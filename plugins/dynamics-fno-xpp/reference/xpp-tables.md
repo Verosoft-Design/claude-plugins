@@ -134,7 +134,7 @@ When referencing EDTs/tables from modules that may not be installed (HR, Retail,
 <AxTableField xmlns="" i:type="AxTableFieldInt64">
     <Name>SkillRecId</Name>
     <ExtendedDataType>RefRecId</ExtendedDataType>
-    <HelpText>Reference to HcmSkill record</HelpText>
+    <HelpText>@TAGLabels:ReferenceToHcmSkillRecordHelp</HelpText>
 </AxTableField>
 ```
 
@@ -151,7 +151,7 @@ If `UnitOfMeasureSymbol` EDT is not available:
 <!-- Use String with appropriate size -->
 <AxTableField xmlns="" i:type="AxTableFieldString">
     <Name>UnitId</Name>
-    <Label>Unit</Label>
+    <Label>@TAGLabels:Unit</Label>
     <StringSize>10</StringSize>
 </AxTableField>
 ```
@@ -219,8 +219,8 @@ For every TAG table that will be referenced by other tables, create a matching R
     <Name>TAGMyTableRecId</Name>
     <Extends>RefRecId</Extends>
     <FormHelp>TAGMyTables</FormHelp>        <!-- Lookup form name -->
-    <HelpText>Reference to my table</HelpText>
-    <Label>My Table</Label>
+    <HelpText>@TAGLabels:ReferenceToMyTableHelp</HelpText>
+    <Label>@TAGLabels:MyTable</Label>
     <ReferenceTable>TAGMyTable</ReferenceTable>  <!-- Target table -->
     <ArrayElements />
     <Relations />

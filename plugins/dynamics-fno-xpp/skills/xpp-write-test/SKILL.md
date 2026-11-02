@@ -11,7 +11,7 @@ The rules here are the short form. The MCP holds the long form, taken from the s
 ## Decide first
 
 - **Which framework.** A rule such as validation, a calculation or defaulting gets a SysTestCase unit test. A business process (create an order, post it, check the journal) also uses SysTestCase, with its arrange step from ATL.
-- **Where it lives.** A test class must be in the model under test, or in a test model that references it. A separate test package is cleaner, but it's a new package and a repo decision: ask before creating one. ATL needs `ATLApplicationSuite` (and `AtlFoundation`; `AtlPersonnel` for HR) in the model's Descriptor `ModuleReferences`. Adding them changes the Descriptor, so ask first too.
+- **Where it lives.** In the model under test: TAG's tests go in the TAG model itself (decided 2026-11-02), not in a separate test package. `SysTestCase` needs `TestEssentials` in the model's Descriptor `ModuleReferences`; ATL also needs `ATLApplicationSuite` and `AtlFoundation` (`AtlPersonnel` for HR). Add the missing ones with `d365fo_file` (`objectType="model-descriptor"`, `operation="add-module-reference"`) when the first test needs them, and say so in the PR. Before TAG's first deployable package goes to a sandbox or production, check that it installs with these references; if it doesn't, moving the tests to a test package is the fix.
 - **What it pins.** One behaviour per method, named for it: `testDueDateDefaultsFromLeadTime`, not `testInit`.
 
 ## Shape (as shipped tests use it)

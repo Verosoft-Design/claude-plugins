@@ -148,7 +148,7 @@ Use `ReferenceGroupControl` instead of `Int64Control` when:
     <Name>TAGMyTableRecId</Name>
     <Extends>RefRecId</Extends>
     <FormHelp>TAGMyTableForm</FormHelp>      <!-- Form for F4 lookup -->
-    <Label>My Table</Label>
+    <Label>@TAGLabels:MyTable</Label>
     <ReferenceTable>TAGMyTable</ReferenceTable>  <!-- CRITICAL -->
 </AxEdt>
 ```
@@ -618,7 +618,7 @@ Controls in `FieldsFieldGroups` pattern tabs must use defaults (SizeToContent):
 <?xml version="1.0" encoding="utf-8"?>
 <AxTile xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="Microsoft.Dynamics.AX.Metadata.V1">
     <Name>TAGAssetHealthCriticalTile</Name>
-    <Label>Critical Assets</Label>
+    <Label>@TAGLabels:CriticalAssets</Label>
     <MenuItemName>TAGAssetHealthCritical</MenuItemName>
     <NormalImage>Error</NormalImage>
     <Query>TAGAssetHealthCritical</Query>
