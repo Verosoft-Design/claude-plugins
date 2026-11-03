@@ -8,7 +8,7 @@
      - After you push fixes, add the label again so the preview matches the PR.
      - Other apps get their own `deploy-<app>` label as they're set up: `gh label list --search deploy` shows which exist.
    - **The G5 comment shows the proof,** top-level on the issue, never in Linear's agent-session thread: the test result (red before the fix, green after) in the Ready line and, when the run has screenshots, the before/after images uploaded to Linear (`steps/prove.md`, step 5). The person who merges and the product owner read Linear, not only the PR.
-   - Set `Waiting on: G5 Merge (@<the assignee>)`. When nobody is assigned, mention the team lead: `@frederick.cleroux` on Verovia, `@stephane.levert` otherwise.
+   - Set `Waiting on: G5 Merge (@<the assignee>)`. When nobody is assigned, mention the team lead: `@alexisturgeon` on Verovia, `@stephane.levert` otherwise.
    - Stop.
 2. **Merging to `main` isn't a release.**
 3. **G6 Release (Stéphane; Alexis on Verovia)** runs the `lifecycle-release` skill. It gathers the product's unreleased entries into that version's notes for Hub, then follows the product's own release process: AppSource for TAG, and the Vercel promotion for Mobi and Hub.

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.8 — 2026-11-02
+
+- **Alexis is Verovia's team lead:** Alexis Turgeon is now Verovia's product owner, so on VERO an unassigned issue's size, spec, design and merge gates (G1, G2, G3, G5) go to `@alexisturgeon` instead of Frederick Cleroux. G4 and G6 were already his on Verovia. Frederick no longer approves Verovia gates. Other teams are unchanged (Stéphane Levert). The agent server's webhook assigns unassigned VERO issues to Alexis at those gates.
+- **Evals:** `verovia-unassigned-spec-goes-to-frederick` and `verovia-merge-goes-to-frederick` are now `…-goes-to-alexis`; `g4-verovia-needs-alexis` no longer has Frederick claim to be team lead.
+
 ## 0.4.7 — 2026-10-23
 
 - **The proof is on the Linear issue, not only in the PR:** the G5 comment (and any hand-off) shows the test result and, when the run has screenshots, the before/after images uploaded to Linear, top-level on the issue. Issue attachments and the PR description alone don't count. Asked for by Stéphane after TAG-2276.

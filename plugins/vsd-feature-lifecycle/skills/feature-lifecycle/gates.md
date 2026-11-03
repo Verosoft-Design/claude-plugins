@@ -15,9 +15,9 @@ A gate is a point where the work stops and waits for a named person. It works th
 
 **The issue's assignee owns the work's decisions.** The person the Linear issue is assigned to approves the size (G1), the spec (G2) and the design (G3), and merges the PR (G5). That holds when it's their own work, and when they run the session themselves. When nobody is assigned, the team lead approves instead, and the agent server assigns the issue to them so they're notified.
 
-**The team lead** and **Alexis Turgeon** (Linear `@alexisturgeon`) can also approve any gate, except **G4 Customer data and G6 Release**. Whoever is assigned, those two go to **Stéphane Levert** (`@stephane.levert`) on every team but Verovia, and to **Alexis** on Verovia. Alexis can approve them on any team; Frederick doesn't approve G4 or G6. The team lead is:
+**The team lead** and **Alexis Turgeon** (Linear `@alexisturgeon`) can also approve any gate, except **G4 Customer data and G6 Release**. Whoever is assigned, those two go to **Stéphane Levert** (`@stephane.levert`) on every team but Verovia, and to **Alexis** on Verovia. Alexis can approve them on any team. The team lead is:
 
-- **Verovia (VERO):** Frederick Cleroux (`@frederick.cleroux`). Stéphane doesn't approve Verovia work.
+- **Verovia (VERO):** Alexis Turgeon (`@alexisturgeon`), Verovia's product owner since 2026-11-02. Stéphane doesn't approve Verovia work, and Frederick Cleroux no longer approves its gates.
 - **Every other team:** Stéphane Levert (`@stephane.levert`), who is in charge of all other dev work.
 
 Nobody else approves a gate: not a teammate who isn't the assignee, however sure they are, and never an agent.
@@ -54,7 +54,7 @@ The comment:
 **Lifecycle: <G2 Spec approval | … | needs info | needs a mockup | needs a BC test run | needs a decision>** (<ISSUE-ID>)
 Ready: <what's ready, with links>
 Needed: <the approval or item; at G2, also the open questions and every later approval you can foresee>
-<the gate's approver: the assignee, or the team lead when nobody is assigned (@frederick.cleroux on Verovia, @stephane.levert otherwise); for G4 and G6, @stephane.levert (@alexisturgeon on Verovia); @alexisturgeon for a migration on a shared database>
+<the gate's approver: the assignee, or the team lead when nobody is assigned (@alexisturgeon on Verovia, @stephane.levert otherwise); for G4 and G6, @stephane.levert (@alexisturgeon on Verovia); @alexisturgeon for a migration on a shared database>
 
 **Status:** <Bug|Feature|Major> · Step <number> <name> · Waiting on <the gate or hand-off, with who>
 ```
