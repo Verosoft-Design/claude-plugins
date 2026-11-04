@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.9 — 2026-11-04
+
+- **QA test card at G5:** with the G5 Merge comment, the agent posts a separate top-level `## QA test card` comment (Where, Steps, Expected, Needs, Leave to a person) written for someone using the live app. A Verovia QA agent uses it to check the change after release, with computer use and QA test accounts. When nothing is visible in the app, the G5 comment says `QA: auto, the tests are the check` instead. On Verovia issues the agent also sets the `QA tier` label (`QA: agent`, `QA: auto` or `QA: human`). Asked for by Alexis to test every Resolved issue with a two-person team.
+- **Evals:** new `g5-qa-test-card`.
+
 ## 0.4.8 — 2026-11-02
 
 - **Alexis is Verovia's team lead:** Alexis Turgeon is now Verovia's product owner, so on VERO an unassigned issue's size, spec, design and merge gates (G1, G2, G3, G5) go to `@alexisturgeon` instead of Frederick Cleroux. G4 and G6 were already his on Verovia. Frederick no longer approves Verovia gates. Other teams are unchanged (Stéphane Levert). The agent server's webhook assigns unassigned VERO issues to Alexis at those gates.
