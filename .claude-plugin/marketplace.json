@@ -4,13 +4,19 @@
     "name": "Verosoft Design"
   },
   "metadata": {
-    "description": "Verosoft Design's Claude Code plugins for Business Central AL and the Verosoft feature lifecycle."
+    "description": "Verosoft Design's Claude Code plugins for Business Central AL, Dynamics 365 Finance and Operations X++ and the Verosoft feature lifecycle."
   },
   "plugins": [
     {
       "name": "business-central-al",
       "source": "./plugins/business-central-al",
       "description": "Business Central AL development: AL MCP, AL-Go lifecycle, BCQuality review, ALTest test generation, BC server test runs and web-client UI checks.",
+      "category": "development"
+    },
+    {
+      "name": "dynamics-fno-xpp",
+      "source": "./plugins/dynamics-fno-xpp",
+      "description": "Dynamics 365 Finance and Operations X++ development: the d365fo MCP (symbols, where-used, labels, BP check, build, sync, SysTest), X++ metadata conventions with a post-edit XML lint, feedback loops, SysTest test writing and Playwright UI checks on a dev VM.",
       "category": "development"
     },
     {
