@@ -2,6 +2,7 @@
 
 ## 0.5.1
 
+- Includes 0.4.8 and 0.4.9, merged from main.
 - Studio mode passes the red test run to `bc_record_build` as `redTestRunId` (VERO-525).
 
 ## 0.5.0 — 2026-10-26
@@ -9,6 +10,16 @@
 - **AL Builder Studio mode:** explicitly selected with `VSD_LIFECYCLE_MODE=studio` or the prompt line `Lifecycle mode: studio`. The requester approves spec and scope together through `bc_request_spec_approval`; the agent decides the size. Bugs and Features build from the accepted base after `bc_claim_build`. Major work stops with the choice to split into Features or hand off as a services job.
 - **Build and delivery:** online-sandbox TDD through the `bc_*` broker, one BCQuality review, ID/TAG checks, a passing full suite for the candidate tree, and compilation against every production target's Microsoft symbols. Release notes include a sandbox click-through list. `bc_record_build` hands delivery to the platform, without Linear, named approvers or PRs. Queued builds and expired sign-ins stop cleanly.
 - **Evals:** `studio-one-gate`, `studio-major-stops` and `studio-no-linear` rehearse approval, Major refusal and test-first version delivery without live BC calls. The standard lifecycle remains the default.
+
+## 0.4.9 — 2026-11-04
+
+- **QA test card at G5:** with the G5 Merge comment, the agent posts a separate top-level `## QA test card` comment (Where, Steps, Expected, Needs, Leave to a person) written for someone using the live app. A Verovia QA agent uses it to check the change after release, with computer use and QA test accounts. When nothing is visible in the app, the G5 comment says `QA: auto, the tests are the check` instead. On Verovia issues the agent also sets the `QA tier` label (`QA: agent`, `QA: auto` or `QA: human`). Asked for by Alexis to test every Resolved issue with a two-person team.
+- **Evals:** new `g5-qa-test-card`.
+
+## 0.4.8 — 2026-11-02
+
+- **Alexis is Verovia's team lead:** Alexis Turgeon is now Verovia's product owner, so on VERO an unassigned issue's size, spec, design and merge gates (G1, G2, G3, G5) go to `@alexisturgeon` instead of Frederick Cleroux. G4 and G6 were already his on Verovia. Frederick no longer approves Verovia gates. Other teams are unchanged (Stéphane Levert). The agent server's webhook assigns unassigned VERO issues to Alexis at those gates.
+- **Evals:** `verovia-unassigned-spec-goes-to-frederick` and `verovia-merge-goes-to-frederick` are now `…-goes-to-alexis`; `g4-verovia-needs-alexis` no longer has Frederick claim to be team lead.
 
 ## 0.4.7 — 2026-10-23
 
