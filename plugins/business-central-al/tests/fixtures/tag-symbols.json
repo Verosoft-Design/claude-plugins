@@ -1,0 +1,15 @@
+{
+  "App": {
+    "Id": "02761afe-4cd9-40ba-a632-fdf4d1991044",
+    "Name": "The Asset Guardian (TAG) CMMS-EAM",
+    "Publisher": "Verosoft Design INC. (VSD)"
+  },
+  "Codeunits": [
+    {"Id": 70015000, "Name": "TAG Work Order Mgt.", "Methods": [
+      {"Name": "Release", "Properties": [{"Name": "Access", "Value": "Public"}]}
+    ]},
+    {"Id": 70015001, "Name": "TAG Other Mgt.", "Methods": [{"Name": "Release"}]}
+  ],
+  "Tables": [{"Id": 70015002, "Name": "TAG Work Order"}],
+  "Pages": [{"Id": 23085634, "Name": "TAG API Work Orders"}]
+}

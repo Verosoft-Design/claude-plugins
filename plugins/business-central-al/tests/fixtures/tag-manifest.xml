@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/navx/2015/manifest">
+  <App Id="02761AFE-4CD9-40BA-A632-FDF4D1991044"
+       Name="The Asset Guardian (TAG) CMMS-EAM"
+       Publisher="Verosoft Design INC. (VSD)" Version="29.0.0.0" />
+</Package>

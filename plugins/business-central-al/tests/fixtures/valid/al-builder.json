@@ -1,0 +1,8 @@
+{
+  "name": "Cedar Ridge Customizations",
+  "publisher": "Cedar Ridge",
+  "affix": "CRD",
+  "idBlocks": { "app": [50000, 50199], "test": [50200, 50299] },
+  "sandbox": "CedarRidge-Sandbox",
+  "targetApplication": "29.0.0.0"
+}

@@ -37,6 +37,12 @@ The issue's assignee owns the work's decisions, also on their own work. When nob
 
 `lifecycle-release` (`/vsd-feature-lifecycle:lifecycle-release <tag|mobi> <version>`) gathers the unreleased release-notes entries into a version's notes for Hub.
 
+## Studio mode
+
+AL Builder selects Studio mode explicitly with `VSD_LIFECYCLE_MODE=studio` or the prompt line `Lifecycle mode: studio`. In this mode, [the Studio workflow](skills/feature-lifecycle/studio-mode.md) replaces the standard lifecycle: the requester approves spec and scope in one card, the agent sizes the work, Bugs and Features build test-first through the sandbox broker, and Major work stops with options to split it into Features or hand off as a services job.
+
+Delivery is a recorded version with test evidence, a review report and release notes ending in a sandbox checklist. The platform handles submission and merging; there are no Linear comments, named approvers or PRs. Without either explicit switch, the standard lifecycle above applies.
+
 ## Install
 
 mobi and tag-bc declare the marketplace and the plugin in their committed `.claude/settings.json`. Claude Code offers both once you open and trust one of those repos in an interactive session. For another repo, run this inside it:

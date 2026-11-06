@@ -1,6 +1,6 @@
 {
   "name": "business-central-al",
-  "version": "1.1.3",
+  "version": "1.2.0",
   "description": "Business Central AL development for Claude Code: the Microsoft AL MCP server (compile, symbols, diagnostics, publish), AL-Go lifecycle, BCApps rulesets, BCQuality structured review, BC-Bench ALTest test generation, a real-BC-server loop (run tests, drive the web client with page scripting), and AL-specific debugging, verification and spec-grilling workflows.",
   "author": {
     "name": "Alexis Turgeon"
