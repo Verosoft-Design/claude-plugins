@@ -22,15 +22,23 @@ def load_module():
 
 
 def write_entry(directory, issue, product="tag", type_="fix", audience="users",
-                body="Fixed the status caption.", filename=None):
+                body="Fixed the status caption.", filename=None, extra=""):
     directory.mkdir(parents=True, exist_ok=True)
     path = directory / (filename or f"{issue}.md")
     path.write_text(
         f"---\nproduct: {product}\ntype: {type_}\nissue: {issue}\n"
-        f"audience: {audience}\n---\n{body}\n",
+        f"audience: {audience}\n{extra}---\n{body}\n",
         encoding="utf-8",
     )
     return path
+
+
+HIGHLIGHT = (
+    "You can now pick each agent's voice, and play a sample before you save.\n\n"
+    "In [Agents](/ai/agents), open **Edit agent** and go to **Voice**. Pick a voice. "
+    "Pick a pace. Play a sample.\n\n"
+    "The voice belongs to the agent. It follows it everywhere. Anyone who can edit it can change it."
+)
 
 
 def run_script(*args):
@@ -60,8 +68,34 @@ class ValidateTest(unittest.TestCase):
         self.assertTrue(any("issue" in p for p in problems), problems)
 
     def test_rejects_unknown_product(self):
-        problems = self.problems(issue="TAG-12", product="trax")
+        problems = self.problems(issue="TAG-12", product="hub")
         self.assertTrue(any("product" in p for p in problems), problems)
+
+    def test_accepts_trax_and_verovia(self):
+        self.assertEqual(self.problems(issue="VERO-12", product="trax"), [])
+        self.assertEqual(self.problems(issue="VERO-13", product="verovia"), [])
+
+    def test_accepts_a_comma_separated_product_list(self):
+        self.assertEqual(self.problems(issue="VERO-12", product="mobi, trax, verovia"), [])
+
+    def test_rejects_an_unknown_product_in_a_list(self):
+        problems = self.problems(issue="VERO-12", product="trax, Hub")
+        self.assertEqual(problems, ["product must be one of mobi, tag, trax, verovia, not Hub"])
+
+    def test_rejects_an_empty_product_list(self):
+        problems = self.problems(issue="VERO-12", product=" , ")
+        self.assertIn("missing product", problems)
+
+    def test_highlight_skips_the_line_limits(self):
+        extra = "title: Choose how each agent sounds\nimage: VERO-12.webp\n"
+        problems = self.problems(issue="VERO-12", product="trax, verovia", type_="feature",
+                                 body=HIGHLIGHT, extra=extra)
+        self.assertEqual(problems, [])
+
+    def test_highlight_title_at_most_32_characters(self):
+        extra = "title: " + "x" * 33 + "\n"
+        problems = self.problems(issue="VERO-12", product="trax", body=HIGHLIGHT, extra=extra)
+        self.assertEqual(problems, ["title is longer than 32 characters"])
 
     def test_rejects_more_than_three_sentences(self):
         problems = self.problems(issue="TAG-12", body="One. Two. Three. Four.")
@@ -73,7 +107,7 @@ class ValidateTest(unittest.TestCase):
 
     def test_validate_cli_exit_codes(self):
         good = write_entry(self.dir, "TAG-1")
-        bad = write_entry(self.dir, "TAG-2", product="trax")
+        bad = write_entry(self.dir, "TAG-2", product="hub")
         self.assertEqual(run_script("validate", str(good)).returncode, 0)
         result = run_script("validate", str(good), str(bad))
         self.assertEqual(result.returncode, 1)
@@ -101,6 +135,15 @@ class RenderTest(unittest.TestCase):
             "### New\n\n- Five added.\n\n"
             "### Fixed\n\n- Two fixed.\n- Ten fixed.\n\n"
             "### For consultants\n\n- Seven changed.\n",
+        )
+
+    def test_render_gives_a_highlights_first_paragraph(self):
+        entry = self.entry("VERO-9", product="mobi, trax", type_="feature", body=HIGHLIGHT,
+                           extra="title: Choose how each agent sounds\n")
+        self.assertEqual(
+            self.mod.render([entry], "1.0"),
+            "## 1.0\n\n### New\n\n"
+            "- You can now pick each agent's voice, and play a sample before you save.\n",
         )
 
     def test_render_prefixes_admins(self):
@@ -154,6 +197,28 @@ class GatherTest(unittest.TestCase):
         result = run_script("gather", "--dir", str(self.root), "--product", "tag", "--version", "1.0")
         self.assertEqual(result.returncode, 1)
         self.assertIn("TAG-2.md", result.stderr)
+
+    def test_gather_takes_entries_that_also_name_mobi(self):
+        write_entry(self.unreleased, "VERO-1", product="mobi, trax, verovia", body="Shared body.")
+        write_entry(self.unreleased, "VERO-2", product="trax, verovia", body="Trax body.")
+        result = run_script("gather", "--dir", str(self.root), "--product", "mobi",
+                            "--version", "1.0", "--apply")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("Shared body.", result.stdout)
+        self.assertNotIn("Trax body.", result.stdout)
+        self.assertTrue((self.root / "1.0" / "VERO-1.md").exists())
+        self.assertTrue((self.unreleased / "VERO-2.md").exists())
+
+    def test_gather_is_not_blocked_by_a_trax_only_entry(self):
+        write_entry(self.unreleased, "TAG-1", product="mobi", body="Mobi body.")
+        write_entry(self.unreleased, "VERO-2", product="trax", body="One. Two. Three. Four.")
+        result = run_script("gather", "--dir", str(self.root), "--product", "mobi", "--version", "1.0")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("Mobi body.", result.stdout)
+
+    def test_gather_refuses_trax_and_verovia(self):
+        result = run_script("gather", "--dir", str(self.root), "--product", "trax", "--version", "1.0")
+        self.assertEqual(result.returncode, 2)
 
     def test_gather_ignores_the_folder_readme(self):
         self.unreleased.mkdir(parents=True)

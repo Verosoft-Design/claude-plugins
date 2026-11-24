@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.2 — 2026-11-24
+
+- **Trax and Verovia changes need a release note:** in mobi, a PR that changes what people see in Trax (`apps/trax`), Verovia (`apps/verovia`) or shared `packages/ai` adds `docs/release-notes/unreleased/<ISSUE-ID>.md`, like Mobi's. The docs step still said they kept a release-please changelog, which has been wrong since VERO-771 (mobi #2095), so mobi #2229, #2240 and #2239 merged without one. The release bot (Stephane) found it; VERO-1009's spec noted it as D11.
+- **The docs step copies mobi's `docs/release-notes/unreleased/README.md`,** which wins where they differ: `product` names every app the change reaches (`mobi`, `tag`, `trax` or `verovia`, separated by commas; a `packages/ai` change usually reaches all three), and a `title` makes a Trax and Verovia highlight. Entries naming `trax` or `verovia` are also checked with `bun run test:shared packages/ai/src/lib/release-notes`.
+- **`release_notes.py`** accepts `trax`, `verovia` and product lists, and checks only a highlight's front matter. `gather --product mobi` takes entries that also name Trax or Verovia (a highlight gives its first paragraph), and Trax or Verovia-only entries no longer block it. `lifecycle-release` and the ship step point Trax and Verovia to `bun run release:trax-verovia`.
+- **Evals:** new `trax-change-needs-release-note` and `packages-ai-release-note-names-apps`.
+
 ## 0.5.1
 
 - Includes 0.4.8 and 0.4.9, merged from main.
